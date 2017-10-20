@@ -1,0 +1,75 @@
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+#include "./versionGlobalGehtsoft.h"
+
+#ifdef APSTUDIO_INVOKED
+
+#error This file is not editable by Visual C++ IDE. Could be edited only in the text editor.
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""./versionGlobalGehtsoft.h""//Global symbols defenition.\r\n"
+    "\0"
+END
+
+    
+#endif
+
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION     _FX_VER_USER_FILEVER_NUM 
+ PRODUCTVERSION G_FX_VER_PRODUCT_VERSION_NUM
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE VER_FILETYPE
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        #ifdef _FX_VER_LANG_BLOCK_STR
+            BLOCK _FX_VER_LANG_BLOCK_STR
+        #else
+            BLOCK "040904E4" //080c04b0 belgium
+        #endif
+        BEGIN
+            #ifdef G_FX_VER_COMPNAME
+                VALUE "CompanyName",     G_FX_VER_COMPNAME  "\0"
+            #endif
+            #ifdef _FX_VER_FILEDESCR
+                VALUE "FileDescription",  _FX_VER_FILEDESCR "\0"
+            #endif
+            #ifdef _FX_VER_USER_FILEVER_STR
+                VALUE "FileVersion",      _FX_VER_USER_FILEVER_STR //"\0"
+            #endif
+            #ifdef _FX_VER_INTERNAL_NAME 
+                VALUE "InternalName",     _FX_VER_INTERNAL_NAME 
+            #endif
+            #ifdef G_FX_VER_LEGALCOPYRIGHT
+                VALUE "LegalCopyright",  G_FX_VER_LEGALCOPYRIGHT
+            #endif
+            #ifdef _FX_VER_ORIGINAL_NAME
+                VALUE "OriginalFilename", _FX_VER_ORIGINAL_NAME
+            #endif
+            #ifdef _FX_VER_PROD_NAME 
+                VALUE "ProductName",      _FX_VER_PROD_NAME 
+            #endif
+            #ifdef G_FX_VER_PRODUCT_VERSION_STR
+                VALUE "ProductVersion",  G_FX_VER_PRODUCT_VERSION_STR "\0"
+            #endif
+            #ifdef _FX_VER_OLESELFREG
+                VALUE "OLESelfRegister", _FX_VER_OLESELFREG "\0"
+            #endif
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", _FX_VER_LANG, _FX_VER_LANG_CHARSET_ID
+    END
+END
