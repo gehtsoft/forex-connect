@@ -1,0 +1,2 @@
+Charts 3.0 framework 
+https://github.com/danielgindi/Charts

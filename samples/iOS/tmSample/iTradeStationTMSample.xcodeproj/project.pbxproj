@@ -1,0 +1,392 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0F0A7C191A4D7E3800EB0C68 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0F0A7C181A4D7E3800EB0C68 /* Security.framework */; };
+		0F5188F113288CE9008D4E4A /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5188EF13288CE9008D4E4A /* LoginViewController.m */; };
+		0F51898A1328AC7D008D4E4A /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0F5189891328AC7D008D4E4A /* Settings.bundle */; };
+		0FA27F271324D6AE00AC105E /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FA27F261324D6AE00AC105E /* MainWindow-iPad.xib */; };
+		0FADBFF514D135B500AA1CFD /* IndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FADBFF014D135B500AA1CFD /* IndexViewController.m */; };
+		0FADBFF614D135B500AA1CFD /* TablesContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FADBFF114D135B500AA1CFD /* TablesContoller.m */; };
+		0FADBFF714D135B500AA1CFD /* OfferViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FADBFF414D135B500AA1CFD /* OfferViewController.m */; };
+		0FADC52B14D2C29600AA1CFD /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FADC52A14D2C29600AA1CFD /* libz.dylib */; };
+		0FADC68314D6446400AA1CFD /* OfferViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FADC68214D6446400AA1CFD /* OfferViewController.xib */; };
+		0FADC68514D6446D00AA1CFD /* AccountViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FADC68414D6446D00AA1CFD /* AccountViewController.xib */; };
+		0FADC68714D6447B00AA1CFD /* IndexViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FADC68614D6447B00AA1CFD /* IndexViewController.xib */; };
+		0FADC6A214D644C600AA1CFD /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FADC6A114D644C600AA1CFD /* AccountViewController.m */; };
+		0FB8975B131787940082B189 /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FB8975A131787940082B189 /* libiconv.dylib */; };
+		0FC13F9A1336847B0030E09E /* ForexConnect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC13F991336847B0030E09E /* ForexConnect.framework */; };
+		0FF26269132DEFB300F14E79 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0FF26268132DEFB300F14E79 /* LoginViewController.xib */; };
+		1D3623260D0F684500981E51 /* OffersTableAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* OffersTableAppDelegate.m */; };
+		1D60589B0D05DD56006BFB54 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.mm */; };
+		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
+		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD735F0D9D9599002E5188 /* MainWindow.xib */; };
+		846B61CE19F3CE33007FC2C5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846B61CD19F3CE33007FC2C5 /* Images.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0FC13CDB133330DA0030E09E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FC13CDD133331340030E09E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0F0A7C181A4D7E3800EB0C68 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		0F5188EE13288CE9008D4E4A /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		0F5188EF13288CE9008D4E4A /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		0F5189891328AC7D008D4E4A /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		0FA27F261324D6AE00AC105E /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = "MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		0FADBFEF14D135B500AA1CFD /* IndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexViewController.h; sourceTree = "<group>"; };
+		0FADBFF014D135B500AA1CFD /* IndexViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexViewController.m; sourceTree = "<group>"; };
+		0FADBFF114D135B500AA1CFD /* TablesContoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TablesContoller.m; sourceTree = "<group>"; };
+		0FADBFF214D135B500AA1CFD /* TablesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TablesController.h; sourceTree = "<group>"; };
+		0FADBFF314D135B500AA1CFD /* OfferViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OfferViewController.h; sourceTree = "<group>"; };
+		0FADBFF414D135B500AA1CFD /* OfferViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfferViewController.m; sourceTree = "<group>"; };
+		0FADC07C14D2571D00AA1CFD /* ITableSubscriber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITableSubscriber.h; sourceTree = "<group>"; };
+		0FADC52A14D2C29600AA1CFD /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		0FADC68214D6446400AA1CFD /* OfferViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OfferViewController.xib; sourceTree = "<group>"; };
+		0FADC68414D6446D00AA1CFD /* AccountViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AccountViewController.xib; sourceTree = "<group>"; };
+		0FADC68614D6447B00AA1CFD /* IndexViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IndexViewController.xib; sourceTree = "<group>"; };
+		0FADC6A014D644C600AA1CFD /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
+		0FADC6A114D644C600AA1CFD /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
+		0FB8975A131787940082B189 /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		0FC13F991336847B0030E09E /* ForexConnect.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForexConnect.framework; path = ../ForexConnect.framework; sourceTree = SOURCE_ROOT; };
+		0FF26268132DEFB300F14E79 /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LoginViewController.xib; path = en.lproj/LoginViewController.xib; sourceTree = "<group>"; };
+		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		1D3623240D0F684500981E51 /* OffersTableAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OffersTableAppDelegate.h; sourceTree = "<group>"; };
+		1D3623250D0F684500981E51 /* OffersTableAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OffersTableAppDelegate.m; sourceTree = "<group>"; };
+		1D6058910D05DD3D006BFB54 /* iTradeStationTMSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTradeStationTMSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		28A0AAE50D9B0CCF005BE974 /* iTradeStationTMSample_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTradeStationTMSample_Prefix.pch; sourceTree = "<group>"; };
+		28AD735F0D9D9599002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		29B97316FDCFA39411CA2CEA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		846B61CD19F3CE33007FC2C5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = iTradeStationTMSample/Images.xcassets; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* iTradeStationTMSample-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "iTradeStationTMSample-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D60588F0D05DD3D006BFB54 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0F0A7C191A4D7E3800EB0C68 /* Security.framework in Frameworks */,
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				0FB8975B131787940082B189 /* libiconv.dylib in Frameworks */,
+				0FC13F9A1336847B0030E09E /* ForexConnect.framework in Frameworks */,
+				0FADC52B14D2C29600AA1CFD /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				0FADC6A014D644C600AA1CFD /* AccountViewController.h */,
+				0FADC6A114D644C600AA1CFD /* AccountViewController.m */,
+				0FADC07C14D2571D00AA1CFD /* ITableSubscriber.h */,
+				0FADBFEF14D135B500AA1CFD /* IndexViewController.h */,
+				0FADBFF014D135B500AA1CFD /* IndexViewController.m */,
+				0FADBFF114D135B500AA1CFD /* TablesContoller.m */,
+				0FADBFF214D135B500AA1CFD /* TablesController.h */,
+				0FADBFF314D135B500AA1CFD /* OfferViewController.h */,
+				0FADBFF414D135B500AA1CFD /* OfferViewController.m */,
+				1D3623240D0F684500981E51 /* OffersTableAppDelegate.h */,
+				1D3623250D0F684500981E51 /* OffersTableAppDelegate.m */,
+				0F5188EE13288CE9008D4E4A /* LoginViewController.h */,
+				0F5188EF13288CE9008D4E4A /* LoginViewController.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D6058910D05DD3D006BFB54 /* iTradeStationTMSample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
+			isa = PBXGroup;
+			children = (
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+				0F5189891328AC7D008D4E4A /* Settings.bundle */,
+			);
+			name = CustomTemplate;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				28A0AAE50D9B0CCF005BE974 /* iTradeStationTMSample_Prefix.pch */,
+				29B97316FDCFA39411CA2CEA /* main.mm */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				846B61CD19F3CE33007FC2C5 /* Images.xcassets */,
+				0FADC68614D6447B00AA1CFD /* IndexViewController.xib */,
+				0FADC68414D6446D00AA1CFD /* AccountViewController.xib */,
+				0FADC68214D6446400AA1CFD /* OfferViewController.xib */,
+				0FF26268132DEFB300F14E79 /* LoginViewController.xib */,
+				0FA27F261324D6AE00AC105E /* MainWindow-iPad.xib */,
+				28AD735F0D9D9599002E5188 /* MainWindow.xib */,
+				8D1107310486CEB800E47090 /* iTradeStationTMSample-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0F0A7C181A4D7E3800EB0C68 /* Security.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				0FB8975A131787940082B189 /* libiconv.dylib */,
+				0FC13F991336847B0030E09E /* ForexConnect.framework */,
+				0FADC52A14D2C29600AA1CFD /* libz.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D6058900D05DD3D006BFB54 /* iTradeStationTMSample */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iTradeStationTMSample" */;
+			buildPhases = (
+				1D60588D0D05DD3D006BFB54 /* Resources */,
+				1D60588E0D05DD3D006BFB54 /* Sources */,
+				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				0FC13CDB133330DA0030E09E /* CopyFiles */,
+				0FC13CDD133331340030E09E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iTradeStationTMSample;
+			productName = OffersTable;
+			productReference = 1D6058910D05DD3D006BFB54 /* iTradeStationTMSample.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = gehtsoft;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = RFJ374ARPK;
+					};
+				};
+			};
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iTradeStationTMSample" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+				en,
+			);
+			mainGroup = 29B97314FDCFA39411CA2CEA /* CustomTemplate */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D6058900D05DD3D006BFB54 /* iTradeStationTMSample */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D60588D0D05DD3D006BFB54 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28AD73600D9D9599002E5188 /* MainWindow.xib in Resources */,
+				846B61CE19F3CE33007FC2C5 /* Images.xcassets in Resources */,
+				0FA27F271324D6AE00AC105E /* MainWindow-iPad.xib in Resources */,
+				0F51898A1328AC7D008D4E4A /* Settings.bundle in Resources */,
+				0FF26269132DEFB300F14E79 /* LoginViewController.xib in Resources */,
+				0FADC68314D6446400AA1CFD /* OfferViewController.xib in Resources */,
+				0FADC68514D6446D00AA1CFD /* AccountViewController.xib in Resources */,
+				0FADC68714D6447B00AA1CFD /* IndexViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D60588E0D05DD3D006BFB54 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D60589B0D05DD56006BFB54 /* main.mm in Sources */,
+				1D3623260D0F684500981E51 /* OffersTableAppDelegate.m in Sources */,
+				0F5188F113288CE9008D4E4A /* LoginViewController.m in Sources */,
+				0FADBFF514D135B500AA1CFD /* IndexViewController.m in Sources */,
+				0FADBFF614D135B500AA1CFD /* TablesContoller.m in Sources */,
+				0FADBFF714D135B500AA1CFD /* OfferViewController.m in Sources */,
+				0FADC6A214D644C600AA1CFD /* AccountViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1D6058940D05DD3E006BFB54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/..\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTradeStationTMSample_Prefix.pch;
+				INFOPLIST_FILE = "iTradeStationTMSample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = iTradeStationTMSample;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "armv7 armv7s arm64";
+			};
+			name = Debug;
+		};
+		1D6058950D05DD3E006BFB54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/..\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = iTradeStationTMSample_Prefix.pch;
+				INFOPLIST_FILE = "iTradeStationTMSample-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				PRODUCT_NAME = iTradeStationTMSample;
+				PROVISIONING_PROFILE = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = "armv7 armv7s arm64";
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "compiler-default";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nikolay Gekht (X25KK4GLW2)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = ../../threadlib/include/;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6EA2820B-6085-44F4-8D55-C42274AEA49A";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "compiler-default";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PREBINDING = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "iTradeStationTMSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D6058940D05DD3E006BFB54 /* Debug */,
+				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "iTradeStationTMSample" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}

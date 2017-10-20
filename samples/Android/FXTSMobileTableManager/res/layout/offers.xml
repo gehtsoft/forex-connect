@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" android:scrollbars="vertical">
+    <HorizontalScrollView android:fillViewport="true" android:scrollbars="horizontal" android:layout_width="match_parent" android:layout_height="match_parent" > 
+        <TableLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/tablelayout" android:stretchColumns="*">
+            <TableRow android:id="@+id/tableRow">
+                <TextView android:text="Symbol" android:id="@+id/tvSymbol"/>
+                <TextView android:text="Bid" android:id="@+id/tvBid" android:paddingLeft="5sp" android:paddingRight="5sp" />
+                <TextView android:text="Ask" android:id="@+id/tvAsk" android:paddingLeft="5sp" android:paddingRight="5sp" />
+                <TextView android:text="Spread" android:id="@+id/tvSpread" android:paddingLeft="5sp" android:paddingRight="5sp" />
+                <TextView android:text="Pip Cost" android:id="@+id/tvPipCost" android:paddingLeft="5sp" android:paddingRight="5sp" />
+                <TextView android:text="High" android:id="@+id/tvHigh" android:paddingLeft="5sp" android:paddingRight="5sp" />
+                <TextView android:text="Low" android:id="@+id/tvLow" android:paddingLeft="5sp" android:paddingRight="5sp" />
+            </TableRow>
+            <View android:layout_height="1dp" android:background="#999" />
+        </TableLayout>
+    </HorizontalScrollView>
+</ScrollView>

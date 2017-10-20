@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>5FD7E6DD-12DA-46D8-A81A-68AD2EA8A920</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SwiftForexConnect</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>EBF974C88E2B264416DE35A0802718311012441E</key>
+		<string>https://bitbucket.org/angry_lynx/swiftfxconnect.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SwiftForexConnect.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>EBF974C88E2B264416DE35A0802718311012441E</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/angry_lynx/swiftfxconnect.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>EBF974C88E2B264416DE35A0802718311012441E</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>EBF974C88E2B264416DE35A0802718311012441E</string>
+			<key>IDESourceControlWCCName</key>
+			<string>swiftfxconnect</string>
+		</dict>
+	</array>
+</dict>
+</plist>

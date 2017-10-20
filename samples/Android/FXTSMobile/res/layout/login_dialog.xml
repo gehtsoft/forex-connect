@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/mainLayoutLogin">
+    <ScrollView android:layout_width="fill_parent" android:layout_height="wrap_content">
+        <LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/linearLayoutLogin">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/labelLogin" android:id="@+id/tvLogin"></TextView>
+            <EditText android:layout_width="fill_parent" android:maxLines="1" android:layout_height="wrap_content" android:id="@+id/etLogin"></EditText>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/labelPassword" android:id="@+id/tvPassword"></TextView>
+            <EditText android:layout_width="fill_parent"  android:maxLines="1" android:layout_height="wrap_content" android:id="@+id/etPassword" android:inputType="textPassword"></EditText>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/labelConnection" android:id="@+id/tvConnection"></TextView>
+            <EditText android:layout_width="fill_parent" android:maxLines="1" android:layout_height="wrap_content" android:id="@+id/etConnection"></EditText>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/labelHost" android:id="@+id/tvHost"></TextView>
+            <EditText android:layout_width="fill_parent" android:maxLines="1" android:layout_height="wrap_content" android:id="@+id/etHost"></EditText>
+            <Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/btnLogin" android:text="@string/login" android:onClick="btnLogin_Click"></Button>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

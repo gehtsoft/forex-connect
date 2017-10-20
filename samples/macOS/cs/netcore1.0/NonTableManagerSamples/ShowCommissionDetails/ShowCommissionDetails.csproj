@@ -1,0 +1,91 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputType>exe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <OutputType>exe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'" Label="Configuration">
+    <OutputType>exe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputType>exe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <OutputType>exe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <OutputType>exe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <ApplicationIcon />
+    <OutputTypeEx>exe</OutputTypeEx>
+    <StartupObject />
+    <PreBuildEvent />
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <OutputPath>bin</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <Prefer32Bit>True</Prefer32Bit>
+    <OutputPath>bin</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <Prefer32Bit>True</Prefer32Bit>
+    <OutputPath>bin</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <OutputPath>bin</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutputPath>bin</OutputPath>
+  </PropertyGroup>
+  
+   <ItemGroup>
+    <None Include="./../../../../../lib/net/netcore1.0/*" CopyToOutputDirectory="Always" />
+    <None Include="./../../../../../lib/*.so*" CopyToOutputDirectory="Always" />
+    <None Include="./../../../../../lib/*.dylib*" CopyToOutputDirectory="Always" />
+
+    <None Include=".\..\..\..\..\..\bin\net\netcore1.0\*.dll" CopyToOutputDirectory="Always" />
+    <None Include=".\..\..\..\..\..\bin\*.dll" CopyToOutputDirectory="Always" />     
+  </ItemGroup>
+  
+
+  <ItemGroup>
+    <PackageReference Include="System.IO" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XmlDocument" Version="4.3.0" />
+    <PackageReference Include="System.Xml.XmlSerializer" Version="4.3.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+  <PackageReference Include="Legacy2CPSWorkaround" Version="1.0.0">
+    <PrivateAssets>All</PrivateAssets>
+  </PackageReference>
+</ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="fxcore2">
+      <HintPath>.\..\..\..\..\..\bin\net\netcore1.0\fxcore2.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

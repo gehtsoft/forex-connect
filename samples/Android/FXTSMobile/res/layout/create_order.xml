@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent" android:layout_height="fill_parent" android:id="@+id/mainLayout">
+    <ScrollView android:layout_width="fill_parent" android:layout_height="wrap_content" android:scrollbars="none">
+        <LinearLayout
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:layout_width="fill_parent"
+          android:layout_height="fill_parent" android:orientation="vertical">
+            <TextView android:id="@+id/tvSymbol" android:text="{SYMBOL}" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_gravity="center_horizontal" android:textSize="40dip"></TextView>
+            <TableLayout android:id="@+id/tableLayout1" android:layout_height="wrap_content" android:layout_width="fill_parent" android:stretchColumns="1">
+                <TableRow android:layout_height="wrap_content" android:id="@+id/tableRow1" android:layout_width="fill_parent">
+                    <RadioButton android:layout_height="wrap_content" android:text="Buy" android:id="@+id/rbBuy" android:layout_width="wrap_content" android:soundEffectsEnabled="true" android:checked="true"></RadioButton>
+                    <RadioButton android:layout_height="wrap_content" android:text="Sell" android:layout_gravity="right" android:id="@+id/rbSell" android:layout_width="wrap_content" android:soundEffectsEnabled="true"></RadioButton>
+                </TableRow>
+            </TableLayout>
+            <TextView android:text="Amount (K):" android:id="@+id/textView1" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+            <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="{AMOUNT}" android:inputType="number" android:id="@+id/etAmount"></EditText>
+            <SeekBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/sbAmount" android:progress="10"></SeekBar>
+            <TextView android:text="Rate:" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+            <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="{RATE}" android:id="@+id/etRate" android:inputType="numberDecimal"></EditText>
+            <SeekBar android:layout_height="wrap_content" android:layout_width="fill_parent" android:secondaryProgress="0" android:progress="50" android:id="@+id/sbRate"></SeekBar>
+            <Spinner android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/spinnerOrderType"></Spinner>
+            <Button android:layout_height="wrap_content" android:text="Create Order" android:id="@+id/btnCreateOrder" android:layout_width="fill_parent" android:onClick="createOrderHandler"></Button>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,246 @@
+package joinnewgroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fxcore2.*;
+import common.*;
+
+public class Main {
+    public static void main(String[] args) {
+        O2GSession session = null;
+        int iContingencyGroupType = 1; // OCO group
+        
+        try {
+            String sProcName = "JoinNewGroup";
+            if (args.length == 0) {
+                printHelp(sProcName);
+                return;
+            }
+
+            LoginParams loginParams = new LoginParams(args);
+            SampleParams sampleParams = new SampleParams(args);
+            printSampleParams(sProcName, loginParams, sampleParams);
+            checkObligatoryParams(loginParams, sampleParams);
+
+            session = O2GTransport.createSession();
+            SessionStatusListener statusListener = new SessionStatusListener(session, loginParams.getSessionID(), loginParams.getPin());
+            session.subscribeSessionStatus(statusListener);
+            session.login(loginParams.getLogin(), loginParams.getPassword(), loginParams.getURL(), loginParams.getConnection());
+            if (statusListener.waitEvents() && statusListener.isConnected()) {
+                ResponseListener responseListener = new ResponseListener(session);
+                session.subscribeResponse(responseListener);
+
+                O2GAccountRow account = getAccount(session, sampleParams.getAccountID());
+                if (account == null) {
+                    if (sampleParams.getAccountID().isEmpty()) {
+                        throw new Exception("No valid accounts");
+                    } else {
+                        throw new Exception(String.format("The account '%s' is not valid", sampleParams.getAccountID()));
+                    }
+                } else {
+                    if(!sampleParams.getAccountID().equals(account.getAccountID())) {
+                        sampleParams.setAccountID(account.getAccountID());
+                        System.out.println(String.format("AccountID='%s'",
+                                sampleParams.getAccountID()));
+                    }
+                }
+
+                List<String> orderIDList = new ArrayList<String>();
+                orderIDList.add(sampleParams.getPrimaryID());
+                orderIDList.add(sampleParams.getSecondaryID());
+                for (String sOrderID : orderIDList) {
+                    if (!isOrderExists(session, sampleParams.getAccountID(), sOrderID, responseListener)) {
+                        throw new Exception(String.format("Order '%s' does not exist", sOrderID));
+                    }
+                }
+
+                O2GRequest request = joinToNewGroupRequest(session, sampleParams.getAccountID(), sampleParams.getPrimaryID(), sampleParams.getSecondaryID(), iContingencyGroupType);
+                if (request == null)
+                {
+                    throw new Exception("Cannot create request");
+                }
+
+                responseListener.setOrderIDs(orderIDList);
+                session.sendRequest(request);
+                if (responseListener.waitEvents()) {
+                    System.out.println("Done!");
+                } else {
+                    throw new Exception("Response waiting timeout expired");
+                }
+
+                statusListener.reset();
+                session.logout();
+                statusListener.waitEvents();
+                session.unsubscribeResponse(responseListener);
+            }
+            session.unsubscribeSessionStatus(statusListener);
+        } catch (Exception e) {
+            System.out.println("Exception: " + e.toString());
+        } finally {
+            if (session != null) {
+                session.dispose();
+            }
+        }
+    }
+
+    // Find valid account by ID or get the first valid account
+    private static O2GAccountRow getAccount(O2GSession session, String sAccountID) throws Exception {
+        O2GAccountRow account = null;
+        boolean bHasAccount = false;
+        O2GResponseReaderFactory readerFactory = session.getResponseReaderFactory();
+        if (readerFactory == null) {
+            throw new Exception("Cannot create response reader factory");
+        }
+        O2GLoginRules loginRules = session.getLoginRules();
+        O2GResponse response = loginRules.getTableRefreshResponse(O2GTableType.ACCOUNTS);
+        O2GAccountsTableResponseReader accountsResponseReader = readerFactory.createAccountsTableReader(response);
+        for (int i = 0; i < accountsResponseReader.size(); i++) {
+            account = accountsResponseReader.getRow(i);
+            String sAccountKind = account.getAccountKind();
+            if (sAccountKind.equals("32") || sAccountKind.equals("36")) {
+                if (account.getMarginCallFlag().equals("N")) {
+                    if (sAccountID.isEmpty() || sAccountID.equals(account.getAccountID())) {
+                        bHasAccount = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!bHasAccount) {
+            return null;
+        } else {
+            return account;
+        }
+    }
+
+    // Check if order exists
+    private static boolean isOrderExists(O2GSession session, String sAccountID, String sOrderID, ResponseListener responseListener) throws Exception {
+        boolean bHasOrder = false;
+        O2GRequestFactory requestFactory = session.getRequestFactory();
+        if (requestFactory == null) {
+            throw new Exception("Cannot create request factory");
+        }
+        O2GRequest request = requestFactory.createRefreshTableRequestByAccount(O2GTableType.ORDERS, sAccountID);
+        if (request == null) {
+            throw new Exception("Cannot create request");
+        }
+        responseListener.setRequestID(request.getRequestId());
+        session.sendRequest(request);
+        if (!responseListener.waitEvents()) {
+            throw new Exception("Response waiting timeout expired");
+        }
+        O2GResponse response = responseListener.getResponse();
+        if (response == null) {
+            throw new Exception("Cannot get response");
+        }
+        O2GResponseReaderFactory responseReaderFactory = session.getResponseReaderFactory();
+        O2GOrdersTableResponseReader responseReader = responseReaderFactory.createOrdersTableReader(response);
+        for (int i = 0; i < responseReader.size(); i++) {
+            O2GOrderRow orderRow = responseReader.getRow(i);
+            if (sOrderID.equals(orderRow.getOrderID())) {
+                bHasOrder = true;
+                break;
+            }
+        }
+        return bHasOrder;
+    }
+
+    // Create request for join two existing entry orders into a new contingency group
+    private static O2GRequest joinToNewGroupRequest(O2GSession session, String sAccountID, String sPrimaryID, String sSecondaryID, int iContingencyType) throws Exception {
+        O2GRequest request = null;
+        O2GRequestFactory requestFactory = session.getRequestFactory();
+        if (requestFactory == null) {
+            throw new Exception("Cannot create request factory");
+        }
+        O2GValueMap valuemapMain = requestFactory.createValueMap();
+        valuemapMain.setString(O2GRequestParamsEnum.COMMAND, Constants.Commands.JoinToNewContingencyGroup);
+        valuemapMain.setInt(O2GRequestParamsEnum.CONTINGENCY_GROUP_TYPE, iContingencyType);
+
+        O2GValueMap valuemapChild;
+
+        valuemapChild = requestFactory.createValueMap();
+        valuemapChild.setString(O2GRequestParamsEnum.ORDER_ID, sPrimaryID);
+        valuemapChild.setString(O2GRequestParamsEnum.ACCOUNT_ID, sAccountID);
+        valuemapMain.appendChild(valuemapChild);
+
+        valuemapChild = requestFactory.createValueMap();
+        valuemapChild.setString(O2GRequestParamsEnum.ORDER_ID, sSecondaryID);
+        valuemapChild.setString(O2GRequestParamsEnum.ACCOUNT_ID, sAccountID);
+        valuemapMain.appendChild(valuemapChild);
+
+        request = requestFactory.createOrderRequest(valuemapMain);
+        if (request == null) {
+            System.out.println(requestFactory.getLastError());
+        }
+        return request;
+    }
+    
+    private static void printHelp(String sProcName)
+    {
+        System.out.println(sProcName + " sample parameters:\n");
+        
+        System.out.println("/login | --login | /l | -l");
+        System.out.println("Your user name.\n");
+        
+        System.out.println("/password | --password | /p | -p");
+        System.out.println("Your password.\n");
+        
+        System.out.println("/url | --url | /u | -u");
+        System.out.println("The server URL. For example, http://www.fxcorporate.com/Hosts.jsp.\n");
+        
+        System.out.println("/connection | --connection | /c | -c");
+        System.out.println("The connection name. For example, \"Demo\" or \"Real\".\n");
+        
+        System.out.println("/sessionid | --sessionid ");
+        System.out.println("The database name. Required only for users who have accounts in more than one database. Optional parameter.\n");
+        
+        System.out.println("/pin | --pin ");
+        System.out.println("Your pin code. Required only for users who have a pin. Optional parameter.\n");
+        
+        System.out.println("/primaryid | --primaryid ");
+        System.out.println("First order, which you want to add to a new contingency group.\n");
+        
+        System.out.println("/secondaryid | --secondaryid ");
+        System.out.println("Second order, which you want to add to a new contingency group.\n");
+        
+        System.out.println("/account | --account ");
+        System.out.println("An account which you want to use in sample. Optional parameter.\n");
+    }
+    
+    // Check obligatory login parameters and sample parameters
+    private static void checkObligatoryParams(LoginParams loginParams, SampleParams sampleParams) throws Exception {
+        if(loginParams.getLogin().isEmpty()) {
+            throw new Exception(LoginParams.LOGIN_NOT_SPECIFIED);
+        }
+        if(loginParams.getPassword().isEmpty()) {
+            throw new Exception(LoginParams.PASSWORD_NOT_SPECIFIED);
+        }
+        if(loginParams.getURL().isEmpty()) {
+            throw new Exception(LoginParams.URL_NOT_SPECIFIED);
+        }
+        if(loginParams.getConnection().isEmpty()) {
+            throw new Exception(LoginParams.CONNECTION_NOT_SPECIFIED);
+        }
+        if(sampleParams.getPrimaryID().isEmpty()) {
+            throw new Exception(SampleParams.PRIMARYID_NOT_SPECIFIED);
+        }
+        if(sampleParams.getSecondaryID().isEmpty()) {
+            throw new Exception(SampleParams.SECONDARYID_NOT_SPECIFIED);
+        }
+    }
+
+    // Print process name and sample parameters
+    private static void printSampleParams(String procName,
+            LoginParams loginPrm, SampleParams prm) {
+        System.out.println(String.format("Running %s with arguments:", procName));
+        if (loginPrm != null) {
+            System.out.println(String.format("%s * %s %s %s %s", loginPrm.getLogin(), loginPrm.getURL(),
+                  loginPrm.getConnection(), loginPrm.getSessionID(), loginPrm.getPin()));
+        }
+        if (prm != null) {
+            System.out.println(String.format("PrimaryID='%s', SecondaryID='%s', AccountID='%s'",
+                    prm.getPrimaryID(), prm.getSecondaryID(), prm.getAccountID()));
+        }
+    }
+}

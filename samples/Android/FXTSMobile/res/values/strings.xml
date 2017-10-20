@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FXTSMobile</string>
+    <string name="labelLogin">Login:</string>
+    <string name="labelPassword">Password:</string>
+    <string name="labelConnection">Connection:</string>
+    <string name="labelHost">Host:</string>
+    <string name="login">Login</string>
+    <string-array name="order_types">
+        <item>Market Order</item>
+        <item>Entry Order</item>
+    </string-array>
+</resources>
