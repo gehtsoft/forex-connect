@@ -1,0 +1,72 @@
+import argparse
+
+from forexconnect import ForexConnect, EachRowListener
+
+import common_samples
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Process command parameters.')
+    common_samples.add_main_arguments(parser)
+
+    args = parser.parse_args()
+
+    return args
+
+
+def get_account(table_manager):
+    accounts_table = table_manager.get_table(ForexConnect.ACCOUNTS)
+    for account_row in accounts_table:
+        print("AccountID: {0:s}, Balance: {1:.5f}".format(account_row.account_id, account_row.balance))
+    return accounts_table.get_row(0)
+
+
+def print_order_row(order_row, account_id):
+    if order_row.table_type == ForexConnect.ORDERS:
+        if not account_id or account_id == order_row.account_id:
+            string = ""
+            for column in order_row.columns:
+                string += column.id + "=" + str(order_row[column.id]) + "; "
+            print(string)
+
+
+def print_orders(table_manager, account_id):
+    orders_table = table_manager.get_table(ForexConnect.ORDERS)
+    if len(orders_table) == 0:
+        print("Table is empty!")
+    else:
+        for order_row in orders_table:
+            print_order_row(order_row, account_id)
+
+
+def main():
+    args = parse_args()
+    str_user_id = args.l
+    str_password = args.p
+    str_url = args.u
+    str_connection = args.c
+    str_session_i_d = args.session
+    str_pin = args.pin
+
+    with ForexConnect() as fx:
+
+        fx.login(str_user_id, str_password, str_url,
+                 str_connection, str_session_i_d, str_pin,
+                 common_samples.session_status_changed)
+
+        table_manager = fx.table_manager
+        account = get_account(table_manager)
+
+        if not account:
+            raise Exception("No valid accounts")
+
+        print_orders(table_manager, account.account_id)
+        try:
+            fx.logout()
+        except Exception as e:
+            common_samples.print_exception(e)
+
+
+if __name__ == "__main__":
+    main()
+    input("Done! Press enter key to exit\n")
