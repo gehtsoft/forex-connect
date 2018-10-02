@@ -5,17 +5,17 @@ Brief
 ===============================================================================
 This sample script shows how to automate trading with the Moving Average Crossover strategy.
 
-The sample performs the following actions:
-1. Logs in and subscribes for the Orders table updates.
-2. Creates LiveHistoryCreator and subscribes it for bar updates.
-3. Subscribes for the session status changes.
+The sample performs the following:
+1. Logs in and subscribes to Orders table updates.
+2. Creates a LiveHistoryCreator and subscribes it to bar updates.
+3. Subscribes to session status changes.
 4. Gets price history and sets it to the LiveHistoryCreator.
-5. When a new bar added to the LiveHistoryCreator, creates MovingAverageCrossStrategy and passes current history to it.
-6. The MovingAverageCrossStrategy calculates two moving averages with specified periods and generates Buy, Sell, or Hold crossover signal.
-7. Gets signal from the MovingAverageCrossStrategy and if the signal is Buy or Sell creates an open market order.
+5. When a new bar is added to the LiveHistoryCreator, creates a MovingAverageCrossStrategy and passes the current history to it.
+6. The MovingAverageCrossStrategy calculates two moving averages with the specified periods and generates Buy, Sell, or Hold crossover signals.
+7. Gets a signal from the MovingAverageCrossStrategy and, if the signal is Buy or Sell, creates an open market order.
 8. Gets Orders table updates and prints details for the created order.
-9. If session status changes and the number of created orders is not reached, tries to reconnect.
-10. When number of created orders reaches -orderscount, logs out.
+9. If the session status changes and the specified number of orders to be created (-orderscount) is not reached, tries to reconnect.
+10. When the number of created orders reaches -orderscount, logs out.
 11. Unsubscribes from all updates.
 
 
@@ -25,7 +25,7 @@ Prerequisites:
 	- ForexConnect API Python must be installed.
 	- common_samples folder must be in the same directory as the sample script.
 
-If Python added to the PATH Environmental Variable,
+If Python is added to the PATH Environmental Variable,
 to run the sample script, execute the following command in a console:
 python <Sample.py> <Arguments>
 
@@ -83,5 +83,5 @@ The number of periods of the first Moving Average. Optional parameter.
 The default value is 5
 
 -longperiods
-The number of periods of the first Moving Average. Optional parameter.
+The number of periods of the second Moving Average. Optional parameter.
 The default value is 15
