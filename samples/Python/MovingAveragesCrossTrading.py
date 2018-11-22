@@ -55,7 +55,7 @@ class MovingAverageCrossStrategy:
         signals = pd.DataFrame(index=self.bars.index)
         # fill column with zeroes
         signals['signal'] = 0.0
-        
+
         short_mean = self.bars['AskClose'].rolling(self.short_window).mean()
         # One-dimensional ndarray with axis labels (including time series)
         signals['short_mavg'] = short_mean
@@ -162,7 +162,9 @@ def on_changed(live_history):
     def _on_changed(table_listener, row_id, row):
         del table_listener, row_id
         try:
-            live_history.add_or_update(row)
+            instrument = parse_args().i
+            if row.table_type == fxcorepy.O2GTableType.OFFERS and row.instrument == instrument:
+                live_history.add_or_update(row)
         except Exception as e:
             common_samples.print_exception(e)
             return
