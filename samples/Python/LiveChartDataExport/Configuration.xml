@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <Settings>
+    <Login>00000000</Login>
+    <Url>www.fxcorporate.com/Hosts.jsp</Url>
+    <Connection>demo</Connection>
+    <SessionID></SessionID>
+    <Pin></Pin>
+    <OutputDir></OutputDir>
+    <Delimiter>|</Delimiter>
+    <DateTimeSeparator>T</DateTimeSeparator>
+    <FormatDecimalPlaces>Y</FormatDecimalPlaces>
+    <Timezone>EST</Timezone>
+
+    <History>
+      <Instrument>EUR/USD</Instrument>
+      <Timeframe>m1</Timeframe>
+      <Filename>EURUSD_m1.csv</Filename>
+      <NumBars>15</NumBars>
+      <Headers>DateTime,Bid Open,Bid Close,Ask High,Ask Low,Volume</Headers>
+    </History>
+
+    <History>
+      <Instrument>AUD/JPY</Instrument>
+      <Timeframe>m5</Timeframe>
+      <Filename>AUDJPY_m5.csv</Filename>
+      <NumBars>150</NumBars>
+      <Headers>DateTime|Bid Open|Bid Close|Ask High|Ask Low|Volume</Headers>
+    </History>
+
+  </Settings>
+</configuration>
