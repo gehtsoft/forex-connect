@@ -18,6 +18,7 @@ import argparse
 
 import pandas as pd
 from forexconnect import fxcorepy, ForexConnect, Common, LiveHistoryCreator
+from dateutil import parser
 
 import common_samples
 
@@ -50,7 +51,10 @@ def on_changed(live_history_creator):
             if live_history_creator.history is not None:
                 print("Add or update: ")
                 last_complete_data_frame = live_history_creator.history.tail(1)
-                str_prices = str(last_complete_data_frame.index.values[0]) + ", "
+                dt = str(last_complete_data_frame.index.values[0])
+                dt = dt.replace('T', ' ')
+                dt = parser.parse(dt)
+                str_prices = str(dt) + ", "
                 for price_name in last_complete_data_frame:
                     price_entry = last_complete_data_frame.get(price_name)
                     price_value = price_entry.values[0]
