@@ -94,6 +94,7 @@ def macd(name, df, n_fast, n_slow, n_signal):
     df = df.join(macddiff)
     return df
 
+
 def rsi(name, df, n):
     i = 0
     upi = [0]
@@ -130,6 +131,117 @@ def bbands(name, df, n, d):
     b2 = pd.Series(b21, name='Bollinger_BL_' + name + "_" + str(n))
     df = df.join(b2)
     return df
+
+
+def zigzag(df, depth, deviation, backstep, pip_size):
+    i = depth
+
+    zigzag_buffer = pd.Series(0*df['Close'], name='ZigZag')
+    high_buffer = pd.Series(0*df['Close'])
+    low_buffer = pd.Series(0*df['Close'])
+
+    curlow = 0
+    curhigh = 0
+    lasthigh = 0
+    lastlow = 0
+
+    whatlookfor = 0
+
+    lows = pd.Series(df['Low'].rolling(depth).min())
+    highs = pd.Series(df['High'].rolling(depth).max())
+
+    while i + 1 <= df.index[-1]:
+        extremum = lows[i]
+        if extremum == lastlow:
+            extremum = 0
+        else:
+            lastlow = extremum
+            if df.at[i, 'Low']-extremum > deviation*pip_size:
+                extremum = 0
+            else:
+                for back in range(1, backstep):
+                    pos = i-back
+                    if low_buffer[pos] != 0 and low_buffer[pos] > extremum:
+                        low_buffer[pos] = 0
+
+        if df.at[i, 'Low'] == extremum:
+            low_buffer[i] = extremum
+        else:
+            low_buffer[i] = 0
+
+        extremum = highs[i]
+        if extremum == lasthigh:
+            extremum = 0
+        else:
+            lasthigh = extremum
+            if extremum - df.at[i, 'High'] > deviation*pip_size:
+                extremum = 0
+            else:
+                for back in range(1, backstep):
+                    pos = i - back
+                    if high_buffer[pos] != 0 and high_buffer[pos] < extremum:
+                        high_buffer[pos] = 0
+
+        if df.at[i, 'High'] == extremum:
+            high_buffer[i] = extremum
+        else:
+            high_buffer[i] = 0
+
+        i = i + 1
+
+    lastlow = 0
+    lasthigh = 0
+
+    i = depth
+
+    while i + 1 <= df.index[-1]:
+        if whatlookfor == 0:
+            if lastlow == 0 and lasthigh == 0:
+                if high_buffer[i] != 0:
+                    lasthigh = df.at[i, 'High']
+                    lasthighpos = i
+                    whatlookfor = -1
+                    zigzag_buffer[i] = lasthigh
+                if low_buffer[i] != 0:
+                    lastlow = df.at[i, 'Low']
+                    lastlowpos = i
+                    whatlookfor = 1
+                    zigzag_buffer[i] = lastlow
+        elif whatlookfor == 1:
+            if low_buffer[i] != 0 and low_buffer[i] < lastlow and high_buffer[i] == 0:
+                zigzag_buffer[lastlowpos] = 0
+                lastlowpos = i
+                lastlow = low_buffer[i]
+                zigzag_buffer[i] = lastlow
+            if high_buffer[i] != 0 and low_buffer[i] == 0:
+                lasthigh = high_buffer[i]
+                lasthighpos = i
+                zigzag_buffer[i] = lasthigh
+                whatlookfor = -1
+        elif whatlookfor == -1:
+            if high_buffer[i] != 0 and high_buffer[i] > lasthigh and low_buffer[i] == 0:
+                zigzag_buffer[lasthighpos] = 0
+                lasthighpos = i
+                lasthigh = high_buffer[i]
+                zigzag_buffer[i] = lasthigh
+            if low_buffer[i] != 0 and high_buffer[i] == 0:
+                lastlow = low_buffer[i]
+                lastlowpos = i
+                zigzag_buffer[i] = lastlow
+                whatlookfor = 1
+
+        i = i + 1
+
+    df = df.join(zigzag_buffer)
+    return df
+
+
+def get_pipsize(fx, s_instrument):
+    table_manager = fx.table_manager
+    offers_table = table_manager.get_table(ForexConnect.OFFERS)
+    for offer_row in offers_table:
+        if offer_row.instrument == s_instrument:
+            return offer_row.PointSize
 
 
 def main():
@@ -172,6 +284,8 @@ def main():
 
         df = df.dropna()
 
+        pip_size = get_pipsize(fx, str_instrument)
+
         print(df)
 
         df = bbands('Close', df, 2, 3)
@@ -183,6 +297,8 @@ def main():
         df = ma('Close', df, 3)
 
         df = rsi('Close', df, 10)
+
+        df = zigzag(df, 12, 5, 3, pip_size)
 
         print(df)
 

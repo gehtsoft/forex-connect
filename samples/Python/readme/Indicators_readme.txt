@@ -18,7 +18,8 @@ Indicators shown in this sample:
 - adx - Average Directional Index - http://fxcodebase.com/bin/products/FXTS/2016-R3/help/MS/NOTFIFO/web-content.html#i_ADX.html
 - macd - Moving Average Convergence/Divergence - http://fxcodebase.com/bin/products/FXTS/2016-R3/help/MS/NOTFIFO/web-content.html#i_MACD.html
 - rsi - Relative Strength Index - http://fxcodebase.com/bin/products/FXTS/2016-R3/help/MS/NOTFIFO/web-content.html#i_RSI.html
-- bbands -Bollinger Band - http://fxcodebase.com/bin/products/FXTS/2016-R3/help/MS/NOTFIFO/web-content.html#i_BB.html
+- bbands - Bollinger Band - http://fxcodebase.com/bin/products/FXTS/2016-R3/help/MS/NOTFIFO/web-content.html#i_BB.html
+- zigzag - ZigZag - http://fxcodebase.com/bin/products/FXTS/2016-R3/help/MS/NOTFIFO/web-content.html#i_ZigZag.html
 
 
 Running the Sample Script
@@ -53,27 +54,21 @@ The database name. Required only for users who have accounts in more than one da
 Your PIN code. Required only for users who have PIN codes. Optional parameter.
 
 -i
-
 The instrument you want to use in the sample script. Optional parameter.
 The default value is EUR/USD 
 
 -timeframe
-
 The time period that forms a single bar. For example, m1 - for 1 minute, H1 - for 1 hour. Optional Parameter.
 The default value is m1
 
--datefrom 
-
+-datefrom
 The date/time from which you want to receive historical prices. The format is "%m.%d.%Y %H:%M:%S". Optional parameter.
 The date/time is in the UTC time zone. If not specified, will load the number of bars defined by -quotescount.
-
  
 -dateto
-
 The date/time until which you want to receive historical prices. The format is "%m.%d.%Y %H:%M:%S". Optional parameter.
 The date/time is in the UTC time zone. If not specified, will load bars up to now.
 
 -quotescount
-
 The maximum number of bars. Optional parameter.
 The default value is 300
