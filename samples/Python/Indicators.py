@@ -19,6 +19,7 @@ import pandas as pd
 from forexconnect import ForexConnect, fxcorepy
 
 import common_samples
+import math
 
 
 def parse_args():
@@ -39,7 +40,7 @@ def ma(name, df, n):
     return df
 
 
-def adx(df, n):
+def adx(df, periods):
     i = 0
     upi = []
     doi = []
@@ -66,36 +67,36 @@ def adx(df, n):
         tr_l.append(tr)
         i = i + 1
     tr_s = pd.Series(tr_l)
-    atr = tr_s.ewm(span=n, min_periods=n).mean()
+    atr = tr_s.ewm(span=periods, min_periods=periods).mean()
     upi = pd.Series(upi)
     doi = pd.Series(doi)
-    posdi = upi.ewm(span=n, min_periods=n - 1).mean()/atr
-    negdi = doi.ewm(span=n, min_periods=n - 1).mean()/atr
+    posdi = upi.ewm(span=periods, min_periods=periods - 1).mean()/atr
+    negdi = doi.ewm(span=periods, min_periods=periods - 1).mean()/atr
     adx_r = 100 * abs(posdi - negdi) / (posdi + negdi)
-    rowadx = adx_r.ewm(span=n, min_periods=n - 1)
+    rowadx = adx_r.ewm(span=periods, min_periods=periods - 1)
     meanadx = rowadx.mean()
-    columnadx = meanadx.rename('ADX_' + str(n) + '_' + str(n))
+    columnadx = meanadx.rename('ADX_' + str(periods))
     df = df.join(columnadx)
     return df
 
 
-def macd(name, df, n_fast, n_slow, n_signal):
-    emafast = df[name].ewm(span=n_fast, min_periods=n_slow - 1).mean()
-    emaslow = df[name].ewm(span=n_slow, min_periods=n_slow - 1).mean()
+def macd(name, df, periods_fast, periods_slow, periods_signal):
+    emafast = df[name].ewm(span=periods_fast, min_periods=periods_slow - 1).mean()
+    emaslow = df[name].ewm(span=periods_slow, min_periods=periods_slow - 1).mean()
     columnmacd = pd.Series(emafast - emaslow,
-                           name='MACD_' + str(n_fast) + '_' + str(n_slow))
-    rowmacd = columnmacd.ewm(span=n_signal, min_periods=n_signal - 1)
+                           name='MACD_' + str(periods_fast) + '_' + str(periods_slow))
+    rowmacd = columnmacd.ewm(span=periods_signal, min_periods=periods_signal - 1)
     meanmacd = rowmacd.mean()
-    macdsign = meanmacd.rename('MACDsign_' + str(n_fast) + '_' + str(n_slow))
+    macdsign = meanmacd.rename('MACDsign_' + str(periods_fast) + '_' + str(periods_slow))
     macddiff = pd.Series(columnmacd - macdsign,
-                         name='MACDdiff_' + str(n_fast) + '_' + str(n_slow))
+                         name='MACDdiff_' + str(periods_fast) + '_' + str(periods_slow))
     df = df.join(columnmacd)
     df = df.join(macdsign)
     df = df.join(macddiff)
     return df
 
 
-def rsi(name, df, n):
+def rsi(name, df, periods):
     i = 0
     upi = [0]
     doi = [0]
@@ -114,21 +115,21 @@ def rsi(name, df, n):
         i = i + 1
     upi = pd.Series(upi)
     doi = pd.Series(doi)
-    posdi = upi.ewm(span=n, min_periods=n - 1).mean()
-    negdi = doi.ewm(span=n, min_periods=n - 1).mean()
-    columnrsi = pd.Series(100 * posdi / (posdi + negdi), name='RSI_' + str(n))
+    posdi = upi.ewm(span=periods, min_periods=periods - 1).mean()
+    negdi = doi.ewm(span=periods, min_periods=periods - 1).mean()
+    columnrsi = pd.Series(100 * posdi / (posdi + negdi), name='RSI_' + str(periods))
     df = df.join(columnrsi)
     return df
 
 
-def bbands(name, df, n, d):
-    ma = pd.Series(df[name].rolling(window=n).mean())
-    msd = pd.Series(df[name].rolling(window=n).std())
-    b11 = ma + d*msd
-    b1 = pd.Series(b11, name='Bollinger_TL_' + name + "_" + str(n))
+def bbands(name, df, periods, deviations):
+    ma = pd.Series(df[name].rolling(window=periods).mean())
+    msd = pd.Series(df[name].rolling(window=periods).std())
+    b11 = ma + deviations*msd
+    b1 = pd.Series(b11, name='Bollinger_TL_' + name + "_" + str(periods))
     df = df.join(b1)
-    b21 = ma - d*msd
-    b2 = pd.Series(b21, name='Bollinger_BL_' + name + "_" + str(n))
+    b21 = ma - deviations*msd
+    b2 = pd.Series(b21, name='Bollinger_BL_' + name + "_" + str(periods))
     df = df.join(b2)
     return df
 
@@ -136,7 +137,7 @@ def bbands(name, df, n, d):
 def zigzag(df, depth, deviation, backstep, pip_size):
     i = depth
 
-    zigzag_buffer = pd.Series(0*df['Close'], name='ZigZag')
+    zigzag_buffer = pd.Series(0*df['Close'], name='ZigZag_' + str(depth) + "_" + str(deviation) + "_" + str(backstep))
     high_buffer = pd.Series(0*df['Close'])
     low_buffer = pd.Series(0*df['Close'])
 
@@ -159,7 +160,7 @@ def zigzag(df, depth, deviation, backstep, pip_size):
             if df.at[i, 'Low']-extremum > deviation*pip_size:
                 extremum = 0
             else:
-                for back in range(1, backstep):
+                for back in range(1, backstep + 1):
                     pos = i-back
                     if low_buffer[pos] != 0 and low_buffer[pos] > extremum:
                         low_buffer[pos] = 0
@@ -177,7 +178,7 @@ def zigzag(df, depth, deviation, backstep, pip_size):
             if extremum - df.at[i, 'High'] > deviation*pip_size:
                 extremum = 0
             else:
-                for back in range(1, backstep):
+                for back in range(1, backstep + 1):
                     pos = i - back
                     if high_buffer[pos] != 0 and high_buffer[pos] < extremum:
                         high_buffer[pos] = 0
@@ -233,6 +234,63 @@ def zigzag(df, depth, deviation, backstep, pip_size):
         i = i + 1
 
     df = df.join(zigzag_buffer)
+    return df
+
+
+def ema(name, df, periods):
+    ema = df[name].ewm(span = periods, min_periods = periods - 1).mean().rename('EMA_' + name + "_" + str(periods))
+    df = df.join(ema)
+    return df
+
+
+def mae(name, df, periods, upper_ps, lower_ps):
+    ma = pd.Series(df[name].rolling(window=periods).mean())
+    upper = pd.Series(ma * (1 + upper_ps / 100), name='MAE1_' + name + "_" + str(periods) + "_" + str(upper_ps) + "_" + str(lower_ps))
+    lower = pd.Series(ma * (1 - lower_ps / 100), name='MAE2_' + name + "_" + str(periods) + "_" + str(upper_ps) + "_" + str(lower_ps))
+
+    df = df.join(upper)
+    df = df.join(lower)
+
+    return df
+
+
+def kama(name, df, periods):
+    diff = pd.Series(abs(df[name].diff(1)))
+    avg_diff = pd.Series(diff.rolling(window=periods).mean())
+    kama = pd.Series(df['Close'].rolling(window=periods).mean(), name='KAMA_' + name + "_" + str(periods))
+    i = periods
+    value = 0
+    fastend = 0.666
+    slowend = 0.0645
+    while i <= df.index[-1]:
+        if i == periods:
+            value = df.at[i, name]
+        else:
+            value = kama[i-1]
+        er = periods * avg_diff[i]
+        if er != 0:
+            er = abs(df.at[i, name] - df.at[i - periods + 1, name])/er
+        sc = er * (fastend - slowend) + slowend
+        sc = sc * sc
+        kama[i] = value + sc * (df.at[i, name] - value)
+
+        i = i + 1
+    df = df.join(kama)
+    return df
+
+
+def lwma(name, df, periods):
+    lwma = pd.Series(df['Close'].rolling(window=periods).mean(), name='LWMA_' + name + "_" + str(periods))
+    i = periods - 1
+    c = periods * (periods + 1) / 2
+    while i <= df.index[-1]:
+        sum = 0
+        for i2 in range(1, periods + 1):
+            sum = sum + df.at[i - periods + i2, name] * i2
+        lwma[i] = sum / c
+
+        i = i + 1
+    df = df.join(lwma)
     return df
 
 
@@ -299,6 +357,14 @@ def main():
         df = rsi('Close', df, 10)
 
         df = zigzag(df, 12, 5, 3, pip_size)
+
+        df = ema('Close', df, 3)
+
+        df = mae('Close', df, 7, 0.5, 0.5)
+
+        df = kama('Close', df, 3)
+
+        df = lwma('Close', df, 3)
 
         print(df)
 
