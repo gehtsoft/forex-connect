@@ -293,6 +293,55 @@ def lwma(name, df, periods):
     df = df.join(lwma)
     return df
 
+def ppma(df, periods):
+    typical = pd.Series((df['High'] + df['Low'] + df['Close']) / 3)
+    ppma = pd.Series(typical.rolling(window=periods).mean(),
+                          name='PPMA_' + str(periods))
+
+    df = df.join(ppma)  
+    return df
+
+
+def smma(name, df, periods):
+    smma = pd.Series(df['Close'].rolling(window=periods).mean(), name='SMMA_' + name + "_" + str(periods))
+    avg = pd.Series(df[name].rolling(window=periods).mean())
+    i = periods - 1
+    while i <= df.index[-1]:
+        if i == periods - 1:
+            smma[i] = avg[i]
+        else:
+            smma[i] = (smma[i-1] * (periods - 1) + df.at[i, name]) / periods
+
+        i = i + 1
+    df = df.join(smma)  
+    return df
+
+
+def tma(name, df, periods):
+    len = math.floor(periods / 2) + 1
+    avg = pd.Series(df[name].rolling(window=len).mean())
+    tma = pd.Series(avg.rolling(window=len).mean(), name='TMA_' + name + "_" + str(periods))
+
+    df = df.join(tma)
+    return df
+
+
+def wma(name, df, periods):
+    wma = pd.Series(df['Close'].rolling(window=periods).mean(), name='WMA_' + name + "_" + str(periods))
+    avg = pd.Series(df[name].rolling(window=periods).mean())
+    i = periods - 1
+    n1 = 2 * periods - 1;
+    k = 2 / (n1 + 1);
+    while i <= df.index[-1]:
+        if i == periods - 1:
+            wma[i] = avg[i]
+        else:
+            wma[i] = (df.at[i, name] - wma[i-1]) * k + wma[i-1]
+
+        i = i + 1
+    df = df.join(wma)  
+    return df    
+
 
 def get_pipsize(fx, s_instrument):
     table_manager = fx.table_manager
@@ -365,6 +414,14 @@ def main():
         df = kama('Close', df, 3)
 
         df = lwma('Close', df, 3)
+
+        df = ppma(df, 3)
+
+        df = smma('Close', df, 3)
+
+        df = tma('Close', df, 3)
+
+        df = wma('Close', df, 7)
 
         print(df)
 
