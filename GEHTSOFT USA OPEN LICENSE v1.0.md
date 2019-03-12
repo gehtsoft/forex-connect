@@ -1,6 +1,6 @@
 # GEHTSOFT USA, LLC LICENSE</h1>
 
-Copyright 2018 Gehtsoft USA, LLC Version 1.0, August 2018
+Copyright 2019 Gehtsoft USA, LLC Version 1.0, August 2018
 
 
 ## TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION</h2>
