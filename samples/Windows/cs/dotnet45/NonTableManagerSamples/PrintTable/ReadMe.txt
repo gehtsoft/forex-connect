@@ -12,8 +12,8 @@ The sample performs the following actions:
 
 Building the application
 ==================================================================================
-In order to build this application you will need MS Visual Studio 2005 or later and
-.NET framework 2.0 or 4.0.
+In order to build this application you will need MS Visual Studio 2015 and
+.NET framework 4.5 or later.
 You can download .NET framework from http://msdn.microsoft.com/en-us/netframework/
 To build the application run fxbuild.bat.
 To compile the application into a debug build set argument "debug" via command line.

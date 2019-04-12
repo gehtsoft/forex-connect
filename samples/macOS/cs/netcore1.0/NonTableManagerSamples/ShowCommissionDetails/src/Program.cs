@@ -23,7 +23,6 @@ namespace ShowCommissionDetails
                                        ParserArgument.Connection,
                                        ParserArgument.SessionID,
                                        ParserArgument.AccountID,
-                                       ParserArgument.BuySell,
                                        ParserArgument.Instrument);
                                       
                 argParser.ParseArguments();
@@ -40,7 +39,7 @@ namespace ShowCommissionDetails
                 SampleParams sampleParams = argParser.SampleParams;
 
                 session = O2GTransport.createSession();
-                statusListener = new SessionStatusListener(session, loginParams);
+                statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
                 session.subscribeSessionStatus(statusListener);
                 statusListener.Reset();
                 session.login(loginParams.Login, loginParams.Password, loginParams.URL, loginParams.Connection);

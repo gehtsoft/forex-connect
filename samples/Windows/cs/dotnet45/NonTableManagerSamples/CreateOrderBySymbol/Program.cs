@@ -8,6 +8,9 @@ namespace CreateOrderBySymbol
 {
     class Program
     {
+        static SessionStatusListener statusListener = null;
+        static ResponseListener responseListener = null;
+
         static void Main(string[] args)
         {
             O2GSession session = null;
@@ -20,13 +23,13 @@ namespace CreateOrderBySymbol
                 PrintSampleParams("CreateOrderBySymbol", loginParams, sampleParams);
 
                 session = O2GTransport.createSession();
-                SessionStatusListener statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
+                statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
                 session.subscribeSessionStatus(statusListener);
                 statusListener.Reset();
                 session.login(loginParams.Login, loginParams.Password, loginParams.URL, loginParams.Connection);
                 if (statusListener.WaitEvents() && statusListener.Connected)
                 {
-                    ResponseListener responseListener = new ResponseListener(session);
+                    responseListener = new ResponseListener(session);
                     session.subscribeResponse(responseListener);
 
                     O2GAccountRow account = GetAccount(session, sampleParams.AccountID);
@@ -77,12 +80,7 @@ namespace CreateOrderBySymbol
                     {
                         throw new Exception("Response waiting timeout expired");
                     }
-                    statusListener.Reset();
-                    session.logout();
-                    statusListener.WaitEvents();
-                    session.unsubscribeResponse(responseListener);
                 }
-                session.unsubscribeSessionStatus(statusListener);
             }
             catch (Exception e)
             {
@@ -92,6 +90,15 @@ namespace CreateOrderBySymbol
             {
                 if (session != null)
                 {
+                    if (statusListener.Connected)
+                    {
+                        if (responseListener != null)
+                            session.unsubscribeResponse(responseListener);
+                        statusListener.Reset();
+                        session.logout();
+                        statusListener.WaitEvents();
+                    }
+                    session.unsubscribeSessionStatus(statusListener);
                     session.Dispose();
                 }
             }

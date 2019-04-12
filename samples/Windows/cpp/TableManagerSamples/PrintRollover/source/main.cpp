@@ -4,7 +4,6 @@
 #include "LoginParams.h"
 #include "SampleParams.h"
 #include "CommonSources.h"
-#include <IO2GRolloverProvider.h>
 
 void printHelp(std::string &);
 bool checkObligatoryParams(LoginParams *, SampleParams *);

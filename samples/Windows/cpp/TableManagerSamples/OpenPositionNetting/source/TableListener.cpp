@@ -24,12 +24,12 @@ TableListener::~TableListener()
 
 long TableListener::addRef()
 {
-    return InterlockedIncrement(&mRefCount);
+    return O2GAtomic::InterlockedInc(mRefCount);
 }
 
 long TableListener::release()
 {
-    InterlockedDecrement(&mRefCount);
+    O2GAtomic::InterlockedDec(mRefCount);
     if(mRefCount == 0)
         delete this;
     return mRefCount;

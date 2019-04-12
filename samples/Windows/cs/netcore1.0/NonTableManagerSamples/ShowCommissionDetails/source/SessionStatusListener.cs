@@ -3,27 +3,28 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using fxcore2;
-using ArgParser;
 
 namespace ShowCommissionDetails
 {
     class SessionStatusListener : IO2GSessionStatus
     {
+        private string mSessionID;
+        private string mPin;
         private bool mConnected;
         private bool mDisconnected;
         private bool mError;
         private O2GSession mSession;
         private EventWaitHandle mSyncSessionEvent;
-        private LoginParams mLoginParams;
 
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="session"></param>
-        public SessionStatusListener(O2GSession session, LoginParams loginParams)
+        public SessionStatusListener(O2GSession session, string sSessionID, string sPin)
         {
             mSession = session;
-            mLoginParams = loginParams;
+            mSessionID = sSessionID;
+            mPin = sPin;
             Reset();
             mSyncSessionEvent = new EventWaitHandle(false, EventResetMode.AutoReset);
         }
@@ -70,27 +71,14 @@ namespace ShowCommissionDetails
             switch (status)
             {
                 case O2GSessionStatusCode.TradingSessionRequested:
-                    O2GSessionDescriptorCollection descs = mSession.getTradingSessionDescriptors();
-                    Console.WriteLine("Session descriptors:");
-                    Console.WriteLine("id, name, description, requires pin");
-                    foreach (O2GSessionDescriptor desc in descs)
+                    if (string.IsNullOrEmpty(mSessionID))
                     {
-                        Console.WriteLine("'{0}' '{1}' '{2}' {3}", desc.Id, desc.Name, desc.Description, desc.RequiresPin);
-                    }
-                    Console.WriteLine();
-
-                    string sSessionID;
-                    if (string.IsNullOrEmpty(mLoginParams.SessionID))
-                    {
-                        Console.WriteLine("Please enter trading session ID and press \'Enter\'");
-                        sSessionID = Console.ReadLine();
+                        Console.WriteLine("Argument for trading session ID is missing");
                     }
                     else
                     {
-                        sSessionID = mLoginParams.SessionID;
+                        mSession.setTradingSession(mSessionID, mPin);
                     }
-
-                    mSession.setTradingSession(sSessionID.Trim(), mLoginParams.Pin);
                     break;
                 case O2GSessionStatusCode.Connected:
                     mConnected = true;

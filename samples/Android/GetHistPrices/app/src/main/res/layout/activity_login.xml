@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/mainLayoutLogin">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/labelLogin" />
+
+        <EditText
+            android:id="@+id/etLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textFilter"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/tvPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/labelPassword" />
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/tvConnection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/labelConnection" />
+
+        <EditText
+            android:id="@+id/etConnection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textFilter"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/tvHost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/labelHost" />
+
+        <EditText
+            android:id="@+id/etHost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textFilter"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/tvSid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(optional) Session ID:" />
+
+        <EditText
+            android:id="@+id/sidEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:inputType="text"/>
+
+        <TextView
+            android:id="@+id/tvPin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(optional) PIN:" />
+
+        <EditText
+            android:id="@+id/pinEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textFilter"
+            android:maxLines="1" />
+
+        <Button
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="btnLogin_Click"
+            android:text="@string/login" />
+
+    </LinearLayout>
+
+</ScrollView>

@@ -24,7 +24,7 @@ public:
     void unsubscribeEvents(IO2GTableManager *manager);
 
 private:
-    long mRefCount;
+    volatile unsigned int mRefCount;
     /** Response listener. */
     ResponseListener *mResponseListener;
     /** Request we are waiting for. */

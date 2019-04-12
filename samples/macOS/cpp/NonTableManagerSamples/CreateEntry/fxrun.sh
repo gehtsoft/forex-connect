@@ -1,6 +1,6 @@
 #!/bin/bash
 
 cd ./bin/
-./CreateOrderBySymbol $*
+./CreateEntry $*
 cd ..
 

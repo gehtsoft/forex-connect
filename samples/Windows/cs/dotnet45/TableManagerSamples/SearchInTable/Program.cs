@@ -9,6 +9,8 @@ namespace SearchInTable
 {
     class Program
     {
+        static SessionStatusListener statusListener = null;
+
         static void Main(string[] args)
         {
             O2GSession session = null;
@@ -22,7 +24,7 @@ namespace SearchInTable
 
                 session = O2GTransport.createSession();
                 session.useTableManager(O2GTableManagerMode.Yes, null);
-                SessionStatusListener statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
+                statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
                 session.subscribeSessionStatus(statusListener);
                 statusListener.Reset();
                 session.login(loginParams.Login, loginParams.Password, loginParams.URL, loginParams.Connection);
@@ -65,12 +67,7 @@ namespace SearchInTable
                     FindOrder(tableManager, sampleParams.AccountID, sampleParams.OrderID);
 
                     Console.WriteLine("Done!");
-
-                    statusListener.Reset();
-                    session.logout();
-                    statusListener.WaitEvents();
                 }
-                session.unsubscribeSessionStatus(statusListener);
             }
             catch (Exception e)
             {
@@ -80,6 +77,13 @@ namespace SearchInTable
             {
                 if (session != null)
                 {
+                    if (statusListener.Connected)
+                    {
+                        statusListener.Reset();
+                        session.logout();
+                        statusListener.WaitEvents();
+                    }
+                    session.unsubscribeSessionStatus(statusListener);
                     session.Dispose();
                 }
             }

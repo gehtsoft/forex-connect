@@ -16,7 +16,7 @@ class EachRowListener : public IO2GEachRowListener
     virtual void onEachRow(const char *, IO2GRow *);
 
  private:
-    long mRefCount;
+    volatile unsigned int mRefCount;
 
     const char *mAccountID;
 

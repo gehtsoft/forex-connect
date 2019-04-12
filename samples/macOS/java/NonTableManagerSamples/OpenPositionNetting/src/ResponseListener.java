@@ -67,7 +67,7 @@ public class ResponseListener implements IO2GResponseListener {
                 case ACCOUNTS:
                     O2GAccountRow account = reader.getAccountRow(ii);
                     // Show balance updates
-                    System.out.println("Balance: " + account.getBalance());
+                    System.out.format("The balance has been changed. AccountID=%s, Balance = %.2f %n", account.getAccountID(), account.getBalance());
                     break;
                 case ORDERS:
                     O2GOrderRow order = reader.getOrderRow(ii);

@@ -16,13 +16,13 @@ EachRowListener::~EachRowListener()
 /** Increase reference counter. */
 long EachRowListener::addRef()
 {
-    return InterlockedIncrement(&mRefCount);
+    return O2GAtomic::InterlockedInc(mRefCount);
 }
 
 /** Decrease reference counter. */
 long EachRowListener::release()
 {
-    long rc = InterlockedDecrement(&mRefCount);
+    long rc = O2GAtomic::InterlockedDec(mRefCount);
     if (rc == 0)
         delete this;
     return rc;

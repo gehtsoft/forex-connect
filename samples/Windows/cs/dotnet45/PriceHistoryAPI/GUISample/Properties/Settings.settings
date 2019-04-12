@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Candleworks.PriceHistoryMgr.Examples.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ForexConnectConfig_UserName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ForexConnectConfig_Url" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://www.fxcorporate.com/Hosts.jsp</Value>
+    </Setting>
+    <Setting Name="ForexConnectConfig_Connection" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Demo</Value>
+    </Setting>
+    <Setting Name="PriceHistoryConfig_CachePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">cache</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

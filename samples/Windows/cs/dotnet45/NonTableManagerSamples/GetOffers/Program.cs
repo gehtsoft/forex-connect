@@ -9,6 +9,9 @@ namespace GetOffers
 {
     class Program
     {
+        static SessionStatusListener statusListener = null;
+        static ResponseListener responseListener = null;
+
         static void Main(string[] args)
         {
             O2GSession session = null;
@@ -21,13 +24,13 @@ namespace GetOffers
                 PrintSampleParams("GetOffers", loginParams, sampleParams);
 
                 session = O2GTransport.createSession();
-                SessionStatusListener statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
+                statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
                 session.subscribeSessionStatus(statusListener);
                 statusListener.Reset();
                 session.login(loginParams.Login, loginParams.Password, loginParams.URL, loginParams.Connection);
                 if (statusListener.WaitEvents() && statusListener.Connected)
                 {
-                    ResponseListener responseListener = new ResponseListener(session);
+                    responseListener = new ResponseListener(session);
                     responseListener.SetInstrument(sampleParams.Instrument);
                     session.subscribeResponse(responseListener);
 
@@ -69,13 +72,7 @@ namespace GetOffers
                     // Do nothing 10 seconds, let offers print
                     Thread.Sleep(10000);
                     Console.WriteLine("Done!");
-
-                    session.unsubscribeResponse(responseListener);
-                    statusListener.Reset();
-                    session.logout();
-                    statusListener.WaitEvents();
                 }
-                session.unsubscribeSessionStatus(statusListener);
             }
             catch (Exception e)
             {
@@ -85,6 +82,15 @@ namespace GetOffers
             {
                 if (session != null)
                 {
+                    if (statusListener.Connected)
+                    {
+                        if (responseListener != null)
+                            session.unsubscribeResponse(responseListener);
+                        statusListener.Reset();
+                        session.logout();
+                        statusListener.WaitEvents();
+                    }
+                    session.unsubscribeSessionStatus(statusListener);
                     session.Dispose();
                 }
             }

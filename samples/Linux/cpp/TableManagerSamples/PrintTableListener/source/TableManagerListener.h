@@ -21,7 +21,7 @@ class TableManagerListener : public IO2GTableManagerListener
     virtual void onStatusChanged(O2GTableManagerStatus, IO2GTableManager *);
 
  private:
-    long mRefCount;
+    volatile unsigned int mRefCount;
     O2GTableManagerStatus mLastStatus;
     bool mLoaded;
     bool mError;

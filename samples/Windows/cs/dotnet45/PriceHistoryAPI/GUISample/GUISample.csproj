@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+  <PropertyGroup>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <OldToolsVersion>2.0</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DC329F29-4B4A-42CC-A6A8-43F60265D841}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GUISample</RootNamespace>
+    <AssemblyName>GUISample</AssemblyName>
+    <StartupObject>GUISample.Program</StartupObject>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\bin\dotnet45\x86\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <ForexConnectDotNetPath>$(ProjectDir)..\..\..\..\..\bin\net\dotnet45</ForexConnectDotNetPath>
+    <HistoricalPriceDotNetPath>$(ProjectDir)..\..\..\..\..\bin\net\dotnet45</HistoricalPriceDotNetPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DC329F29-4B4A-42CC-A6A8-43F60265D841}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GUISample</RootNamespace>
+    <AssemblyName>GUISample</AssemblyName>
+    <StartupObject>GUISample.Program</StartupObject>
+    <OutputPath>..\bin\dotnet45\x86\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <ForexConnectDotNetPath>$(ProjectDir)..\..\..\..\..\bin\net\dotnet45</ForexConnectDotNetPath>
+    <HistoricalPriceDotNetPath>$(ProjectDir)..\..\..\..\..\bin\net\dotnet45</HistoricalPriceDotNetPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DC329F29-4B4A-42CC-A6A8-43F60265D841}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GUISample</RootNamespace>
+    <AssemblyName>GUISample</AssemblyName>
+    <StartupObject>GUISample.Program</StartupObject>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\bin\dotnet45\x64\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <ForexConnectDotNetPath>$(ProjectDir)..\..\..\..\..\bin\net\dotnet45</ForexConnectDotNetPath>
+    <HistoricalPriceDotNetPath>$(ProjectDir)..\..\..\..\..\bin\net\dotnet45</HistoricalPriceDotNetPath>
+    <Prefer32Bit>false</Prefer32Bit>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DC329F29-4B4A-42CC-A6A8-43F60265D841}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GUISample</RootNamespace>
+    <AssemblyName>GUISample</AssemblyName>
+    <StartupObject>GUISample.Program</StartupObject>
+    <OutputPath>..\bin\dotnet45\x64\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <ForexConnectDotNetPath>$(ProjectDir)..\..\..\..\..\bin\net\dotnet45</ForexConnectDotNetPath>
+    <HistoricalPriceDotNetPath>$(ProjectDir)..\..\..\..\..\bin\net\dotnet45</HistoricalPriceDotNetPath>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="fxcore2">
+      <HintPath>..\..\..\..\..\bin\net\dotnet45\fxcore2.dll</HintPath>
+    </Reference>
+    <Reference Include="pricehistorymgr_net">
+      <HintPath>..\..\..\..\..\bin\net\dotnet45\pricehistorymgr_net.dll</HintPath>
+    </Reference>
+    <Reference Include="quotesmgr2_net">
+      <HintPath>..\..\..\..\..\bin\net\dotnet45\quotesmgr2_net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="source\Config\ForexConnectConfig.cs" />
+    <Compile Include="source\Config\ForexConnectConfigFactory.cs" />
+    <Compile Include="source\Config\PriceHistoryConfig.cs" />
+    <Compile Include="source\Config\PriceHistoryConfigFactory.cs" />
+    <Compile Include="source\Controller\PriceAPIController.cs" />
+    <Compile Include="source\Controller\PriceData\IOffer.cs" />
+    <Compile Include="source\Controller\PriceData\IOfferCollection.cs" />
+    <Compile Include="source\Controller\PriceData\IPeriod.cs" />
+    <Compile Include="source\Controller\PriceData\IPeriodCollection.cs" />
+    <Compile Include="source\Controller\PriceData\Offer.cs" />
+    <Compile Include="source\Controller\PriceData\OfferCollection.cs" />
+    <Compile Include="source\Controller\PriceData\Period.cs" />
+    <Compile Include="source\Controller\PriceData\PeriodCollection.cs" />
+    <Compile Include="source\Controller\RemoveQuotesController.cs" />
+    <Compile Include="source\Controller\RemoveQuotesData\IQMData.cs" />
+    <Compile Include="source\Controller\RemoveQuotesData\IQMDataCollection.cs" />
+    <Compile Include="source\Controller\RemoveQuotesData\QMData.cs" />
+    <Compile Include="source\Controller\RemoveQuotesData\QMDataCollection.cs" />
+    <Compile Include="source\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="UI\ApplicationWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ApplicationWindow.Designer.cs">
+      <DependentUpon>ApplicationWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\RemoveQuotesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\RemoveQuotesForm.Designer.cs">
+      <DependentUpon>RemoveQuotesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Dialogs\RequestHistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Dialogs\RequestHistoryForm.Designer.cs">
+      <DependentUpon>RequestHistoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MDIChildren\OffersForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MDIChildren\OffersForm.Designer.cs">
+      <DependentUpon>OffersForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MDIChildren\PriceHistoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\MDIChildren\PriceHistoryForm.Designer.cs">
+      <DependentUpon>PriceHistoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="source\Util\EnumeratorHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="UI\ApplicationWindow.resx">
+      <DependentUpon>ApplicationWindow.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\RemoveQuotesForm.resx">
+      <DependentUpon>RemoveQuotesForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\Dialogs\RequestHistoryForm.resx">
+      <DependentUpon>RequestHistoryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MDIChildren\OffersForm.resx">
+      <DependentUpon>OffersForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\MDIChildren\PriceHistoryForm.resx">
+      <DependentUpon>PriceHistoryForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets. -->
+  <Target Name="BeforeBuild">
+    <Message Text="@@@ForexConnectDotNetPath = '$(ForexConnectDotNetPath)'" />
+    <Message Text="@@@HistoricalPriceDotNetPath = '$(HistoricalPriceDotNetPath)'" />
+  </Target>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>xcopy "$(ProjectDir)"..\..\..\..\..\bin\*.dll "$(ProjectDir)..\bin\dotnet45\$(Platform)\" /y
+ xcopy "$(ProjectDir)"..\..\..\..\..\bin\net\dotnet45\*.dll "$(ProjectDir)..\bin\dotnet45\$(Platform)\" /y
+</PostBuildEvent>
+    <ProjectGuid>{6D0E0391-2058-4AAB-924A-E58D4BC90D54}</ProjectGuid>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+</Project>

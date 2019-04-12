@@ -93,7 +93,7 @@ public class TableListener implements IO2GTableListener {
     public void onChanged(String sRowID, O2GRow rowData) {
         if (rowData.getTableType() == O2GTableType.ACCOUNTS) {
             O2GAccountTableRow account = (O2GAccountTableRow)rowData;
-            System.out.println(String.format("Balance: %.2f, Equity: %.2f", account.getBalance(), account.getEquity()));
+            System.out.format("The balance has been changed. AccountID=%s, Balance = %.2f, Equity: %.2f %n", account.getAccountID(), account.getBalance(), account.getEquity());
         } else if (rowData.getTableType() == O2GTableType.TRADES) {
             if (mOrderMonitor != null) {
                 mOrderMonitor.onTradeUpdated((O2GTradeRow)rowData);

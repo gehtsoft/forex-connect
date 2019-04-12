@@ -32,7 +32,7 @@ class ResponseListener : public IO2GResponseListener
     virtual void onTablesUpdates(IO2GResponse *data);
 
  private:
-    long mRefCount;
+    volatile unsigned int mRefCount;
     /** Request we are waiting for. */
     std::string mRequestID;
     /** Response Event handle. */

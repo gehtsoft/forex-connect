@@ -71,7 +71,7 @@ public class Main {
                 if (isReady) {
                     PrintRollover(rolloverProvider, account, offer);
                 } else {
-                    System.out.println("Waiting time expired: Rollover is not avaliavle");
+                    System.out.println("Waiting time expired: Rollover is not available");
                 }
 
                 rolloverProvider.unsubscribe(rolloverProviderListener);

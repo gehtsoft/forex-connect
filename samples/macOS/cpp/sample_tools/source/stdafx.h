@@ -30,6 +30,8 @@
 #   define PTHREADS_MUTEX
 #endif
 
+#include <atomic>
+
 #ifdef WIN32
 #   define GSTOOL3 __declspec(dllexport)
 #else

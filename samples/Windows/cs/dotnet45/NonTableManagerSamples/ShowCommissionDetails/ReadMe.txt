@@ -2,16 +2,16 @@ ShowCommissionDetails application
 
 Brief
 ==================================================================================
+This sample shows information about the commissions.
 The sample performs the following actions:
-1. Login.
-2. If there are several trading sessions available, ask user to choose Session ID and Pin.
-3. Print the accounts table.
-4. Logout.
+1. Login. 
+2. Print information about the commissions.
+3. Logout.
 
 Building the application
 ==================================================================================
-In order to build this application you will need MS Visual Studio 2005 or later and
-.NET framework 2.0 or 4.0.
+In order to build this application you will need MS Visual Studio 2015 and
+.NET framework 4.5 or later.
 You can download .NET framework from http://msdn.microsoft.com/en-us/netframework/
 To build the application run fxbuild.bat.
 To compile the application into a debug build set argument "debug" via command line.
@@ -34,3 +34,9 @@ Arguments
         For example, http://www.fxcorporate.com/Hosts.jsp. 
 {CONNECTION} - The connection name. Mandatory argument.
         For example, "Demo" or "Real".
+{INSTRUMENT} - An instrument, for which you want to create an order.
+For example, EUR/USD. Mandatory argument.
+{BUYSELL} - The order direction. Possible values are: B - buy, S - sell. Mandatory argument.
+{LOTS} - Trade amount in lots. Optional argument.
+For example, 2.
+{ACCOUNT} - Your Account ID. Optional argument.

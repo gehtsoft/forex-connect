@@ -21,7 +21,7 @@ namespace ShowCommissionDetails
                 PrintSampleParams("ShowCommissionDetails", loginParams);
 
                 session = O2GTransport.createSession();
-                SessionStatusListener statusListener = new SessionStatusListener(session);
+                SessionStatusListener statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
                 session.subscribeSessionStatus(statusListener);
                 statusListener.Reset();
                 session.login(loginParams.Login, loginParams.Password, loginParams.URL, loginParams.Connection);
@@ -209,6 +209,25 @@ namespace ShowCommissionDetails
             }
             private string mConnection;
 
+            public string SessionID
+            {
+                get
+                {
+                    return mSessionID;
+                }
+            }
+            private string mSessionID;
+
+            public string Pin
+            {
+                get
+                {
+                    return mPin;
+                }
+            }
+            private string mPin;
+
+
             /// <summary>
             /// ctor
             /// </summary>
@@ -226,6 +245,8 @@ namespace ShowCommissionDetails
                     }
                 }
                 mConnection = GetRequiredArgument(args, "Connection");
+                mSessionID = args["SessionID"];
+                mPin = args["Pin"];
             }
 
             /// <summary>

@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!--
+
+    HistoricalPriceAPI sample ant build script
+    Required variables via command line
+
+    FC_PATH=<forex_connect_path>
+
+    To build run the command
+    ant <target> -DFC_PATH=<forex_connect_path>
+
+    Targets:
+    * build         - build only java-code (default target)
+    * rebuild       = clean, build_all
+    * clean
+
+-->
+
+<project default="build" basedir=".">
+    <property file="build.properties" />
+    <property name="name" value="gethistprices" />
+    <property name="src.dir" location="${basedir}/src" />
+    <property name="build" location="${basedir}/../build" />
+    <property name="build.classes" location="${basedir}/classes" />
+
+    <target name="checkos">
+        <condition property="isWindows" value="true" >
+          <os family="windows" />
+        </condition>                         
+        <condition property="isUnixButNotMacOSX" value="true" >
+            <and>
+              <os family="unix" />
+              <not>
+                <os family="mac"/>
+              </not>
+            </and>
+        </condition>
+        <condition property="isMac" value="true" >
+          <os family="mac" />
+        </condition>
+    </target>
+
+    <target name="setWindowsProperties" depends="checkos" if="isWindows">
+        <property name="fc.bin.dir" value="${FC_PATH}/bin"/>
+        <property name="shared.suffix" value="dll" />
+        <property name="shared.preffix" value="" />
+    </target>
+
+    <target name="setUnixProperties" depends="checkos" if="isUnixButNotMacOSX">
+        <property name="fc.bin.dir" value="${FC_PATH}/lib"/>
+        <property name="shared.suffix" value="so" />
+        <property name="shared.preffix" value="lib" />
+    </target>
+
+    <target name="setMacProperties" depends="checkos" if="isMac">
+        <property name="fc.bin.dir" value="${FC_PATH}/lib"/>
+        <property name="shared.suffix" value="dylib" />
+        <property name="shared.preffix" value="lib" />
+    </target>
+    
+    <target name="setOSDependentProps" depends="checkos, setWindowsProperties, setUnixProperties, setMacProperties" />
+    
+    <!-- App build -->
+    <target name="build" depends="setOSDependentProps" description="Builds the ${name} application">
+        <!-- Creating directory -->
+        <mkdir dir="${build.classes}" />
+
+        <!-- Compiling sources -->
+        <javac srcdir="${src.dir}"
+               destdir="${build.classes}"
+               includeAntRuntime="false"
+               debug="${build.debug}"
+               deprecation="true"
+               verbose="false"
+               optimize="true"
+               classpath="${fc.bin.dir}/java/pricehistorymgr.jar;${fc.bin.dir}/java/fxcore2.jar;${fc.bin.dir}/java/quotesmgr2.jar;" >
+        </javac>
+
+        <!-- Creating JAR-file -->
+        <jar jarfile="${build}/${name}.jar">
+            <fileset dir="${build.classes}" />
+            <manifest>
+                <attribute name="Main-Class" value="gethistprices.Main" />
+                <attribute name="Class-Path" value="gethistprices.jar pricehistorymgr.jar quotesmgr2.jar fxcore2.jar" />
+            </manifest>
+        </jar>
+        
+        <copy tofile="${build}/pricehistorymgr.jar" file="${fc.bin.dir}/java/pricehistorymgr.jar" overwrite="true" />
+        <copy tofile="${build}/fxcore2.jar" file="${fc.bin.dir}/java/fxcore2.jar"  overwrite="true" />
+        <copy tofile="${build}/quotesmgr2.jar" file="${fc.bin.dir}/java/quotesmgr2.jar" overwrite="true" />
+        
+        <copy todir="${build}" overwrite="true">
+            <fileset dir="${fc.bin.dir}/java/" includes="*.${shared.suffix}" />
+            <fileset dir="${fc.bin.dir}" includes="*.${shared.suffix}*" />
+            <fileset dir="${fc.bin.dir}" includes="*.${shared.suffix}*" />
+            <fileset dir="${fc.bin.dir}/java/" includes="*.${shared.suffix}" />
+        </copy>
+
+    </target>
+
+    <target name="rebuild" depends="clean, build" description="Rebuilds project" />
+
+    <!-- Clean -->
+    <target name="clean" description="Removes all temporary files">
+        <!-- Deleting files -->
+        <delete dir="${build.classes}" />
+    </target>
+</project>

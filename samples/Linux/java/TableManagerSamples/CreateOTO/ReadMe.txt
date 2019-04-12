@@ -10,7 +10,7 @@ The sample performs the following actions:
 
 Building the application
 ==================================================================================
-In order to build this application you will need Java SDK 1.6 and Apache Ant.
+In order to build this application you will need Java SDK 1.7 and Apache Ant.
 You can download Java SDK from http://www.oracle.com/technetwork/java/javase/downloads
 You can download Apache Ant from http://ant.apache.org/bindownload.cgi
 

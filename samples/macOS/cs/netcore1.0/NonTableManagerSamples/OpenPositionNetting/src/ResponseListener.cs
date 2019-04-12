@@ -59,10 +59,7 @@ namespace OpenPositionNetting
             if (mRequestID.Equals(response.RequestID))
             {
                 mResponse = response;
-                if (response.Type != O2GResponseType.CreateOrderResponse)
-                {
-                    mSyncResponseEvent.Set();
-                }
+                mSyncResponseEvent.Set();
             }
             //real order execution is processed by Order monitor
         }
@@ -89,7 +86,7 @@ namespace OpenPositionNetting
                         case O2GTableType.Accounts:
                             O2GAccountRow account = reader.getAccountRow(ii);
                             //Show balance updates
-                            Console.WriteLine("Balance: {0}", account.Balance);
+                            Console.WriteLine("The balance has been changed. AccountID={0}, Balance = {1}", account.AccountID, account.Balance);
                             break;
                         case O2GTableType.Orders:
                             O2GOrderRow order = reader.getOrderRow(ii);

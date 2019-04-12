@@ -2,12 +2,11 @@ PrintRollover application
 
 Brief
 ==================================================================================
-This sample shows how to process information when an order is executed partially
-due to the insufficient market liquidity.
+This sample shows how to get Rollover values for specified instrument.
 The sample performs the following actions:
 1. Login.
 2. Print rollover for specific instrument
-4. Logout.
+3. Logout.
 
 Building the application
 ==================================================================================

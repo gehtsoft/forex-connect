@@ -8,6 +8,8 @@ namespace ShowCommissionDetails
 {
     class SessionStatusListener : IO2GSessionStatus
     {
+        private string mSessionID;
+        private string mPin;
         private bool mConnected;
         private bool mDisconnected;
         private bool mError;
@@ -18,9 +20,11 @@ namespace ShowCommissionDetails
         /// ctor
         /// </summary>
         /// <param name="session"></param>
-        public SessionStatusListener(O2GSession session)
+        public SessionStatusListener(O2GSession session, string sSessionID, string sPin)
         {
             mSession = session;
+            mSessionID = sSessionID;
+            mPin = sPin;
             Reset();
             mSyncSessionEvent = new EventWaitHandle(false, EventResetMode.AutoReset);
         }
@@ -67,21 +71,14 @@ namespace ShowCommissionDetails
             switch (status)
             {
                 case O2GSessionStatusCode.TradingSessionRequested:
-                    O2GSessionDescriptorCollection descs = mSession.getTradingSessionDescriptors();
-                    Console.WriteLine("Session descriptors:");
-                    Console.WriteLine("id, name, description, requires pin");
-                    foreach (O2GSessionDescriptor desc in descs)
+                    if (string.IsNullOrEmpty(mSessionID))
                     {
-                        Console.WriteLine("'{0}' '{1}' '{2}' {3}", desc.Id, desc.Name, desc.Description, desc.RequiresPin);
+                        Console.WriteLine("Argument for trading session ID is missing");
                     }
-                    Console.WriteLine();
-
-                    Console.WriteLine("Please enter trading session ID and press \'Enter\'");
-                    string sSessionID = Console.ReadLine();
-                    Console.WriteLine("Please enter pin (if required). Then press \'Enter\'");
-                    string sPin = Console.ReadLine();
-
-                    mSession.setTradingSession(sSessionID.Trim(), sPin.Trim());
+                    else
+                    {
+                        mSession.setTradingSession(mSessionID, mPin);
+                    }
                     break;
                 case O2GSessionStatusCode.Connected:
                     mConnected = true;

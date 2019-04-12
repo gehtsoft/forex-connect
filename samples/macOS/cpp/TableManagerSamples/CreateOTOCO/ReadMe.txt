@@ -5,22 +5,22 @@ Brief
 This sample shows how to work with OTOCO (\"One-Triggers-One-Cancels-Other\") orders.
 The sample performs the following actions:
 1. Login.
-2. Create a primary and a secondary OTOCO orders.
+2. Create an OTOCO order with two secondary orders.
 3. Logout.
 
 Building the application
 ===============================================================================
 Windows:
-    To build this application, you will need MS Visual Studio 2005 or later.
+    To build this application, you will need MS Visual Studio 2015.
 
     You can run fxbuild.bat (fxbuild64.bat for 64-bit version) or select
     "build" in MS Visual Studio.
 
 Linux/MacOS:
     To build this application, you will need:
-        gcc-4.1 or later
-        g++-4.1 or later
-        CMake 2.6 or later (use 2.6 for MacOS)
+        gcc-4.3 or later
+        g++-4.3 or later
+        CMake 2.6 or later
         
 Run fxbuild.sh to build application.
 

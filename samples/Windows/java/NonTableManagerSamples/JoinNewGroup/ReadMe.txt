@@ -2,7 +2,7 @@ JoinNewGroup application
 
 Brief
 ==================================================================================
-This sample shows how to add orders to a new contigency group.
+This sample shows how to add orders to a new OCO group.
 The sample performs the following actions:
 1. Login.
 2. Add two entry orders to a new OCO group.
@@ -11,7 +11,7 @@ The sample performs the following actions:
 
 Building the application
 ==================================================================================
-In order to build this application you will need Java SDK 1.6 and Apache Ant.
+In order to build this application you will need Java SDK 1.7 and Apache Ant.
 You can download Java SDK from http://www.oracle.com/technetwork/java/javase/downloads
 You can download Apache Ant from http://ant.apache.org/bindownload.cgi
 
@@ -46,8 +46,8 @@ Arguments
         If you do not have one, leave this argument as it is.
 {PIN} - Your pin code. Optional argument. Required only for users who have a pin.
         If a pin is not required, leave this argument as it is.
-{PRIMARYID} - first order, which you want to add to a new contingency group.
+{PRIMARYID} - first order, which you want to add to a new OCO group.
         Mandatory argument.
-{SECONDARYID} - second order, which you want to add to a new contingency group.
+{SECONDARYID} - second order, which you want to add to a new OCO group.
         Mandatory argument.
 {ACCOUNT} - Your Account ID. Optional argument.

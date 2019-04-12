@@ -58,8 +58,8 @@ private:
   pthread_cond_t m_Cond;
   volatile bool m_ManualReset;
   volatile bool m_Signaled;
-  volatile long m_Count;
-  volatile long m_RefCount;
+  volatile std::atomic_long m_Count{ 0 };
+  volatile std::atomic_long m_RefCount{ 0 };
   std::wstring m_Name;
   std::set<CWinEventHandle*> m_Subscriber; // Used in WaitForMultipleObjects()
 };

@@ -1,3 +1,6 @@
 #!/bin/bash
 
-./bin/CreateEntryWithPeggedStop "$@"
+cd ./bin/
+./CreateEntryWithPeggedStop $*
+cd ..
+

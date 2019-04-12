@@ -5,7 +5,7 @@
 class SessionStatusListener : public IO2GSessionStatus
 {
 private:
-    long mRefCount;
+    volatile unsigned int mRefCount;
     /** Subsession identifier. */
     std::string mSessionID;
     /** Pin code. */

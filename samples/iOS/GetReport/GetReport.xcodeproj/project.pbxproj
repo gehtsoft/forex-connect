@@ -1,0 +1,428 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6327961420CBDAA6004BF8A7 /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6327961320CBDAA6004BF8A7 /* libz.1.1.3.tbd */; };
+		63525C642016543B009CC6C3 /* LoginData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63525C632016543B009CC6C3 /* LoginData.swift */; };
+		637C82B51F8D1D6200623C48 /* ForexConnect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637C82B41F8D1D6200623C48 /* ForexConnect.swift */; };
+		63A0253320CBDA0100B97229 /* ForexConnect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63A0253220CBDA0100B97229 /* ForexConnect.framework */; };
+		A6C931601C719F640046C3DD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C931521C719F640046C3DD /* AppDelegate.swift */; };
+		A6C931611C719F640046C3DD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A6C931531C719F640046C3DD /* LaunchScreen.xib */; };
+		A6C931621C719F640046C3DD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A6C931551C719F640046C3DD /* Main.storyboard */; };
+		A6C931641C719F640046C3DD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A6C931581C719F640046C3DD /* Images.xcassets */; };
+		A6C931651C719F640046C3DD /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A6C931591C719F640046C3DD /* Info.plist */; };
+		A6C931661C719F640046C3DD /* GetReport-Bridging-Header.mm in Sources */ = {isa = PBXBuildFile; fileRef = A6C9315B1C719F640046C3DD /* GetReport-Bridging-Header.mm */; };
+		A6C931671C719F640046C3DD /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C9315C1C719F640046C3DD /* LoginViewController.swift */; };
+		A6C931691C719F640046C3DD /* Utility.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C9315E1C719F640046C3DD /* Utility.swift */; };
+		D93010EF226055E600363667 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D93010EE226055E600363667 /* libstdc++.tbd */; };
+		D94D71362015CB07004A2C69 /* ReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94D71352015CB07004A2C69 /* ReportViewController.swift */; };
+		D94D71392015D330004A2C69 /* ReportFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94D71382015D330004A2C69 /* ReportFormat.swift */; };
+		D94D713B2015D358004A2C69 /* Language.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94D713A2015D358004A2C69 /* Language.swift */; };
+		D94D713D2015DE5F004A2C69 /* EditAlternativesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94D713C2015DE5F004A2C69 /* EditAlternativesViewController.swift */; };
+		D94D713F2015DEBC004A2C69 /* EditDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94D713E2015DEBC004A2C69 /* EditDateViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		6327961320CBDAA6004BF8A7 /* libz.1.1.3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.1.3.tbd; path = usr/lib/libz.1.1.3.tbd; sourceTree = SDKROOT; };
+		63525C632016543B009CC6C3 /* LoginData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginData.swift; sourceTree = "<group>"; };
+		637C82B41F8D1D6200623C48 /* ForexConnect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForexConnect.swift; sourceTree = "<group>"; };
+		63A0253220CBDA0100B97229 /* ForexConnect.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ForexConnect.framework; path = ../ForexConnect.framework; sourceTree = "<group>"; };
+		63A0253420CBDA1200B97229 /* libc++.1.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.1.tbd"; path = "usr/lib/libc++.1.tbd"; sourceTree = SDKROOT; };
+		7880275E1B4D7149001162DD /* GetReport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GetReport.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A6C931521C719F640046C3DD /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A6C931541C719F640046C3DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
+		A6C931561C719F640046C3DD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A6C931581C719F640046C3DD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A6C931591C719F640046C3DD /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A6C9315A1C719F640046C3DD /* GetReport-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GetReport-Bridging-Header.h"; sourceTree = "<group>"; };
+		A6C9315B1C719F640046C3DD /* GetReport-Bridging-Header.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = "GetReport-Bridging-Header.mm"; sourceTree = "<group>"; };
+		A6C9315C1C719F640046C3DD /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A6C9315E1C719F640046C3DD /* Utility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utility.swift; sourceTree = "<group>"; };
+		D93010EE226055E600363667 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		D94D71352015CB07004A2C69 /* ReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewController.swift; sourceTree = "<group>"; };
+		D94D71382015D330004A2C69 /* ReportFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportFormat.swift; sourceTree = "<group>"; };
+		D94D713A2015D358004A2C69 /* Language.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Language.swift; sourceTree = "<group>"; };
+		D94D713C2015DE5F004A2C69 /* EditAlternativesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAlternativesViewController.swift; sourceTree = "<group>"; };
+		D94D713E2015DEBC004A2C69 /* EditDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDateViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7880275B1B4D7149001162DD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D93010EF226055E600363667 /* libstdc++.tbd in Frameworks */,
+				6327961420CBDAA6004BF8A7 /* libz.1.1.3.tbd in Frameworks */,
+				63A0253320CBDA0100B97229 /* ForexConnect.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		63525C652016567F009CC6C3 /* LoginViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A6C9315C1C719F640046C3DD /* LoginViewController.swift */,
+				63525C632016543B009CC6C3 /* LoginData.swift */,
+			);
+			name = LoginViewController;
+			sourceTree = "<group>";
+		};
+		63525C66201656B1009CC6C3 /* ForexConnect */ = {
+			isa = PBXGroup;
+			children = (
+				637C82B41F8D1D6200623C48 /* ForexConnect.swift */,
+			);
+			name = ForexConnect;
+			sourceTree = "<group>";
+		};
+		63A0253120CBDA0100B97229 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D93010EE226055E600363667 /* libstdc++.tbd */,
+				6327961320CBDAA6004BF8A7 /* libz.1.1.3.tbd */,
+				63A0253420CBDA1200B97229 /* libc++.1.tbd */,
+				63A0253220CBDA0100B97229 /* ForexConnect.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		788027551B4D7149001162DD = {
+			isa = PBXGroup;
+			children = (
+				A6C931511C719F640046C3DD /* GetReport */,
+				7880275F1B4D7149001162DD /* Products */,
+				63A0253120CBDA0100B97229 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		7880275F1B4D7149001162DD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7880275E1B4D7149001162DD /* GetReport.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A6C931511C719F640046C3DD /* GetReport */ = {
+			isa = PBXGroup;
+			children = (
+				63525C66201656B1009CC6C3 /* ForexConnect */,
+				63525C652016567F009CC6C3 /* LoginViewController */,
+				D94D71372015D319004A2C69 /* ReportViewController */,
+				A6C931521C719F640046C3DD /* AppDelegate.swift */,
+				A6C9315E1C719F640046C3DD /* Utility.swift */,
+				A6C931531C719F640046C3DD /* LaunchScreen.xib */,
+				A6C931551C719F640046C3DD /* Main.storyboard */,
+				A6C931581C719F640046C3DD /* Images.xcassets */,
+				A6C931591C719F640046C3DD /* Info.plist */,
+				A6C9315A1C719F640046C3DD /* GetReport-Bridging-Header.h */,
+				A6C9315B1C719F640046C3DD /* GetReport-Bridging-Header.mm */,
+			);
+			path = GetReport;
+			sourceTree = "<group>";
+		};
+		D94D71372015D319004A2C69 /* ReportViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D94D71352015CB07004A2C69 /* ReportViewController.swift */,
+				D94D71382015D330004A2C69 /* ReportFormat.swift */,
+				D94D713A2015D358004A2C69 /* Language.swift */,
+				D94D713C2015DE5F004A2C69 /* EditAlternativesViewController.swift */,
+				D94D713E2015DEBC004A2C69 /* EditDateViewController.swift */,
+			);
+			name = ReportViewController;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7880275D1B4D7149001162DD /* GetReport */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7880277D1B4D7149001162DD /* Build configuration list for PBXNativeTarget "GetReport" */;
+			buildPhases = (
+				7880275A1B4D7149001162DD /* Sources */,
+				7880275B1B4D7149001162DD /* Frameworks */,
+				7880275C1B4D7149001162DD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GetReport;
+			productName = SwiftForexConnect;
+			productReference = 7880275E1B4D7149001162DD /* GetReport.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		788027561B4D7149001162DD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0640;
+				ORGANIZATIONNAME = igor;
+				TargetAttributes = {
+					7880275D1B4D7149001162DD = {
+						CreatedOnToolsVersion = 6.4;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 788027591B4D7149001162DD /* Build configuration list for PBXProject "GetReport" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 788027551B4D7149001162DD;
+			productRefGroup = 7880275F1B4D7149001162DD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7880275D1B4D7149001162DD /* GetReport */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7880275C1B4D7149001162DD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6C931651C719F640046C3DD /* Info.plist in Resources */,
+				A6C931641C719F640046C3DD /* Images.xcassets in Resources */,
+				A6C931611C719F640046C3DD /* LaunchScreen.xib in Resources */,
+				A6C931621C719F640046C3DD /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7880275A1B4D7149001162DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94D71392015D330004A2C69 /* ReportFormat.swift in Sources */,
+				D94D713B2015D358004A2C69 /* Language.swift in Sources */,
+				A6C931671C719F640046C3DD /* LoginViewController.swift in Sources */,
+				D94D713F2015DEBC004A2C69 /* EditDateViewController.swift in Sources */,
+				A6C931691C719F640046C3DD /* Utility.swift in Sources */,
+				D94D713D2015DE5F004A2C69 /* EditAlternativesViewController.swift in Sources */,
+				D94D71362015CB07004A2C69 /* ReportViewController.swift in Sources */,
+				A6C931661C719F640046C3DD /* GetReport-Bridging-Header.mm in Sources */,
+				A6C931601C719F640046C3DD /* AppDelegate.swift in Sources */,
+				637C82B51F8D1D6200623C48 /* ForexConnect.swift in Sources */,
+				63525C642016543B009CC6C3 /* LoginData.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A6C931531C719F640046C3DD /* LaunchScreen.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A6C931541C719F640046C3DD /* Base */,
+			);
+			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		A6C931551C719F640046C3DD /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A6C931561C719F640046C3DD /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		7880277B1B4D7149001162DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7880277C1B4D7149001162DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7880277E1B4D7149001162DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/..",
+					"$(PROJECT_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = c11;
+				INFOPLIST_FILE = "$(SRCROOT)/GetReport/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gehtsoft.GetReport;
+				PRODUCT_NAME = GetReport;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "GetReport/GetReport-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7";
+			};
+			name = Debug;
+		};
+		7880277F1B4D7149001162DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/..",
+					"$(PROJECT_DIR)",
+				);
+				GCC_C_LANGUAGE_STANDARD = c11;
+				INFOPLIST_FILE = "$(SRCROOT)/GetReport/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gehtsoft.GetReport;
+				PRODUCT_NAME = GetReport;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "GetReport/GetReport-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		788027591B4D7149001162DD /* Build configuration list for PBXProject "GetReport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7880277B1B4D7149001162DD /* Debug */,
+				7880277C1B4D7149001162DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7880277D1B4D7149001162DD /* Build configuration list for PBXNativeTarget "GetReport" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7880277E1B4D7149001162DD /* Debug */,
+				7880277F1B4D7149001162DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 788027561B4D7149001162DD /* Project object */;
+}

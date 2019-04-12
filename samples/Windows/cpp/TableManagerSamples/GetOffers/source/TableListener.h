@@ -29,7 +29,7 @@ public:
     void printOffer(IO2GOfferTableRow *offerRow, const char *sInstrument);
 
 private:
-    long mRefCount;
+    volatile unsigned int mRefCount;
     std::string mInstrument;
     OfferCollection *mOffers;
 

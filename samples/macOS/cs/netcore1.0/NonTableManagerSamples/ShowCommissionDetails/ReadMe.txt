@@ -2,11 +2,11 @@ ShowCommissionDetails application
 
 Brief
 ==================================================================================
+This sample shows information about the commissions.
 The sample performs the following actions:
-1. Login.
-2. If there are several trading sessions available, ask user to choose Session ID and Pin.
-3. Print the accounts table.
-4. Logout.
+1. Login. 
+2. Print information about the commissions.
+3. Logout.
 
 Building the application
 ==================================================================================

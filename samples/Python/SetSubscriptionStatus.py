@@ -20,6 +20,7 @@ from forexconnect import ForexConnect, EachRowListener, ResponseListener
 from forexconnect import fxcorepy
 from forexconnect import SessionStatusListener
 from forexconnect.common import Common
+from time import sleep
 
 import common_samples
 
@@ -108,6 +109,7 @@ def main():
                 common_samples.print_exception(e)
                 offers_listener.unsubscribe()
             else:
+                sleep(1)
                 offers_listener.unsubscribe()
 
         except Exception as e:

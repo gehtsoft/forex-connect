@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/dateTextView"
+            style="@style/AppTheme.VolumeTextView"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/volumeTextView"
+            style="@style/AppTheme.VolumeTextView" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/viewSeparator"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@android:color/darker_gray"/>
+
+</LinearLayout>

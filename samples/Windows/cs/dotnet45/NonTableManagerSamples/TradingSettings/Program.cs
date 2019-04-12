@@ -9,6 +9,8 @@ namespace TradingSettings
 {
     class Program
     {
+        static SessionStatusListener statusListener = null;
+
         static void Main(string[] args)
         {
             O2GSession session = null;
@@ -20,19 +22,10 @@ namespace TradingSettings
                 PrintSampleParams("TradingSettings", loginParams);
 
                 session = O2GTransport.createSession();
-                SessionStatusListener statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
+                statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
                 session.subscribeSessionStatus(statusListener);
                 statusListener.Reset();
                 session.login(loginParams.Login, loginParams.Password, loginParams.URL, loginParams.Connection);
-                if (statusListener.WaitEvents() && statusListener.Connected)
-                {
-                    PrintTradingSettings(session);
-                    Console.WriteLine("Done!");
-                    statusListener.Reset();
-                    session.logout();
-                    statusListener.WaitEvents();
-                }
-                session.unsubscribeSessionStatus(statusListener);
             }
             catch (Exception e)
             {
@@ -42,6 +35,13 @@ namespace TradingSettings
             {
                 if (session != null)
                 {
+                    if (statusListener.Connected)
+                    {
+                        statusListener.Reset();
+                        session.logout();
+                        statusListener.WaitEvents();
+                    }
+                    session.unsubscribeSessionStatus(statusListener);
                     session.Dispose();
                 }
             }

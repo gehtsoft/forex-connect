@@ -40,7 +40,7 @@ class ResponseListener : public IO2GResponseListener
     void printLevel2MarketData(IO2GSession *session, IO2GResponse *response, const char *sInstrument);
 
  private:
-    long mRefCount;
+    volatile unsigned int mRefCount;
     /** Session object. */
     IO2GSession *mSession;
     /** Request we are waiting for. */
