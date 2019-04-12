@@ -61,11 +61,11 @@
   </PropertyGroup>
   
    <ItemGroup>
-    <None Include="./../../../../../lib/net/netcore1.0/*" CopyToOutputDirectory="Always" />
+    <None Include="./../../../../../lib/net/netcore/*" CopyToOutputDirectory="Always" />
     <None Include="./../../../../../lib/*.so*" CopyToOutputDirectory="Always" />
     <None Include="./../../../../../lib/*.dylib*" CopyToOutputDirectory="Always" />
 
-    <None Include=".\..\..\..\..\..\bin\net\netcore1.0\*.dll" CopyToOutputDirectory="Always" />
+    <None Include=".\..\..\..\..\..\bin\net\netcore\*.dll" CopyToOutputDirectory="Always" />
     <None Include=".\..\..\..\..\..\bin\*.dll" CopyToOutputDirectory="Always" />     
   </ItemGroup>
   
@@ -84,7 +84,7 @@
   
   <ItemGroup>
     <Reference Include="fxcore2">
-      <HintPath>.\..\..\..\..\..\bin\net\netcore1.0\fxcore2.dll</HintPath>
+      <HintPath>.\..\..\..\..\..\bin\net\netcore\fxcore2.dll</HintPath>
     </Reference>
   </ItemGroup>
 

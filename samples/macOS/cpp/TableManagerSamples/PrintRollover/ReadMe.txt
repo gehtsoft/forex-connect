@@ -2,8 +2,7 @@ PrintRollover application
 
 Brief
 ===============================================================================
-The sample shows how to open position on hedging and non-hedging accounts. 
-The sample does not work on netting accounts.
+This sample shows how to get Rollover values for specified instrument.
 The sample performs the following actions:
 1. Login.
 2. Print rollover for specific instrument.

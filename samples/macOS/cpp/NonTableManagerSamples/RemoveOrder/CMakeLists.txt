@@ -2,7 +2,13 @@ cmake_minimum_required (VERSION 2.6)
  
 set (PROJECT RemoveOrder) 
   
-project (${PROJECT}) 
+project (${PROJECT})
+
+if (${CMAKE_SYSTEM} MATCHES "Darwin")
+  SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++11")
+else()
+  SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread -std=c++11")
+endif() 
 
 if (DEFINED Mac32)
     set (ARCHFLAGS "-arch i386 -DMac32")

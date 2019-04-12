@@ -20,7 +20,6 @@
 #   include <string>
 #   include <set>
 #   include <sys/time.h>
-#   include "threading/Interlocked.h"
 #   include "CWinEventHandle.h"
 
 namespace
@@ -49,10 +48,10 @@ CWinEventHandle::CWinEventHandle(bool manualReset, bool signaled, const wchar_t*
   : CBaseHandle()
   , m_ManualReset(manualReset)
   , m_Signaled(signaled)
-  , m_Count(0)
-  , m_RefCount(1)
   , m_Name(name == NULL ? L"" : name)
 {
+    m_RefCount = 1;
+    m_Count = 0;
   pthread_mutexattr_t attr;
   pthread_mutexattr_init(&attr);
   pthread_mutex_init(&m_Mutex, &attr);
@@ -70,20 +69,19 @@ CWinEventHandle::~CWinEventHandle()
 
 void CWinEventHandle::incRefCount()
 {
-    InterlockedIncrement(&m_RefCount);
+    ++m_RefCount;
 }
 
 int CWinEventHandle::decRefCount()
 {
-    InterlockedDecrement(&m_RefCount);
-    return m_RefCount;
+    return --m_RefCount;
 } 
 
 void CWinEventHandle::signal()
 {
   pthread_mutex_lock(&m_Mutex);
   m_Signaled = true;
-  InterlockedIncrement(&m_Count);
+  ++m_Count;
   pthread_cond_broadcast(&m_Cond);
   pthread_mutex_unlock(&m_Mutex);//
   // signal all subscribers (used in WaitForMultipleObjects())

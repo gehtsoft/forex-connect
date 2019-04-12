@@ -120,7 +120,7 @@ namespace OpenPositionNetting
             if (rowData.TableType == O2GTableType.Accounts)
             {
                 O2GAccountTableRow account = (O2GAccountTableRow)rowData;
-                Console.WriteLine("Balance: {0}, Equity: {1}", account.Balance, account.Equity);
+                Console.WriteLine("The balance has been changed. AccountID={0}, Balance = {1}, Equity: {2}", account.AccountID, account.Balance, account.Equity);
             }
             else if (rowData.TableType == O2GTableType.Trades)
             {

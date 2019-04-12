@@ -2,10 +2,7 @@ CloseAllPositionsByInstrument application
 
 Brief
 ===============================================================================
-This sample shows how to close all positions for the specified instrument.
-After the successful order execution it will print the balance 
-and the closed trades table.
-Otherwise, it will print information about an error.
+This sample shows how to close all opened positions.
 The sample performs the following actions:
 1. Login. 
 2. Close all positions for the specified instrument by using a netting close order.
@@ -18,16 +15,16 @@ The sample performs the following actions:
 Building the application
 ===============================================================================
 Windows:
-    To build this application, you will need MS Visual Studio 2005 or later.
+    To build this application, you will need MS Visual Studio 2015.
 
     You can run fxbuild.bat (fxbuild64.bat for 64-bit version) or select
     "build" in MS Visual Studio.
 
 Linux/MacOS:
     To build this application, you will need:
-        gcc-4.1 or later
-        g++-4.1 or later
-        CMake 2.6 or later (use 2.6 for MacOS)
+        gcc-4.3 or later
+        g++-4.3 or later
+        CMake 2.6 or later
         
 Run fxbuild.sh to build application.
 

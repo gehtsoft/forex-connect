@@ -32,7 +32,7 @@ class ResponseListener : public IO2GResponseListener
     virtual void onTablesUpdates(IO2GResponse *data);
 
  private:
-    long mRefCount;
+    volatile unsigned int mRefCount;
     /** Session object. */
     IO2GSession *mSession;
     /** Request we are waiting for. */

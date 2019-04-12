@@ -84,6 +84,7 @@ public class Main {
                 tableListener.setRequestID(request.getRequestId());
                 session.sendRequest(request);
                 if (responseListener.waitEvents()) {
+                    Thread.sleep(1000);
                     System.out.println("Done!");
                 } else {
                     throw new Exception("Response waiting timeout expired");

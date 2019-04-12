@@ -9,6 +9,9 @@ namespace JoinExistingGroup
 {
     class Program
     {
+        static SessionStatusListener statusListener = null;
+        static ResponseListener responseListener = null;
+
         static void Main(string[] args)
         {
             O2GSession session = null;
@@ -22,12 +25,12 @@ namespace JoinExistingGroup
                 PrintSampleParams("JoinExistingGroup", loginParams, sampleParams);
 
                 session = O2GTransport.createSession();
-                SessionStatusListener statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
+                statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
                 session.subscribeSessionStatus(statusListener);
                 session.login(loginParams.Login, loginParams.Password, loginParams.URL, loginParams.Connection);
                 if (statusListener.WaitEvents() && statusListener.Connected)
                 {
-                    ResponseListener responseListener = new ResponseListener(session);
+                    responseListener = new ResponseListener(session);
                     session.subscribeResponse(responseListener);
 
                     O2GAccountRow account = GetAccount(session, sampleParams.AccountID);
@@ -73,13 +76,7 @@ namespace JoinExistingGroup
                     {
                         throw new Exception("Response waiting timeout expired");
                     }
-
-                    statusListener.Reset();
-                    session.logout();
-                    statusListener.WaitEvents();
-                    session.unsubscribeResponse(responseListener);
                 }
-                session.unsubscribeSessionStatus(statusListener);
             }
             catch (Exception e)
             {
@@ -87,9 +84,17 @@ namespace JoinExistingGroup
             }
             finally
             {
-                Console.ReadLine();
                 if (session != null)
                 {
+                    if (statusListener.Connected)
+                    {
+                        if (responseListener != null)
+                            session.unsubscribeResponse(responseListener);
+                        statusListener.Reset();
+                        session.logout();
+                        statusListener.WaitEvents();
+                    }
+                    session.unsubscribeSessionStatus(statusListener);
                     session.Dispose();
                 }
             }

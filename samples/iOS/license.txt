@@ -1,8 +1,91 @@
-copyright � 2004-2017 GehtsoftUSA
-http://www.gehtsoft.com, http://www.gehtsoftusa.com
+﻿GEHTSOFT USA, LLC SOFTWARE END USER LICENSE AGREEMENT
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: 
+Copyright 2019 Gehtsoft USA, LLC Version 1.0, August 2018
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+http://www.fxcodebase.com/licenses
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+GEHTSOFT USA, LLC IS WILLING TO LICENSE THE SOFTWARE (DEFINED BELOW) TO YOU ONLY UPON THE CONDITION THAT YOU ACCEPT ALL OF THE TERMS CONTAINED IN THIS END USER LICENSE AGREEMENT ("EULA"). THIS EULA IS A LEGAL AGREEMENT BETWEEN YOU AND GEHTSOFT USA, LLC. READ IT CAREFULLY BEFORE COMPLETING THE INSTALLATION PROCESS AND/OR USING THE SOFTWARE. BY USING THE SOFTWARE YOU ACKNOWLEDGE THAT YOU HAVE READ THE TERMS OF THE EULA AND AGREE TO THEM. IF YOU ARE AGREEING TO THESE TERMS ON BEHALF OF A COMPANY OR OTHER LEGAL ENTITY, YOU REPRESENT THAT YOU HAVE THE LEGAL AUTHORITY TO BIND THE LEGAL ENTITY TO THESE TERMS. IF YOU DO NOT HAVE SUCH AUTHORITY, OR IF YOU DO NOT WISH TO BE BOUND BY THE TERMS, THEN YOU CANNOT USE THE SOFTWARE IDENTIFIED BELOW OR ANY OTHER MEDIA ON WHICH THE SOFTWARE IS CONTAINED. 
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+1.	DEFINITIONS
+“License” shall mean the terms and conditions for use, reproduction, and distribution as defined by Sections 1 through 16 of this document. License is defined as a no fee, limited, worldwide, revocable, non-sublicensable, non-exclusive, non-transferable right to use Software granted to you. 
+
+“Software” shall mean a downloadable Licensor’s SDK, Distributable Code, Sample Code, Documentation, and any data, media, files, user manuals and guides provided.
+
+“Licensor” shall mean the copyright owner or entity authorized by the copyright owner that is granting the License.
+
+“You” (or “Your”) shall mean an individual or Legal Entity exercising permissions granted by this License.
+
+“Distributable Code” shall mean software code that you are permitted to distribute in applications you develop.
+
+“Sample Code” shall mean software source code that Licensor has made available for you to incorporate into your applications that is a part of the Distributable Code.
+
+“Legal Entity” shall mean the union of the acting entity and all other entities that control, are controlled by, or are under common control with that entity. For the purposes of this definition, "control" means (i) the power, direct or indirect, to cause the direction or management of such entity, whether by contract or otherwise, or (ii) ownership of fifty percent (50%) or more of the outstanding shares, or (iii) beneficial ownership of such entity.
+
+2.	PRE-RELEASE SOFTWARE
+This Software is a pre-release version. It may not work the way a final version of the software will and Licensor can change it for the final, commercial version. Moreover, Licensor may not release a commercial version in the future.
+
+3.	INSTALLATION AND USE RIGHTS
+You may install and use any number of copies of the Software to design, develop and test your applications.
+
+4.	DISTRIBUTABLE CODE
+The Software contains Distributable Code that you may distribute in applications you develop as described in this section if you comply with the terms below.
+
+1.	Right to Use and Distribute. 
+•	You may copy, modify and distribute the Sample Code in the “samples” folder.
+•	You may copy and distribute the code and Documentation comprising the Software.
+•	You may permit distributors of your applications to copy and distribute the Distributable Code as part of those applications.
+2.	Distribution Requirements. For any Distributable Code you distribute, you must
+•	use the Distributable Code in your programs and not as a standalone distribution; and
+•	distribute the Distributable Code unmodified (with the exception of Sample Code and open source software that may be included in the Software); and
+•	require distributors and external end users to agree to terms that protect the Distributable Code at least as much as this agreement; and
+•	defend and indemnify Licensor from and against any damages, costs, liabilities, settlement amounts and/or expenses (including attorneys' fees) incurred in connection with any claim, lawsuit or action by any third party that arises or results from the use or distribution of the Distributable Code; and
+•	accept that You are solely responsible to your customers and end users for any update or support obligations or other liability which may arise from the distribution of the Distributable Code.
+3.	Distribution Restrictions. You may not
+•	use Licensor’s trademarks in your applications’ names or in a way that suggests your applications come from or are endorsed by Licensor; or
+•	remove or obscure any copyright, trademark or patent notices that appear on the Software as delivered to you.
+
+5.	THIRD PARTY AND OPEN SOURCE SOFTWARE
+The Software may include software or other materials, including open source software, that are provided under separate license terms, and such separate license terms (and not this Agreement) solely govern the use of such software or other materials. Any such separate license agreement may be indicated in the license, notice, or readme files distributed with the applicable software or other materials or in related documentation.
+
+6.	TRADEMARKS
+This License does not grant permission to use the trade names, trademarks, service marks, or product names of the Licensor or third-party licensors, except as required for reasonable and customary use in describing the origin of the Software.
+
+7.	INTELLECTUAL PROPERTY
+You acknowledge that the Software is protected by copyright and other intellectual property laws. You further acknowledge that all right, title and interest therein are the sole property of Licensor and its third-party licensors, where applicable, and that you receive no rights, title or interests in the Software except as expressly set forth herein. You agree not to challenge either Licensor or any third-party licensor's rights in or otherwise attempt to assert any rights in the Software, except those provided under this EULA.
+
+8.	DISCLAIMER OF WARRANTY
+Unless required by applicable law or agreed to in writing, Licensor provides the Software on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied, including, without limitation, any warranties or conditions of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A PARTICULAR PURPOSE. You are solely responsible for determining the appropriateness of using or redistributing the Software and assume any risks associated with your exercise of permissions under this License.
+
+9.	LIMITATION OF LIABILITY
+In no event and under no legal theory, whether in tort (including negligence), contract, or otherwise, unless required by applicable law (such as deliberate and grossly negligent acts) or agreed to in writing, shall Licensor be liable to you for damages, including any direct, indirect, special, incidental, or consequential damages of any character arising as a result of this License or out of the use or inability to use the Software (including but not limited to damages for loss of goodwill, work stoppage, computer failure or malfunction, or any and all other commercial damages or losses), even if you have been advised of the possibility of such damages.
+
+10.	ACCEPTING WARRANTY OR ADDITIONAL LIABILITY
+While redistributing the Distributable Code, you may choose to offer, and charge a fee for, acceptance of support, warranty, indemnity, or other liability obligations and/or rights consistent with this License. However, in accepting such obligations, you may act only on your own behalf and on your sole responsibility, not on behalf of Licensor, and only if you agree to indemnify, defend, and hold Licensor harmless for any liability incurred by, or claims asserted against Licensor by reason of your accepting any such warranty or additional liability.
+
+11.	RESTRICTION AND PROHIBITED USES 
+You are restricted from reverse engineering, decompiling and disassembling the Software unless an explicit and separate permission is granted by the Licensor. 
+
+You are prohibited from using the Software in any way that is against the law. 
+
+The Software is not intended for distribution to, or use by, any person in any country or jurisdiction where such distribution or use would be contrary to local law or regulation. It is your responsibility to ascertain the terms of the EULA and comply with any local law or regulation to which you are subject. You shall not use or permit anyone to use the Software for any unlawful or unauthorized purpose.
+
+This software can connect to various third parties servers and services (collectively "Services"), including those of The FXCM Group of companies (collectively, "FXCM"). Because all servers have limited capacity and are used by many people, do not use the Services in any manner that could damage or overburden any third party server, or any network connected to any third party server. Do not use Services in any manner that would interfere with any other party's use of the Services.
+
+12.	HIGH RISK TRADING DISCLAIMER
+Trading forex/CFD's on margin carries a high level of risk and may not be suitable for all investors as you could sustain losses in excess of deposits. Leverage can work against you. Be aware and fully understand all risks associated with the market and trading. Prior to trading any products, carefully consider your financial situation and experience level. Licensor may provide general commentary which is not intended as investment advice and must not be construed as such. We recommend you seek advice from a separate financial advisor.
+
+13.	SERVICE PROVIDER DISCLAIMER 
+FXCM is an independent legal entity and is not affiliated with Licensor. FXCM does not endorse any product or service of Licensor. Nothing associated with this promotion shall be considered a solicitation to buy or an offer to sell any product or service to any person in any jurisdiction where such offer, solicitation, purchase or sale would be unlawful under the laws or regulations of such jurisdiction.
+
+14.	TERMINATION 
+The license granted to you under this EULA can be terminated by Licensor at any time without notice, with or without cause. Licensor reserves the right to terminate your rights under this License without notice from Licensor if you fail to comply with any terms of this EULA. Upon termination of the License, you shall cease all use of the software, and destroy all copies, full or partial, of the Software.
+
+15.	MODIFICATIONS TO THE EULA
+Licensor reserves the right to change the terms and conditions of the EULA at any time with or without notice by posting such changes on its website. You are responsible for regularly reviewing these terms and conditions for any modifications and agree to be bound by the same.
+
+16.	GOVERNING LAWS AND JURISDICTION. 
+This license agreement is governed by the laws of the State of New Jersey, USA. You agree to submit to the exclusive jurisdiction of, and venue in, the courts of New Jersey in any dispute arising out of or relating to this agreement.
+
+END OF TERMS AND CONDITIONS
+

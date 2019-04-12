@@ -61,11 +61,11 @@
   </PropertyGroup>
   
    <ItemGroup>
-    <None Include="./../../../../../lib/net/netcore1.0/*" CopyToOutputDirectory="Always" />
+    <None Include="./../../../../../lib/net/netcore/*" CopyToOutputDirectory="Always" />
     <None Include="./../../../../../lib/*.so*" CopyToOutputDirectory="Always" />
     <None Include="./../../../../../lib/*.dylib*" CopyToOutputDirectory="Always" />
 
-    <None Include=".\..\..\..\..\..\bin\net\netcore1.0\*.dll" CopyToOutputDirectory="Always" />
+    <None Include=".\..\..\..\..\..\bin\net\netcore\*.dll" CopyToOutputDirectory="Always" />
     <None Include=".\..\..\..\..\..\bin\*.dll" CopyToOutputDirectory="Always" />     
   </ItemGroup>
   

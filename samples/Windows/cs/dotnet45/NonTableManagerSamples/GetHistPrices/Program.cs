@@ -9,6 +9,9 @@ namespace GetHistPrices
 {
     class Program
     {
+        static SessionStatusListener statusListener = null;
+        static ResponseListener responseListener = null;
+
         static void Main(string[] args)
         {
             O2GSession session = null;
@@ -21,13 +24,13 @@ namespace GetHistPrices
                 PrintSampleParams("GetHistPrices", loginParams, sampleParams);
 
                 session = O2GTransport.createSession();
-                SessionStatusListener statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
+                statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
                 session.subscribeSessionStatus(statusListener);
                 statusListener.Reset();
                 session.login(loginParams.Login, loginParams.Password, loginParams.URL, loginParams.Connection);
                 if (statusListener.WaitEvents() && statusListener.Connected)
                 {
-                    ResponseListener responseListener = new ResponseListener(session);
+                    responseListener = new ResponseListener(session);
                     session.subscribeResponse(responseListener);
                     GetHistoryPrices(session, sampleParams.Instrument, sampleParams.Timeframe, sampleParams.DateFrom, sampleParams.DateTo, responseListener);
                     Console.WriteLine("Done!");
@@ -47,6 +50,15 @@ namespace GetHistPrices
             {
                 if (session != null)
                 {
+                    if (statusListener.Connected)
+                    {
+                        if (responseListener != null)
+                            session.unsubscribeResponse(responseListener);
+                        statusListener.Reset();
+                        session.logout();
+                        statusListener.WaitEvents();
+                    }
+                    session.unsubscribeSessionStatus(statusListener);
                     session.Dispose();
                 }
             }
@@ -73,7 +85,7 @@ namespace GetHistPrices
             DateTime dtFirst = dtTo;
             do // cause there is limit for returned candles amount
             {
-                factory.fillMarketDataSnapshotRequestTime(request, dtFrom, dtFirst, false);
+                factory.fillMarketDataSnapshotRequestTime(request, dtFrom, dtFirst, false, O2GCandleOpenPriceMode.PreviousClose);
                 responseListener.SetRequestID(request.RequestID);
                 session.sendRequest(request);
                 if (!responseListener.WaitEvents())

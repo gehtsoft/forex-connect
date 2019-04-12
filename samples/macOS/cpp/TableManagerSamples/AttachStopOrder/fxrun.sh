@@ -1,3 +1,6 @@
 #!/bin/bash
 
-./bin/AttachStopOrder "$@"
+cd ./bin/
+./AttachStopOrder $*
+cd ..
+

@@ -10,6 +10,8 @@ namespace PrintTableListener
 {
     class Program
     {
+        static SessionStatusListener statusListener = null;
+
         static void Main(string[] args)
         {
             O2GSession session = null;
@@ -23,7 +25,7 @@ namespace PrintTableListener
                 session = O2GTransport.createSession();
                 TableManagerListener managerListener = new TableManagerListener();
                 session.useTableManager(O2GTableManagerMode.Yes, managerListener);
-                SessionStatusListener statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
+                statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
                 session.subscribeSessionStatus(statusListener);
                 statusListener.Reset();
                 session.login(loginParams.Login, loginParams.Password, loginParams.URL, loginParams.Connection);
@@ -56,12 +58,7 @@ namespace PrintTableListener
 
                     PrintOrders(tableManagerByAccount, account.AccountID);
                     Console.WriteLine("Done!");
-
-                    statusListener.Reset();
-                    session.logout();
-                    statusListener.WaitEvents();
                 }
-                session.unsubscribeSessionStatus(statusListener);
             }
             catch (Exception e)
             {
@@ -71,6 +68,13 @@ namespace PrintTableListener
             {
                 if (session != null)
                 {
+                    if (statusListener.Connected)
+                    {
+                        statusListener.Reset();
+                        session.logout();
+                        statusListener.WaitEvents();
+                    }
+                    session.unsubscribeSessionStatus(statusListener);
                     session.Dispose();
                 }
             }

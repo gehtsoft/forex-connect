@@ -26,7 +26,6 @@
 #include "win_emul/winEmul.h"
 #include "date/date.h"
 #include "mutex/Mutex.h"
-#include "threading/Interlocked.h"
 #include "threading/AThread.h"
 #include "threading/ThreadHandle.h"
 

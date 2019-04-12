@@ -2,7 +2,7 @@ JoinNewGroup application
 
 Brief
 ==================================================================================
-This sample shows how to add orders to a new contigency group.
+This sample shows how to add orders to a new OCO group.
 The sample performs the following actions:
 1. Login.
 2. Add two entry orders to a new OCO group.
@@ -11,8 +11,8 @@ The sample performs the following actions:
 
 Building the application
 ==================================================================================
-In order to build this application you will need MS Visual Studio 2005 or later and
-.NET framework 2.0 or 4.0.
+In order to build this application you will need MS Visual Studio 2015 and
+.NET framework 4.5 or later.
 You can download .NET framework from http://msdn.microsoft.com/en-us/netframework/
 To build the application run fxbuild.bat.
 To compile the application into a debug build set argument "debug" via command line.
@@ -40,8 +40,8 @@ Arguments
         If you do not have one, leave this argument as it is.
 {PIN} - Your pin code. Optional argument. Required only for users who have a pin.
         If a pin is not required, leave this argument as it is.
-{PRIMARYID} - first order, which you want to add to a new contingency group.
+{PRIMARYID} - first order, which you want to add to a new OCO group.
         Mandatory argument.
-{SECONDARYID} - second order, which you want to add to a new contingency group.
+{SECONDARYID} - second order, which you want to add to a new OCO group.
         Mandatory argument.
 {ACCOUNT} - Your Account ID. Optional argument.

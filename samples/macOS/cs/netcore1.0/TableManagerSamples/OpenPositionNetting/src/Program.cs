@@ -116,6 +116,7 @@ namespace OpenPositionNetting
                     session.sendRequest(request);
                     if (responseListener.WaitEvents())
                     {
+                        System.Threading.Thread.Sleep(1000); // Wait for the balance update
                         Console.WriteLine("Done!");
                     }
                     else

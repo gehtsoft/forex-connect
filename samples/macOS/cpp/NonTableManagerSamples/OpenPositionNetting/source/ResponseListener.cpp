@@ -32,13 +32,13 @@ ResponseListener::~ResponseListener()
 /** Increase reference counter. */
 long ResponseListener::addRef()
 {
-    return InterlockedIncrement(&mRefCount);
+    return O2GAtomic::InterlockedInc(mRefCount);
 }
 
 /** Decrease reference counter. */
 long ResponseListener::release()
 {
-    long rc = InterlockedDecrement(&mRefCount);
+    long rc = O2GAtomic::InterlockedDec(mRefCount);
     if (rc == 0)
         delete this;
     return rc;
@@ -83,8 +83,7 @@ void ResponseListener::onRequestCompleted(const char *requestId, IO2GResponse *r
     {
         mResponse = response;
         mResponse->addRef();
-        if (response->getType() != CreateOrderResponse)
-            SetEvent(mResponseEvent);
+        SetEvent(mResponseEvent);
     }
 }
 

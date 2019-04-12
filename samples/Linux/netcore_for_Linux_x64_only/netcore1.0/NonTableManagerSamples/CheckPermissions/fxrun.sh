@@ -1,4 +1,4 @@
 #!/bin/bash
 
 export LD_LIBRARY_PATH=`pwd`/bin/netcoreapp1.0
-dotnet run --project CheckPermissions.csproj $@
+dotnet run --project CheckPermissions.csproj "$@"

@@ -8,7 +8,7 @@
 void printHelp(std::string &);
 bool checkObligatoryParams(LoginParams *, SampleParams *);
 void printSampleParams(std::string &, LoginParams *, SampleParams *);
-IO2GRequest *createEntryOrderRequest(IO2GSession *, const char *, const char *, int, double, const char *, const char *);
+IO2GRequest *createEntryOrderRequest(IO2GSession *, const char *, const char *, int, double, const char *, const char *, const char *);
 std::string getEntryOrderType(double, double, double, const char *, double, int, int);
 
 int roundPrice(double x)
@@ -18,7 +18,7 @@ int roundPrice(double x)
 
 int main(int argc, char *argv[])
 {
-    std::string procName = "CreateOrderBySymbol";
+    std::string procName = "CreateEntry";
     if (argc == 1)
     {
         printHelp(procName);
@@ -37,7 +37,6 @@ int main(int argc, char *argv[])
         delete sampleParams;
         return -1;
     }
-
 
     IO2GSession *session = CO2GTransport::createSession();
 
@@ -76,8 +75,8 @@ int main(int argc, char *argv[])
                     std::string sOrderType = getEntryOrderType(offer->getBid(), offer->getAsk(), sampleParams->getRate(),
                             sampleParams->getBuySell(), offer->getPointSize(), iCondDistEntryLimit, iCondDistEntryStop);
 
-                    O2G2Ptr<IO2GRequest> request = createEntryOrderRequest(session, sampleParams->getInstrument(),
-                            account->getAccountID(), iAmount, sampleParams->getRate(), sampleParams->getBuySell(), sOrderType.c_str());
+                    O2G2Ptr<IO2GRequest> request = createEntryOrderRequest(session, offer->getOfferID(), account->getAccountID(), iAmount,
+                            sampleParams->getRate(), sampleParams->getBuySell(), sOrderType.c_str(), sampleParams->getExpDate());
                     if (request)
                     {
                         responseListener->setRequestID(request->getRequestID());
@@ -136,7 +135,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-IO2GRequest *createEntryOrderRequest(IO2GSession *session, const char *sInstrument, const char *sAccountID, int iAmount, double dRate, const char *sBuySell, const char *sOrderType)
+IO2GRequest *createEntryOrderRequest(IO2GSession *session, const char *sOfferID, const char *sAccountID, int iAmount, double dRate, const char *sBuySell, const char *sOrderType, const char *expDate)
 {
     O2G2Ptr<IO2GRequestFactory> requestFactory = session->getRequestFactory();
     if (!requestFactory)
@@ -148,11 +147,17 @@ IO2GRequest *createEntryOrderRequest(IO2GSession *session, const char *sInstrume
     valuemap->setString(Command, O2G2::Commands::CreateOrder);
     valuemap->setString(OrderType, sOrderType);
     valuemap->setString(AccountID, sAccountID);
-    valuemap->setString(Symbol, sInstrument);
+    valuemap->setString(OfferID, sOfferID);
     valuemap->setString(BuySell, sBuySell);
     valuemap->setInt(Amount, iAmount);
     valuemap->setDouble(Rate, dRate);
     valuemap->setString(CustomID, "EntryOrder");
+
+    if(strcmp(expDate, "") != 0)
+    {
+        valuemap->setString(TimeInForce, O2G2::TIF::GTD); // 'Good till Date'
+        valuemap->setString(ExpireDateTime, expDate); //  FIX UTCTimestamp format: "yyyyMMdd-HH:mm:ss.SSS" (milliseconds are optional)
+    }
 
     O2G2Ptr<IO2GRequest> request = requestFactory->createOrderRequest(valuemap);
     if (!request)
@@ -219,6 +224,7 @@ void printSampleParams(std::string &sProcName, LoginParams *loginParams, SampleP
                 << "Rate='" << sampleParams->getRate() << "', "
                 << "Lots='" << sampleParams->getLots() << "', "
                 << "Account='" << sampleParams->getAccount() << "'"
+                << "ExpireDate='" << sampleParams->getExpDate() << "'"
                 << std::endl;
     }
 }
@@ -259,7 +265,9 @@ void printHelp(std::string &sProcName)
             
     std::cout << "/account | --account " << std::endl;
     std::cout << "An account which you want to use in sample. Optional parameter." << std::endl << std::endl;
-            
+     
+    std::cout << "/expireDate | --expireDate " << std::endl;
+    std::cout << "The expire date for entry order. Optional parameter" << std::endl << std::endl;           
 }
 
 bool checkObligatoryParams(LoginParams *loginParams, SampleParams *sampleParams)

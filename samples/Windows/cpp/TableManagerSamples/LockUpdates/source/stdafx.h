@@ -7,7 +7,6 @@
 
 #include <string>
 #include <iostream>
-
 #include <ForexConnect.h>
 #include <sample_tools.h>
 
@@ -17,6 +16,9 @@
 #include <ctime>
 #include <cstring>
 #include <cmath>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
 
 #define _TIMEOUT 30000
 

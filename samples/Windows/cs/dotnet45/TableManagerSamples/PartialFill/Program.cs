@@ -10,6 +10,9 @@ namespace PartialFill
 {
     class Program
     {
+        static SessionStatusListener statusListener = null;
+        static ResponseListener responseListener = null;
+
         static void Main(string[] args)
         {
             O2GSession session = null;
@@ -24,13 +27,13 @@ namespace PartialFill
 
                 session = O2GTransport.createSession();
                 session.useTableManager(O2GTableManagerMode.Yes, null);
-                SessionStatusListener statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
+                statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
                 session.subscribeSessionStatus(statusListener);
                 statusListener.Reset();
                 session.login(loginParams.Login, loginParams.Password, loginParams.URL, loginParams.Connection);
                 if (statusListener.WaitEvents() && statusListener.Connected)
                 {
-                    ResponseListener responseListener = new ResponseListener();
+                    responseListener = new ResponseListener();
                     TableListener tableListener = new TableListener(responseListener);
                     session.subscribeResponse(responseListener);
 
@@ -105,13 +108,7 @@ namespace PartialFill
                     }
 
                     tableListener.UnsubscribeEvents(tableManager);
-
-                    session.unsubscribeResponse(responseListener);
-                    statusListener.Reset();
-                    session.logout();
-                    statusListener.WaitEvents();
                 }
-                session.unsubscribeSessionStatus(statusListener);
             }
             catch (Exception e)
             {
@@ -121,6 +118,15 @@ namespace PartialFill
             {
                 if (session != null)
                 {
+                    if (statusListener.Connected)
+                    {
+                        if (responseListener != null)
+                            session.unsubscribeResponse(responseListener);
+                        statusListener.Reset();
+                        session.logout();
+                        statusListener.WaitEvents();
+                    }
+                    session.unsubscribeSessionStatus(statusListener);
                     session.Dispose();
                 }
             }
