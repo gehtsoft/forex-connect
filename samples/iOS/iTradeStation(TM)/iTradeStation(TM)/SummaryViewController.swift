@@ -31,7 +31,7 @@ class SummaryTable : IO2GTableListener, IO2GEachRowListener
     var summaryTableRows = [String:SummaryTableRow]()
     
     init() {
-        let tableManager = ForexConnect.getSharedInstance().getTableManager()
+        let tableManager = ForexConnect.sharedInstance().tableManager!
         tradesTable = (tableManager.getTable(Trades) as? IO2GTradesTable)!
         offersTable = (tableManager.getTable(Offers) as? IO2GOffersTable)!
         summaryTable = (tableManager.getTable(Summary) as? IO2GSummaryTable)!
@@ -73,9 +73,9 @@ class SummaryTable : IO2GTableListener, IO2GEachRowListener
         
         let instrument = offerRow!.getInstrument()
         let amount = String(row.getAmount())
-        let grossPL = String(row.getGrossPL())
-        let closeBuy = String(row.getBuyClose())
-        let closeSell = String(row.getSellClose())
+        let grossPL = row.getGrossPL().parseToPlaces(places: 2)
+        let closeBuy = row.getBuyClose().parseToPlaces(places: Int(offerRow!.getDigits()))
+        let closeSell = row.getSellClose().parseToPlaces(places: Int(offerRow!.getDigits()))
         
         let tableRow: SummaryTableRow = SummaryTableRow(offerId: offerId!, instrument: instrument!, amount: amount, closeBuy: closeBuy, closeSell: closeSell, grossPL: grossPL)
         summaryTableRows[offerId!] = tableRow
@@ -141,7 +141,7 @@ class SummaryViewController : UITableViewController
         headerLabel.textColor = UIColor.black
         headerLabel.backgroundColor = UIColor.gray
         headerLabel.autoresizingMask = UIViewAutoresizing.flexibleHeight
-        headerLabel.text = "    Symbol       Amount      Close     GrossPL "
+        headerLabel.text = "    Symbol       Amount       Close      GrossPL "
         
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         self.tableView.dataSource = self;
@@ -183,28 +183,30 @@ class SummaryViewController : UITableViewController
         let close = summaryTableRows[indexPath.row].close
         let grossPL = summaryTableRows[indexPath.row].grossPL
         
+        cell.textLabel!.font = UIFont.systemFont(ofSize: 14.0)
+        
         if cell.contentView.viewWithTag(2) == nil {
             
             let amountLabel = UILabel(frame: CGRect(x: 100.0, y: 10.0, width: 70.0, height: 25.0))
             amountLabel.tag = 2
             amountLabel.textAlignment = NSTextAlignment.right
-            amountLabel.font = UIFont.systemFont(ofSize: 16.0)
+            amountLabel.font = UIFont.systemFont(ofSize: 14.0)
             amountLabel.textColor = UIColor.black
             amountLabel.autoresizingMask = UIViewAutoresizing.flexibleHeight
             cell.contentView.addSubview(amountLabel)
             
-            let closeLabel = UILabel(frame: CGRect(x: 180.0, y: 10.0, width: 70.0, height: 25.0))
+            let closeLabel = UILabel(frame: CGRect(x: 180.0, y: 10.0, width: 90.0, height: 25.0))
             closeLabel.tag = 3
             closeLabel.textAlignment = NSTextAlignment.right
-            closeLabel.font = UIFont.systemFont(ofSize: 16.0)
+            closeLabel.font = UIFont.systemFont(ofSize: 14.0)
             closeLabel.textColor = UIColor.black
             closeLabel.autoresizingMask = UIViewAutoresizing.flexibleHeight
             cell.contentView.addSubview(closeLabel)
             
-            let grossPLLabel = UILabel(frame: CGRect(x: 260.0, y: 10.0, width: 60.0, height: 25.0))
+            let grossPLLabel = UILabel(frame: CGRect(x: 280.0, y: 10.0, width: 80.0, height: 25.0))
             grossPLLabel.tag = 4
             grossPLLabel.textAlignment = NSTextAlignment.right
-            grossPLLabel.font = UIFont.systemFont(ofSize: 16.0)
+            grossPLLabel.font = UIFont.systemFont(ofSize: 14.0)
             grossPLLabel.textColor = UIColor.black
             grossPLLabel.autoresizingMask = UIViewAutoresizing.flexibleHeight
             cell.contentView.addSubview(grossPLLabel)

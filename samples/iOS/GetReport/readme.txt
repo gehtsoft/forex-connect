@@ -6,7 +6,7 @@ Brief
 This sample application shows how to open a Combined Account Statement report in a browser.
 
 The application functions as follows:
-1) The application prompts the user to enter the login parameters: Login, Password, Connection, and Host.
+1) The application prompts the user to enter the login parameters: Login, Password, Connection, Host and the trading session ID.
 2) The user enters the login parameters and taps "Connect".
 3) After the successful login, the application prompts the user to enter the report parameters: Account ID, Start date, Report format, and Report language.
 4) The user enters the report parameters and taps "Show report".

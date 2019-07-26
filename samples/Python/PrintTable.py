@@ -23,6 +23,11 @@ import common_samples
 def parse_args():
     parser = argparse.ArgumentParser(description='Process command parameters.')
     common_samples.add_main_arguments(parser)
+    parser.add_argument('-table',
+                        metavar="TABLE",
+                        default="trades",
+                        help='The print table. Possible values are: orders - orders table,\
+                        trades - trades table. Default value is trades. Optional parameter.')
 
     args = parser.parse_args()
 
@@ -54,6 +59,24 @@ def print_orders(table_manager, account_id):
             print_order_row(order_row, account_id)
 
 
+def print_trade_row(trade_row, account_id):
+    if trade_row.table_type == ForexConnect.TRADES:
+        if not account_id or account_id == trade_row.account_id:
+            string = ""
+            for column in trade_row.columns:
+                string += column.id + "=" + str(trade_row[column.id]) + "; "
+            print(string)
+
+
+def print_trades(table_manager, account_id):
+    trades_table = table_manager.get_table(ForexConnect.TRADES)
+    if len(trades_table) == 0:
+        print("Table is empty!")
+    else:
+        for trade_row in trades_table:
+            print_trade_row(trade_row, account_id)
+
+
 def main():
     args = parse_args()
     str_user_id = args.l
@@ -62,6 +85,10 @@ def main():
     str_connection = args.c
     str_session_i_d = args.session
     str_pin = args.pin
+    str_table = args.table
+
+    if str_table != 'orders' and  str_table != 'trades':
+        str_table = 'trades'
 
     with ForexConnect() as fx:
 
@@ -75,7 +102,11 @@ def main():
         if not account:
             raise Exception("No valid accounts")
 
-        print_orders(table_manager, account.account_id)
+        if str_table == "orders":
+            print_orders(table_manager, account.account_id)
+        else:
+            print_trades(table_manager, account.account_id)
+
         try:
             fx.logout()
         except Exception as e:

@@ -23,7 +23,8 @@ namespace PrintTable
                                        ParserArgument.Url,
                                        ParserArgument.Connection,
                                        ParserArgument.SessionID,
-                                       ParserArgument.Pin);
+                                       ParserArgument.Pin,
+                                       ParserArgument.TableType);
 
                 argParser.ParseArguments();
 
@@ -36,6 +37,7 @@ namespace PrintTable
                 argParser.PrintArguments();
 
                 LoginParams loginParams = argParser.LoginParams;
+                SampleParams sampleParams = argParser.SampleParams;
 
                 session = O2GTransport.createSession();
                 session.useTableManager(O2GTableManagerMode.Yes, null);
@@ -62,7 +64,20 @@ namespace PrintTable
                     if (account == null)
                         throw new Exception("No valid accounts");
 
-                    PrintOrders(tableManager, account.AccountID);
+
+                    O2GResponseType responseType = string.Equals(sampleParams.TableType, SampleParams.OrdersTable) == true ?
+                                O2GResponseType.GetOrders : O2GResponseType.GetTrades;
+
+                    if (responseType == O2GResponseType.GetOrders)
+                    {
+                        PrintOrders(tableManager, account.AccountID);
+                    }
+                    else
+                    {
+                        PrintTrades(tableManager, account.AccountID);
+                    }
+
+
                     Console.WriteLine("Done!");
                 }
             }
@@ -116,6 +131,20 @@ namespace PrintTable
             else
             {
                 ordersTable.forEachRow(new EachRowListener(sAccountID));
+            }
+        }
+
+        // Print orders table using IO2GEachRowListener
+        public static void PrintTrades(O2GTableManager tableManager, string sAccountID)
+        {
+            O2GTradesTable tradesTable = (O2GTradesTable)tableManager.getTable(O2GTableType.Trades);
+            if (tradesTable.Count == 0)
+            {
+                Console.WriteLine("Table is empty!");
+            }
+            else
+            {
+                tradesTable.forEachRow(new EachRowListener(sAccountID));
             }
         }
     }

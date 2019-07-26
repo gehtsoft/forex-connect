@@ -6,8 +6,8 @@ This sample shows how to get a table and print it.
 The sample performs the following actions:
 1. Login.
 2. Print the accounts table.
-3. Request the orders table refresh.
-4. Print the orders table.
+3. Request the trades or orders table refresh.
+4. Print the trades or orders table.
 5. Logout.
 
 Building the application

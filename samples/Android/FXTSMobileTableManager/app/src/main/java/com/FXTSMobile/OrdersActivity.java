@@ -27,7 +27,7 @@ import com.fxcore2.O2GTableStatus;
 import com.fxcore2.O2GTableType;
 import com.fxcore2.O2GTableUpdateType;
 import com.fxcore2.IO2GSessionStatus;
-import com.fxcore2.O2GSessionStatusCode;
+import com.fxcore2.*;
 
 public class OrdersActivity extends Activity implements IO2GTableListener, IO2GEachRowListener, IO2GSessionStatus {
     private final int STANDARD_MARGIN = 5;
@@ -186,8 +186,8 @@ public class OrdersActivity extends Activity implements IO2GTableListener, IO2GE
         
         TextView tvContingencyType = new TextView(this);
         tvContingencyType.setPadding(STANDARD_MARGIN, 0, STANDARD_MARGIN, 0);
-        final int contingencyType = row.getContingencyType();
-        final String contingencyTypeStr = getContingencyTypeString(contingencyType);
+        final O2GContingencyType contingencyType = row.getContingencyType();
+        final String contingencyTypeStr = getContingencyTypeString(contingencyType.ordinal());
         tvContingencyType.setText(contingencyTypeStr);
         tvContingencyType.setLayoutParams(new TableRow.LayoutParams());
         tableRow.addView(tvContingencyType);    
@@ -245,7 +245,7 @@ public class OrdersActivity extends Activity implements IO2GTableListener, IO2GE
             mOrderStatus = orderRow.getStatus();
             mRate = orderRow.getRate();
             mAmountK = orderRow.getAmount() / 1000;
-            mContingencyType = orderRow.getContingencyType();
+            mContingencyType = orderRow.getContingencyType().ordinal();
             mDigits = mOffersTable.findRow(orderRow.getOfferID()).getDigits();
         }
 

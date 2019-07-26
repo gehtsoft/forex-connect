@@ -26,7 +26,7 @@ class OrdersTable : IO2GTableListener, IO2GEachRowListener
     var ordersTableRows = [String:OrdersTableRow]()
     
     init() {
-        let tableManager = ForexConnect.getSharedInstance().getTableManager()
+        let tableManager = ForexConnect.sharedInstance().tableManager!
         // ORDERS table depends on TRADES table, so TRADES table must be refreshed already
         ordersTable = (tableManager.getTable(Orders) as? IO2GOrdersTable)!
         offersTable = (tableManager.getTable(Offers) as? IO2GOffersTable)!
@@ -40,7 +40,7 @@ class OrdersTable : IO2GTableListener, IO2GEachRowListener
     }
     
     deinit {
-        let tableManager = ForexConnect.getSharedInstance().getTableManager()
+        let tableManager = ForexConnect.sharedInstance().tableManager!
         ordersTable = (tableManager.getTable(Orders) as? IO2GOrdersTable)!
         ordersTable.unsubscribeUpdate(Insert, self)
         ordersTable.unsubscribeUpdate(Update, self)
@@ -72,7 +72,7 @@ class OrdersTable : IO2GTableListener, IO2GEachRowListener
         let ordersId = row.getOrderID()
         let status = row.getStatus()
         let amount = String(row.getAmount())
-        let orderType = getContingencyTypeString(contingencyType: Int(row.getContingencyType()))
+        let orderType = getContingencyTypeString(contingencyType: row.getContingencyType().rawValue)
         
         let tableRow: OrdersTableRow = OrdersTableRow(orderId: ordersId!, instrument: instrument!, amount: amount, status: status!, orderType: orderType)
         ordersTableRows[ordersId!] = tableRow
@@ -86,7 +86,7 @@ class OrdersTable : IO2GTableListener, IO2GEachRowListener
         } else if contingencyType == 3 {
             return "ELS"
         }  else if contingencyType == 4 {
-            return "SE"
+            return "OTOCO"
         } else {
             return ""
         }

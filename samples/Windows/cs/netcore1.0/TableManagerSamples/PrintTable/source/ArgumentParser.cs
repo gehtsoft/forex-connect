@@ -28,7 +28,8 @@ namespace ArgParser
         Lots,
         DateFrom,
         DateTo,
-        ExpireData
+        ExpireData,
+        TableType,
     }
 
     class ArgumentParser
@@ -170,6 +171,10 @@ namespace ArgParser
                     case ParserArgument.Pin:
                         if (!string.IsNullOrEmpty(mLoginParams.Pin))
                             sb.Append("Pin=*, ");
+                        break;
+                    case ParserArgument.TableType:
+                        if (!string.IsNullOrEmpty(mSampleParams.TableType))
+                            sb.Append("TableType=" + mSampleParams.TableType + ", ");
                         break;
                 }
             }
@@ -375,6 +380,9 @@ namespace ArgParser
                         break;
                     case ParserArgument.ExpireData:
                         sb.Append(SampleParams.EXPIREDATA_HELP_STRING);
+                        break;
+                    case ParserArgument.TableType:
+                        sb.Append(SampleParams.TABLETYPE_HELP_STRING);
                         break;
                 }
             }

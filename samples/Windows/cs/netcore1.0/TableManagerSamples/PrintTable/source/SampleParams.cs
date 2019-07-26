@@ -22,6 +22,7 @@ namespace ArgParser
         public static readonly String STATUS_HELP_STRING = "/status | --status\nDesired subscription status of the instrument. Possible values: T, D, V.\n";
         public static readonly String ORDERTYPE_HELP_STRING = "/ordertype | --ordertype\nType of an entry order. Optional argument. Possible values are: LE - entry limit, SE - entry stop.Default value is LE.\n";
         public static readonly String EXPIREDATA_HELP_STRING = "/expiredata | --expiredata\nThe date and time up to which the order should stay live. Optional argument.\n";
+        public static readonly String TABLETYPE_HELP_STRING = "/table | --table | /t | -t\nThe print table. Possible values are: orders - orders table, trades - trades table. Default value is trades. Optional parameter.\n";
 
         public static readonly String INSTRUMENT_NOT_SPECIFIED = "'Instrument' is not specified (/i|-i|/instrument|--instrument)\n";
         public static readonly String BUYSELL_NOT_SPECIFIED = "'BuySell' is not specified (/d|-d|/buysell|--buysell)\n";
@@ -34,6 +35,9 @@ namespace ArgParser
         public static readonly String CONTINGENCYID_NOT_SPECIFIED = "'ContingencyID' is not specified (/contingencyid|--contingencyid)\n";
         public static readonly String TIMEFRAME_NOT_SPECIFIED = "'Timeframe' is not specified (/timeframe|--timeframe)\n";
         public static readonly String STATUS_NOT_SPECIFIED = "'SubscriptionStatus' is not specified (/status|--status)\n";
+
+        public static readonly String OrdersTable = "orders";
+        public static readonly String TradesTable = "trades";
 
         public String Instrument
         {
@@ -203,6 +207,20 @@ namespace ArgParser
             }
         }
         private String mExpireDate;
+
+        public String TableType
+        {
+            get
+            {
+                return mTableType;
+            }
+            set
+            {
+                mTableType = value;
+            }
+        }
+        private String mTableType;
+
         // Setters
 
 
@@ -213,6 +231,7 @@ namespace ArgParser
             mInstrument = GetArgument(args, "i");
             mBuySell = GetArgument(args, "d");
             String sRate = GetArgument(args, "r");
+            mTableType = GetArgument(args, "t");
 
             // If parameters with short keys are not specified, get parameters with long keys
             if (string.IsNullOrEmpty(mInstrument))
@@ -221,6 +240,8 @@ namespace ArgParser
                 mBuySell = GetArgument(args, "buysell");
             if (string.IsNullOrEmpty(sRate))
                 sRate = GetArgument(args, "rate");
+            if (string.IsNullOrEmpty(mTableType))
+                mTableType = GetArgument(args, "table");
 
             String sLots = "";
             String sRateStop = "";
@@ -285,6 +306,13 @@ namespace ArgParser
             
             if (string.IsNullOrEmpty(mOrderType))
                 mOrderType = "LE";
+
+            if (string.IsNullOrEmpty(mTableType) ||
+                    !mTableType.Equals(OrdersTable) &&
+                    !mTableType.Equals(TradesTable))
+            {
+                mTableType = TradesTable; // default
+            }
         }
 
         private void ConvertDates(String[] args)
