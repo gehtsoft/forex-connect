@@ -7,21 +7,22 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
     @IBOutlet weak var hostEdit: UITextField!
     @IBOutlet weak var passEdit: UITextField!
     @IBOutlet weak var loginEdit: UITextField!
+    @IBOutlet weak var sessionIdEdit: UITextField!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var connectButton: UIButton!
     
-    private var forexConnect = ForexConnect.sharedInstance
-    
+    var forexConnect: ForexConnect?
     
     override func viewWillAppear(_ animated: Bool) {
         restoreUserCredentials()
+        forexConnect = ForexConnect.getSharedInstance()
         
-        forexConnect.subscribeStatus(closure: onSessionStatusChanged)
+        forexConnect!.subscribeStatus(closure: onSessionStatusChanged)
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         
         if appDelegate.isLogged {
             onSessionStatusChanged(status: IO2GSession_Disconnecting)
-            forexConnect.logout()
+            forexConnect!.logout()
             appDelegate.isLogged = false
         } else {
             self.title = "Login settings"
@@ -33,9 +34,9 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         hostEdit.delegate = self
         passEdit.delegate = self
         loginEdit.delegate = self
+        sessionIdEdit.delegate = self;
         
         loginEdit.becomeFirstResponder()
-        
     }
     
     func onSessionStatusChanged(status: IO2GSessionStatus_O2GSessionStatus) {
@@ -89,6 +90,8 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
             hostEdit.becomeFirstResponder()
         } else if textField.isEqual(hostEdit) {
             hostEdit.resignFirstResponder();
+        } else if textField.isEqual(sessionIdEdit) {
+            sessionIdEdit.resignFirstResponder();
         }
         
         return true
@@ -99,11 +102,15 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         let userNameValue = loginEdit.text!
         let connectionValue = connEdit.text!
         let hostValue = hostEdit.text!
+        let passValue = passEdit.text!
+        let sessionIdValue = sessionIdEdit.text!
         
         let defaults = UserDefaults.standard
         defaults.set(userNameValue, forKey: "userNameValue")
         defaults.set(connectionValue, forKey: "connectionValue")
         defaults.set(hostValue, forKey: "hostValue")
+        defaults.set(passValue, forKey: "passValue")
+        defaults.set(sessionIdValue, forKey: "sesseionIdValue")
     }
     
     func restoreUserCredentials() {
@@ -112,18 +119,23 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         let userNameValue = defaults.string(forKey: "userNameValue")
         let connectionValue = defaults.string(forKey: "connectionValue")
         let hostValue = defaults.string(forKey: "hostValue")
+        let passValue = defaults.string(forKey: "passValue")
+        let sessionIdValue = defaults.string(forKey: "sesseionIdValue")
         
         if connectionValue == nil {
             connEdit.text = "Demo"
             hostEdit.text = "http://fxcorporate.com"
             loginEdit.text = ""
             passEdit.text = ""
+            sessionIdEdit.text = ""
         } else {
             connEdit.text = connectionValue
             hostEdit.text = hostValue
             loginEdit.text = userNameValue
-            passEdit.text = ""
+            passEdit.text = passValue
+            sessionIdEdit.text = sessionIdValue
         }
+        
     }
     
     @IBAction func connectBtnClicked(sender: UIButton) {
@@ -135,12 +147,14 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         passEdit.resignFirstResponder()
         connEdit.resignFirstResponder()
         hostEdit.resignFirstResponder()
-        loginEdit.resignFirstResponder();
+        loginEdit.resignFirstResponder()
+        sessionIdEdit.resignFirstResponder()
         
         let userNameValue = loginEdit.text!
         let passwordValue = passEdit.text!
         let connectionValue = connEdit.text!
         let hostValue = hostEdit.text!
+        let sessionIdValue = sessionIdEdit.text!
         
         let host = hostValue
         var suffix = ""
@@ -154,14 +168,14 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         
         let loginJob = DispatchQueue.global(qos: .background)
         loginJob.async {
-            self.forexConnect.setLoginData(user: userNameValue, pwd: passwordValue, url: host+suffix, connection: connectionValue)
+            self.forexConnect!.setLoginData(user: userNameValue, sessionId: sessionIdValue, pwd: passwordValue, url: host+suffix, connection: connectionValue)
             self.completeLoginJob();
         }
     }
     
     func completeLoginJob() {
-        forexConnect.login(sessionId: "", pin: "")
-        let isOk = forexConnect.waitForConnectionCompleted()
+        forexConnect!.login()
+        let isOk = forexConnect!.waitForConnectionCompleted()
         
         let mainQueue = DispatchQueue.main
         mainQueue.async {
@@ -183,4 +197,3 @@ class LoginViewController : UIViewController, UITextFieldDelegate {
         alert.show()
     }
 }
-

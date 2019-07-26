@@ -6,7 +6,7 @@ class Order : IO2GResponseListener
     private var errorMsg: String?
     private var notifier: NSCondition
     
-    private var forexConnect = ForexConnect.getSharedInstance()
+    private var forexConnect = ForexConnect.sharedInstance()
     
     var errorMessage: String?
     {
@@ -21,12 +21,12 @@ class Order : IO2GResponseListener
     init()
     {
         notifier = NSCondition()
-        forexConnect.getSession().subscribeResponse(self)
+        forexConnect.session.subscribeResponse(self)
     }
     
     deinit
     {
-        forexConnect.getSession().unsubscribeResponse(self)
+        forexConnect.session.unsubscribeResponse(self)
     }
     
     @objc func onRequestCompleted(_ requestId: String!, _ response: IO2GResponse!)

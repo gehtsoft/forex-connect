@@ -6,7 +6,7 @@ This sample shows how to get a table and print it.
 The sample performs the following actions:
 1. Login.
 2. Print the accounts table by using the getNextRow method.
-3. Print the orders table by using the IO2GEachRowListener.
+3. Print the trades or orders table by using the IO2GEachRowListener.
 4. Logout.
 
 Building the application
@@ -55,3 +55,5 @@ The database name. Required only for users who have accounts in more than one da
 /pin | --pin 
 Your pin code. Required only for users who have a pin. Optional parameter.
 
+/table | --table | /t | -t
+The print table. Possible values are: orders - orders table, trades - trades table. Default value is trades. Optional parameter.

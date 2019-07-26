@@ -38,8 +38,8 @@ class ForexConnect: IO2GSessionStatus
     
     // MARK: - Login-Logout
     
-    func setLoginData(user: String, pwd: String, url: String, connection: String) {
-        ld = LoginData(user: user, pwd: pwd, url: url, connection: connection, sessionId: "", pin: "")
+    func setLoginData(user: String, pwd: String, url: String, connection: String, sessionId: String) {
+        ld = LoginData(user: user, pwd: pwd, url: url, connection: connection, sessionId: sessionId, pin: "")
     }
     
     func login() {
@@ -102,7 +102,7 @@ class ForexConnect: IO2GSessionStatus
             
             if ld!.sessionId.isEmpty {
                 let descriptors = session.getTradingSessionDescriptors()
-                if ((descriptors?.size())! > Int32(0)) {
+                if ((descriptors?.size())! > Int32(0) && ld!.sessionId.isEmpty) {
                     ld!.sessionId = (descriptors?.get(0).getID())!
                 }
             }
@@ -116,7 +116,7 @@ class ForexConnect: IO2GSessionStatus
     }
     
     @objc func onLoginFailed(_ error: String!) {
-        print("Login has been failed: \(error)")
+        print("Login has been failed: \(error ?? "unknown")")
     }
     
     func subscribeStatus(closure: @escaping (IO2GSessionStatus_O2GSessionStatus) -> ()) {

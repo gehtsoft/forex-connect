@@ -11,16 +11,18 @@ namespace PrintTable
         private string mRequestID;
         private O2GResponse mResponse;
         private EventWaitHandle mSyncResponseEvent;
+        private O2GResponseType mResponseType;
 
         /// <summary>
         /// ctor
         /// </summary>
         /// <param name="session"></param>
-        public ResponseListener()
+        public ResponseListener(O2GResponseType responseType)
         {
             mRequestID = string.Empty;
             mResponse = null;
-            mSyncResponseEvent = new EventWaitHandle(false, EventResetMode.AutoReset);          
+            mSyncResponseEvent = new EventWaitHandle(false, EventResetMode.AutoReset);
+            mResponseType = responseType;
         }
 
         public void SetRequestID(string sRequestID)
@@ -45,7 +47,7 @@ namespace PrintTable
         {
             if (mRequestID.Equals(response.RequestID))
             {
-                if (response.Type == O2GResponseType.GetOrders)
+                if (response.Type == mResponseType)
                 {
                     mResponse = response;
                     mSyncResponseEvent.Set();

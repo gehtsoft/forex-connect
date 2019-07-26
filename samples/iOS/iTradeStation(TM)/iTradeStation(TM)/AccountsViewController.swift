@@ -47,7 +47,7 @@ class AccountsTable : IO2GTableListener, IO2GEachRowListener
     var accountsTableRows = [String:AccountsTableRow]()
     
     init() {
-        let tableManager = ForexConnect.getSharedInstance().getTableManager()
+        let tableManager = ForexConnect.sharedInstance().tableManager!
         accountsTable = tableManager.getTable(Accounts) as! IO2GAccountsTable
     }
     
@@ -59,7 +59,7 @@ class AccountsTable : IO2GTableListener, IO2GEachRowListener
     }
     
     deinit {
-        let tableManager = ForexConnect.getSharedInstance().getTableManager()
+        let tableManager = ForexConnect.sharedInstance().tableManager!
         accountsTable = tableManager.getTable(Accounts) as! IO2GAccountsTable
         accountsTable.unsubscribeUpdate(Insert, self)
         accountsTable.unsubscribeUpdate(Update, self)

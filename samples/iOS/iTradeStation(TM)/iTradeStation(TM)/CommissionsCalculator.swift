@@ -52,18 +52,14 @@ class CommissionsCalculator {
     
     private func initializeCommProvider() -> IO2GCommissionsProvider {
         let commissionsProvider = session.getCommissionsProvider()
-    
-        if (commissionsProvider!.getStatus() != CommissionStatusReady &&
-               commissionsProvider!.getStatus() != CommissionStatusFailToLoad &&
-               commissionsProvider!.getStatus() != CommissionStatusDisabled)
+        var downCounter = 25
+        while (commissionsProvider!.getStatus() != CommissionStatusReady && downCounter > 0)
         {
+            if commissionsProvider!.getStatus() == CommissionStatusDisabled { break }
+            if commissionsProvider!.getStatus() == CommissionStatusFailToLoad { break }
             usleep(50000) // 50 millis
+            downCounter -= 1
         }
-        
-        if commissionsProvider!.getStatus() != CommissionStatusReady {
-            fatalError("commissions_provider_not_ready")
-        }
-        
         return commissionsProvider!
     }
     

@@ -31,7 +31,7 @@ class TradesTableRow : Comparable
         if isTotalRow {
             self.parsedStop = ""
         } else {
-            let digits = ForexConnect.getSharedInstance().getDigits(instr: instrument)!
+            let digits = ForexConnect.sharedInstance().getDigits(instr: instrument)!
             let dStop = stop.parseToPlaces(places: digits)
             self.parsedStop = (stop == 0 ? "" : String(dStop))
         }
@@ -54,7 +54,7 @@ class TradesTable : IO2GTableListener, IO2GEachRowListener
     var tradesTableRows = [String:TradesTableRow]()
     
     init() {
-        let tableManager = ForexConnect.getSharedInstance().getTableManager()
+        let tableManager = ForexConnect.sharedInstance().tableManager!
         tradesTable = (tableManager.getTable(Trades) as? IO2GTradesTable)!
         offersTable = (tableManager.getTable(Offers) as? IO2GOffersTable)!
     }
@@ -67,7 +67,7 @@ class TradesTable : IO2GTableListener, IO2GEachRowListener
     }
     
     deinit {
-        let tableManager = ForexConnect.getSharedInstance().getTableManager()
+        let tableManager = ForexConnect.sharedInstance().tableManager!
         tradesTable = (tableManager.getTable(Trades) as? IO2GTradesTable)!
         tradesTable.unsubscribeUpdate(Insert, self)
         tradesTable.unsubscribeUpdate(Update, self)

@@ -1,58 +1,47 @@
 PrintTable application
 
 Brief
-===============================================================================
+==================================================================================
 This sample shows how to get a table and print it.
 The sample performs the following actions:
 1. Login.
 2. Print the accounts table.
-3. Request the orders table refresh.
-4. Print the orders table.
+3. Request the trades or orders table refresh.
+4. Print the trades or orders table.
 5. Logout.
 
 Building the application
-===============================================================================
-Windows:
-    To build this application, you will need MS Visual Studio 2015.
-
-    You can run fxbuild.bat (fxbuild64.bat for 64-bit version) or select
-    "build" in MS Visual Studio.
-
-Linux/MacOS:
-    To build this application, you will need:
-        gcc-4.3 or later
-        g++-4.3 or later
-        CMake 2.6 or later
-        
-Run fxbuild.sh to build application.
+==================================================================================
+In order to build this application you will need MS Visual Studio 2015 and
+.NET framework 4.5 or later.
+You can download .NET framework from http://msdn.microsoft.com/en-us/netframework/
+To build the application run fxbuild.bat.
+To compile the application into a debug build set argument "debug" via command line.
+Compiled files will be placed in .\bin\ directory.
 
 Running the application
-===============================================================================
-You can run this application from the bin directory.
-In Windows you can run this application executing fxrun.bat
-All arguments must be passed from the command line.
-This will run the application and display the output in your console.
-
-You can run the application with no arguments, this will show the
-application Help.
+==================================================================================
+Change the App.config file by putting your information in the "appSettings" section.
+For example, if your user name is 'testuser' change the line
+<add key="Login" value="{LOGIN}" /> to <add key="Login" value="testuser" />.
+To run the application you must run executable file in .\bin\ directory.
+The output will be displayed on your console.
 
 Arguments
-===============================================================================
-/login | --login | /l | -l
-Your user name.
-
-/password | --password | /p | -p
-Your password.
-
-/url | --url | /u | -u
-The server URL. For example, http://www.fxcorporate.com/Hosts.jsp.
-
-/connection | --connection | /c | -c
-The connection name. For example, "Demo" or "Real".
-
-/sessionid | --sessionid 
-The database name. Required only for users who have accounts in more than one database. Optional parameter.
-
-/pin | --pin 
-Your pin code. Required only for users who have a pin. Optional parameter.
-
+==================================================================================
+{LOGIN} - Your user name. Mandatory argument.
+{PASSWORD} - Your password. Mandatory argument.
+{URL} - The server URL. Mandatory argument.
+        The URL must be full, including the path to the host descriptor.
+        For example, http://www.fxcorporate.com/Hosts.jsp. 
+{CONNECTION} - The connection name. Mandatory argument.
+        For example, "Demo" or "Real".
+{SESSIONID} - The database name. Optional argument.
+        Required only for users who have a multiple database login.
+        If you do not have one, leave this argument as it is.
+{PIN} - Your pin code. Optional argument. Required only for users who have a pin.
+        If a pin is not required, leave this argument as it is.
+{TABLE} - The print table. 
+        Possible values are: orders - orders table, trades - trades table.
+        Default value is trades. Optional parameter.
+        

@@ -67,7 +67,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
     }
     
     @objc func onLoginFailed(_ error: String!) {
-        print("Login has been failed: \(error)")
+        print("Login has been failed: \(error ?? "unknown")")
     }
     
     @objc func onRequestCompleted(_ requestId: String!, _ response: IO2GResponse!) {
@@ -134,7 +134,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
             
             if sessionId.isEmpty {
                 let descriptors = session.getTradingSessionDescriptors()
-                if ((descriptors?.size())! > Int32(0)) {
+                if ((descriptors?.size())! > Int32(0) && sessionId.isEmpty) {
                     sessionId = (descriptors?.get(0).getID())!
                 }
             }
@@ -218,7 +218,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
             }
             let strOfferID = offer?.getOfferID()
             
-            if offer?.getSubscriptionStatus().characters.first == "T" {
+            if offer?.getSubscriptionStatus().first == "T" {
                 let ask = offer?.getAsk()
                 let bid = offer?.getBid()
                 
@@ -246,7 +246,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
                     foundOffer?.isChanged = true;
                 }
             }
-            else if offer?.getSubscriptionStatus().characters.first == "D" {
+            else if offer?.getSubscriptionStatus().first == "D" {
                 var indexToRemove: Int?
                 for i in 0..<offersRow.count {
                     if offersRow[i].offerID == offer?.getOfferID() {
@@ -288,19 +288,15 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
     }
     
     
-    func setLoginData(user: String, pwd: String, url: String, connection: String) {
+    func setLoginData(user: String, sessionId: String, pwd: String, url: String, connection: String) {
         self.user = user
         self.pwd = pwd
         self.url = url
         self.connection = connection
-    }
-    
-    func setTradingStationDescriptors(sessionId: String, _ pin: String) {
         self.sessionId = sessionId
-        self.pin = pin
     }
     
-    func login(sessionId: String, pin: String) {
+    func login() {
         loginNotifier.lock()
         
         print("Connect to: \(user) * \(url) \(connection) \(sessionId) \(pin)")
@@ -320,10 +316,6 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
         connection = ""
         sessionId = ""
         pin = ""
-    }
-    
-    func setCAInfo(saFilePath: String) {
-        O2GTransport.setCAInfo(saFilePath)
     }
     
     func getTableManager() -> IO2GTableManager {

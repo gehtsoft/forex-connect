@@ -59,6 +59,7 @@
             <arg line="--connection Demo" />
             <arg line="--sessionid {SESSIONID}" />
             <arg line="--pin {PIN}" />
+            <arg line="--table {TABLE}" />
         </java>
     </target>
 

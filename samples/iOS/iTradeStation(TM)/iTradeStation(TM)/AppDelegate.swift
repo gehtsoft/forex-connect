@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     deinit {
         if isLogged {
-            let forexConnect = ForexConnect.getSharedInstance()
+            let forexConnect = ForexConnect.sharedInstance()
             forexConnect.logout()
         }
     }

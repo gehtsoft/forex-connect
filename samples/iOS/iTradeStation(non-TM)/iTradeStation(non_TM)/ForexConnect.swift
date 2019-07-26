@@ -31,14 +31,22 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
     private var connection: String
     private var sessionId: String
     private var pin: String
-    private var session: IO2GSession
+    private var _session: IO2GSession
     private var cond: NSCondition;
     private var statusNotificator: (IO2GSessionStatus_O2GSessionStatus) -> ()
     private var offersUpdateNotificator: (() -> ())?
     private var offersRow: Array<OfferRow>
-    private var firstAccountID: String
+    private var _firstAccount: IO2GAccountRow?
     private var offerRowsLock: NSLock
     private var isConnected = false
+    
+    public var firstAccount: IO2GAccountRow? {
+        get { return _firstAccount }
+    }
+    
+    public var session: IO2GSession {
+        get { return _session }
+    }
     
     static let sharedInstance = ForexConnect()
     
@@ -54,28 +62,27 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
         connection = ""
         sessionId = ""
         pin = ""
-        firstAccountID = ""
         offersRow = Array<OfferRow>()
         offerRowsLock = NSLock()
         statusNotificator = { (param: IO2GSessionStatus_O2GSessionStatus) -> () in  }
         
         O2GTransport.setNumberOfReconnections(0)
-        session = O2GTransport.createSession()
-        session.subscribeSessionStatus(self)
-        session.subscribeResponse(self)
+        _session = O2GTransport.createSession()
+        _session.subscribeSessionStatus(self)
+        _session.subscribeResponse(self)
     }
     
     deinit {
-        session.unsubscribeResponse(self)
-        session.unsubscribeSessionStatus(self)
+        _session.unsubscribeResponse(self)
+        _session.unsubscribeSessionStatus(self)
     }
     
     func getSession() -> IO2GSession {
-        return session
+        return _session
     }
     
     @objc func onLoginFailed(_ error: String!) {
-        print("Login has been failed: \(error)")
+        print("Login has been failed: \(error ?? "unknown")")
     }
     
     @objc func onRequestCompleted(_ requestId: String!, _ response: IO2GResponse!) {
@@ -160,12 +167,12 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
             print("Session status has been changed: TradingSessionRequested")
             
             if sessionId.isEmpty {
-                let descriptors = session.getTradingSessionDescriptors()
-                if ((descriptors?.size())! > Int32(0)) {
+                let descriptors = _session.getTradingSessionDescriptors()
+                if ((descriptors?.size())! > Int32(0) && sessionId.isEmpty) {
                     sessionId = (descriptors?.get(0).getID())!
                 }
             }
-            session.setTrading(sessionId, pin: pin)
+            _session.setTrading(sessionId, pin: pin)
             break
             
         default:
@@ -185,14 +192,14 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
     //    (forex connect framework pass it to callback IO2GResponseListener.onTablesUpdates())
     func refreshTable(table: O2GTable) {
         autoreleasepool {
-        let loginRules = session.getLoginRules()
+        let loginRules = _session.getLoginRules()
         if loginRules != nil && (loginRules?.isTableLoaded(byDefault: table))! {
             let response = loginRules?.getTableRefreshResponse(table)
             onRequestCompleted(response?.getRequestID(), response)
         } else {
-            let requestFactory = session.getRequestFactory()
-            let updateTableRequest = requestFactory?.createRefreshTableRequest(byAccount: table, firstAccountID)
-            session.send(updateTableRequest)
+            let requestFactory = _session.getRequestFactory()
+            let updateTableRequest = requestFactory?.createRefreshTableRequest(byAccount: table, _firstAccount!.getAccountID())
+            _session.send(updateTableRequest)
         }
         }
     }
@@ -209,7 +216,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
 
     func onTablesUpdateReceive(response: IO2GResponse) {
         autoreleasepool {
-        let factory = session.getResponseReaderFactory()
+        let factory = _session.getResponseReaderFactory()
         if factory == nil {
             return
         }
@@ -249,7 +256,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
     }
 
     func onTradesReceived(response: IO2GResponse) {
-        let factory = session.getResponseReaderFactory()
+        let factory = _session.getResponseReaderFactory()
         if factory == nil {
             return
         }
@@ -262,7 +269,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
     
     
     func onOrdersReceived(response: IO2GResponse) {
-        let factory = session.getResponseReaderFactory()
+        let factory = _session.getResponseReaderFactory()
         if factory == nil {
             return
         }
@@ -274,7 +281,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
     }
     
     func onClosedTradesReceived(response: IO2GResponse) {
-        let factory = session.getResponseReaderFactory()
+        let factory = _session.getResponseReaderFactory()
         if factory == nil {
             return
         }
@@ -287,7 +294,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
 
     func onOffersReceived(response: IO2GResponse) {
         
-        let factory = session.getResponseReaderFactory()
+        let factory = _session.getResponseReaderFactory()
         if factory == nil {
             return
         }
@@ -303,7 +310,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
     
     func onAccountsReceived(response: IO2GResponse) {
        
-        let factory = session.getResponseReaderFactory()
+        let factory = _session.getResponseReaderFactory()
         if factory == nil {
             return
         }
@@ -313,9 +320,8 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
             return
         }
         
-        if firstAccountID.isEmpty {
-            let account = accountsReader?.getRow(Int32(0))
-            firstAccountID = (account?.getAccountID())!
+        if _firstAccount == nil {
+            _firstAccount = accountsReader!.getRow(Int32(0)) as! IO2GAccountRow
         }
     }
     
@@ -333,7 +339,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
             }
             let strOfferID = offer?.getOfferID()
             
-            if offer?.getSubscriptionStatus().characters.first != "T" {
+            if offer?.getSubscriptionStatus().first != "T" {
                 continue
             }
             
@@ -373,14 +379,14 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
     }
     
     func createOrder(offerIndex: Int, isBuy: Bool, amount: Int, rate: Double, orderType: Int) -> String? {
-        let factory = session.getRequestFactory()
+        let factory = _session.getRequestFactory()
         let orderTypes = [O2G2_Orders_TrueMarketOpen, O2G2_Orders_StopEntry, O2G2_Orders_LimitEntry];
         
         let valueMap = factory?.createValueMap()
         
         valueMap?.setString(Command, O2G2_Commands_CreateOrder);
         valueMap?.setString(OrderType, orderTypes[orderType]);
-        valueMap?.setString(AccountID, firstAccountID);
+        valueMap?.setString(AccountID, _firstAccount!.getAccountID());
         valueMap?.setString(OfferID, offersRow[offerIndex].offerID);
         valueMap?.setString(BuySell, isBuy ? "B": "S");
         valueMap?.setInt(Amount, Int32(amount));
@@ -388,7 +394,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
         valueMap?.setString(TimeInForce, "GTC");
         
         let request = factory?.createOrderRequest(valueMap)
-        session.send(request)
+        _session.send(request)
         
         return request?.getID()
     }
@@ -405,15 +411,23 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
         self.pin = pin
     }
     
-    func login(sessionId: String, pin: String) {
+    func setLoginData(user: String, sessionId: String, pwd: String, url: String, connection: String) {
+        self.user = user
+        self.pwd = pwd
+        self.url = url
+        self.connection = connection
+        self.sessionId = sessionId
+    }
+    
+    func login() {
         cond.lock()
         
         print("Connect to: \(user) * \(url) \(connection) \(sessionId) \(pin)")
-        session.login(user, pwd, url, connection)
+        _session.login(user, pwd, url, connection)
     }
     
     func logout() {
-        session.logout()
+        _session.logout()
     }
     
     func clearCredintals() {
@@ -423,12 +437,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
         connection = ""
         sessionId = ""
         pin = ""
-        firstAccountID = ""
-    }
-    
-
-    func setCAInfo(saFilePath: String) {
-        O2GTransport.setCAInfo(saFilePath)
+        _firstAccount = nil
     }
     
     func waitForConnectionCompleted() -> Bool {

@@ -16,6 +16,8 @@
 import argparse
 import datetime
 import os
+import re
+from urllib.parse import urlsplit
 from urllib.request import urlopen
 
 from forexconnect import ForexConnect
@@ -60,9 +62,12 @@ def get_reports(fc, dt_from, dt_to):
         response = urlopen(url)
         print("OK")
         print("Downloading report...")
-        
-        with open(file_name, 'wb') as file:
-            file.write(response.read())
+
+        abs_path = '{0.scheme}://{0.netloc}/'.format(urlsplit(url))
+        with open(file_name, 'w') as file:
+            report = response.read().decode('utf-8')
+            report = re.sub(r'((?:src|href)=")[/\\](.*?")', r'\1' + abs_path + r'\2', report)
+            file.write(report)
             print("Report is saved to {0:s}\n".format(file_name))
 
 

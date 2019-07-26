@@ -145,6 +145,6 @@ bool SessionStatusListener::isDisconnected() const
 /** Wait for connection or error. */
 bool SessionStatusListener::waitEvents()
 {
-    return WaitForSingleObject(mSessionEvent, _TIMEOUT) == 0;
+    return WaitForSingleObject(mSessionEvent, 15000) == 0;
 }
 

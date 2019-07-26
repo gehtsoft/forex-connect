@@ -6,7 +6,7 @@ This sample shows how to get a table and print it.
 The sample performs the following actions:
 1. Login.
 2. Print the accounts table by using the getNextRow method.
-3. Print the orders table by using the IO2GEachRowListener.
+3. Print the trades or orders table by using the IO2GEachRowListener.
 4. Logout.
 
 Building the application

@@ -19,8 +19,9 @@ namespace PrintTable
             try
             {
                 LoginParams loginParams = new LoginParams(ConfigurationManager.AppSettings);
+                SampleParams sampleParams = new SampleParams(ConfigurationManager.AppSettings);
 
-                PrintSampleParams("PrintTable", loginParams);
+                PrintSampleParams("PrintTable", loginParams, sampleParams);
 
                 session = O2GTransport.createSession();
                 session.useTableManager(O2GTableManagerMode.Yes, null);
@@ -47,7 +48,18 @@ namespace PrintTable
                     if (account == null)
                         throw new Exception("No valid accounts");
 
-                    PrintOrders(tableManager, account.AccountID);
+                    O2GResponseType responseType = string.Equals(sampleParams.TableType, SampleParams.OrdersTable) == true ?
+                                O2GResponseType.GetOrders : O2GResponseType.GetTrades;
+
+                    if (responseType == O2GResponseType.GetOrders)
+                    {
+                        PrintOrders(tableManager, account.AccountID);
+                    }
+                    else
+                    {
+                        PrintTrades(tableManager, account.AccountID);
+                    }
+
                     Console.WriteLine("Done!");
                 }
             }
@@ -104,14 +116,29 @@ namespace PrintTable
             }
         }
 
+        // Print orders table using IO2GEachRowListener
+        public static void PrintTrades(O2GTableManager tableManager, string sAccountID)
+        {
+            O2GTradesTable tradesTable = (O2GTradesTable)tableManager.getTable(O2GTableType.Trades);
+            if (tradesTable.Count == 0)
+            {
+                Console.WriteLine("Table is empty!");
+            }
+            else
+            {
+                tradesTable.forEachRow(new EachRowListener(sAccountID));
+            }
+        }
+
         /// <summary>
         /// Print process name and sample parameters
         /// </summary>
         /// <param name="procName"></param>
         /// <param name="loginPrm"></param>
-        private static void PrintSampleParams(string procName, LoginParams loginPrm)
+        /// <param name="prm"></param>
+        private static void PrintSampleParams(string procName, LoginParams loginPrm, SampleParams prm)
         {
-            Console.WriteLine("{0}", procName);
+            Console.WriteLine("{0} : Table='{1}'", procName, prm.TableType);
         }
 
         class LoginParams
@@ -209,6 +236,35 @@ namespace PrintTable
                     throw new Exception(string.Format("Please provide {0} in configuration file", sArgumentName));
                 }
                 return sArgument;
+            }
+        }
+        class SampleParams
+        {
+            public static readonly string OrdersTable = "orders";
+            public static readonly string TradesTable = "trades";
+
+            public string TableType
+            {
+                get
+                {
+                    return mTableType;
+                }
+            }
+            private string mTableType;
+
+            /// <summary>
+            /// ctor
+            /// </summary>
+            /// <param name="args"></param>
+            public SampleParams(NameValueCollection args)
+            {
+                mTableType = args["Table"];
+                if (string.IsNullOrEmpty(mTableType) ||
+                    !mTableType.Equals(OrdersTable) &&
+                    !mTableType.Equals(TradesTable))
+                {
+                    mTableType = TradesTable; // default
+                }
             }
         }
     }

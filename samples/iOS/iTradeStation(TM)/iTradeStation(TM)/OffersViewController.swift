@@ -19,7 +19,7 @@ class OffersViewController : UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let forexConnect = ForexConnect.getSharedInstance()
+        let forexConnect = ForexConnect.sharedInstance()
         let commCalc = forexConnect.commissionsCalc!
         headerLabel = createHeaderLabel(isCommEnabled: commCalc.isCommEnabled)
         forexConnect.subscribeOffersUpdates(closure: offersUpdated)
@@ -28,7 +28,7 @@ class OffersViewController : UITableViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        let forexConnect = ForexConnect.getSharedInstance()
+        let forexConnect = ForexConnect.sharedInstance()
         forexConnect.unsubscribeOffersUpdates()
     }
     
@@ -45,13 +45,13 @@ class OffersViewController : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let forexConnect = ForexConnect.getSharedInstance()
+        let forexConnect = ForexConnect.sharedInstance()
         return forexConnect.offersCount()
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let forexConnect = ForexConnect.getSharedInstance()
+        let forexConnect = ForexConnect.sharedInstance()
         let IsCommEnabled = forexConnect.commissionsCalc!.isCommEnabled
         let cellIdentifier = (IsCommEnabled ? "OffersCellCommEnabled" : "OffersCellCommDisabled")
         let cell = self.tableView.dequeueReusableCell(withIdentifier: cellIdentifier)! as! OffersTableCell

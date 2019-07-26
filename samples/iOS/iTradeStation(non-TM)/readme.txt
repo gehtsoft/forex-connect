@@ -6,7 +6,7 @@ Brief
 This sample application shows how to display the Offers table and create an order.
 
 The application functions as follows:
-1) The application prompts the user to enter the login parameters: Login, Password, Connection, and Host.
+1) The application prompts the user to enter the login parameters: Login, Password, Connection, Host and the trading session ID.
 2) The user enters the login parameters and taps "Connect".
 3) After the successful login, the application shows the Offer trable: a list of available Symbols with their Bid and Ask prices.
 4) The user taps a symbol.

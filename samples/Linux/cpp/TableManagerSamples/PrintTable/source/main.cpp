@@ -9,6 +9,10 @@ void printHelp(std::string &);
 bool checkObligatoryParams(LoginParams *, SampleParams *);
 void printSampleParams(std::string &, LoginParams *, SampleParams *);
 void printOrders(IO2GTableManager *, const char *);
+void printTrades(IO2GTableManager *, const char *);
+
+static const char OrdersTable[] = "orders";
+static const char TradesTable[] = "trades";
 
 int main(int argc, char *argv[])
 {
@@ -74,7 +78,11 @@ int main(int argc, char *argv[])
             bWasError = true;
         }
 
-        printOrders(tableManager, sampleParams->getAccount());
+        if (strcmp(sampleParams->getTableType(), OrdersTable) == 0)
+            printOrders(tableManager, sampleParams->getAccount());
+        else
+            printTrades(tableManager, sampleParams->getAccount());
+
         std::cout << "Done!" << std::endl;
 
         logout(session, sessionListener);
@@ -109,6 +117,21 @@ void printOrders(IO2GTableManager *tableManager, const char *sAccountID)
         ordersTable->forEachRow(new EachRowListener(sAccountID));
     }
 }
+
+// Print trades table using IO2GEachRowListener
+void printTrades(IO2GTableManager *tableManager, const char *sAccountID)
+{
+    O2G2Ptr<IO2GTradesTable> tradesTable = (IO2GTradesTable *)tableManager->getTable(Trades);
+    if (tradesTable->size() == 0)
+    {
+        std::cout << "Table is empty!" << std::endl;
+    }
+    else
+    {
+        tradesTable->forEachRow(new EachRowListener(sAccountID));
+    }
+}
+
 
 void printSampleParams(std::string &sProcName, LoginParams *loginParams, SampleParams *sampleParams)
 {
@@ -156,6 +179,9 @@ void printHelp(std::string &sProcName)
                 
     std::cout << "/account | --account " << std::endl;
     std::cout << "An account which you want to use in sample. Optional parameter." << std::endl << std::endl;
+
+    std::cout << "/table | --table | /t | -t" << std::endl;
+    std::cout << "The print table. Possible values are: orders - orders table, trades - trades table. Default value is trades. Optional parameter." << std::endl << std::endl;
 }
 
 bool checkObligatoryParams(LoginParams *loginParams, SampleParams *sampleParams)
@@ -181,6 +207,14 @@ bool checkObligatoryParams(LoginParams *loginParams, SampleParams *sampleParams)
         std::cout << LoginParams::Strings::connectionNotSpecified << std::endl;
         return false;
     }
+    if (strlen(sampleParams->getTableType()) == 0 ||
+        (strcmp(sampleParams->getTableType(), OrdersTable) != 0 &&
+            strcmp(sampleParams->getTableType(), TradesTable) != 0))
+    {
+        sampleParams->setTableType(TradesTable); // default
+        std::cout << "Table='" << sampleParams->getTableType() << "'" << std::endl;
+    }
+
 
     return true;
 }

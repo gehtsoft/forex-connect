@@ -16,8 +16,9 @@ public class Main {
             }
 
             LoginParams loginParams = new LoginParams(args);
-            printSampleParams(sProcName, loginParams);
-            checkObligatoryParams(loginParams);
+            SampleParams sampleParams = new SampleParams(args);
+            printSampleParams(sProcName, loginParams, sampleParams);
+            checkObligatoryParams(loginParams, sampleParams);
 
             session = O2GTransport.createSession();
             SessionStatusListener statusListener = new SessionStatusListener(session, loginParams.getSessionID(), loginParams.getPin());
@@ -32,7 +33,16 @@ public class Main {
                 if (account == null)
                     throw new Exception("No valid accounts");
 
-                printOrders(session, account.getAccountID(), responseListener);
+                O2GResponseType responseType = sampleParams.getTableType().equals(SampleParams.ORDERS_TABLE) == true ?
+                                O2GResponseType.GET_ORDERS : O2GResponseType.GET_TRADES;                
+
+                if (responseType == O2GResponseType.GET_ORDERS){                            
+                    printOrders(session, account.getAccountID(), responseListener);
+                }
+                else{
+                    printTrades(session, account.getAccountID(), responseListener);
+                }
+
                 System.out.println("Done!");
 
                 statusListener.reset();
@@ -95,6 +105,36 @@ public class Main {
             throw new Exception("Cannot create request");
         }
     }
+
+    // Print trades table for account
+    private static void printTrades(O2GSession session, String sAccountID, ResponseListener responseListener) throws Exception {
+        O2GRequestFactory requestFactory = session.getRequestFactory();
+        if (requestFactory == null) {
+            throw new Exception("Cannot create request factory");
+        }
+        O2GRequest request = requestFactory.createRefreshTableRequestByAccount(O2GTableType.TRADES, sAccountID);
+        if (request != null) {
+            System.out.println("Trades table for account " + sAccountID);
+            responseListener.setRequestID(request.getRequestId());
+            session.sendRequest(request);
+            if (!responseListener.waitEvents()) {
+                throw new Exception("Response waiting timeout expired");
+            }
+            O2GResponse response = responseListener.getResponse();
+            if (response != null) {
+                O2GResponseReaderFactory responseReaderFactory = session.getResponseReaderFactory();
+                O2GTradesTableResponseReader responseReader = responseReaderFactory.createTradesTableReader(response);
+                for (int i = 0; i < responseReader.size(); i++) {
+                    O2GTradeRow tradeRow = responseReader.getRow(i);
+                    System.out.println(String.format("TradeID: %s, Amount: %s, Dividends: %s", tradeRow.getTradeID(), tradeRow.getAmount(), tradeRow.getDividends()));
+                }
+            } else {
+                throw new Exception("Cannot get response");
+            }
+        } else {
+            throw new Exception("Cannot create request");
+        }
+    }
     
     private static void printHelp(String sProcName)
     {
@@ -120,10 +160,13 @@ public class Main {
         
         System.out.println("/account | --account ");
         System.out.println("An account which you want to use in sample. Optional parameter.\n");
+
+        System.out.println("/table | --table | /t | -t");
+        System.out.println("The print table type. Possible values are: orders - orders table, trades - trades table. Default value is trades. Optional parameter.\n");
     }
     
     // Check obligatory login parameters and sample parameters
-    private static void checkObligatoryParams(LoginParams loginParams) throws Exception {
+    private static void checkObligatoryParams(LoginParams loginParams, SampleParams sampleParams) throws Exception {
         if(loginParams.getLogin().isEmpty()) {
             throw new Exception(LoginParams.LOGIN_NOT_SPECIFIED);
         }
@@ -136,15 +179,22 @@ public class Main {
         if(loginParams.getConnection().isEmpty()) {
             throw new Exception(LoginParams.CONNECTION_NOT_SPECIFIED);
         }
+        if (sampleParams.getTableType().isEmpty() ||
+            !sampleParams.getTableType().equals(SampleParams.ORDERS_TABLE) &&
+            !sampleParams.getTableType().equals(SampleParams.TRADES_TABLE)) {            
+            sampleParams.setTableType(SampleParams.TRADES_TABLE); // default
+            System.out.println(String.format("Table='%s'",
+                    sampleParams.getTableType()));
+        } 
     }
 
     // Print process name and sample parameters
     private static void printSampleParams(String procName,
-            LoginParams loginPrm) {
+            LoginParams loginPrm, SampleParams samplePrm) {
         System.out.println(String.format("Running %s with arguments:", procName));
         if (loginPrm != null) {
-            System.out.println(String.format("%s * %s %s %s %s", loginPrm.getLogin(), loginPrm.getURL(),
-                  loginPrm.getConnection(), loginPrm.getSessionID(), loginPrm.getPin()));
+            System.out.println(String.format("%s * %s %s %s %s %s", loginPrm.getLogin(), loginPrm.getURL(),
+                  loginPrm.getConnection(), loginPrm.getSessionID(), loginPrm.getPin(), samplePrm.getTableType()));
         }
     }
 }

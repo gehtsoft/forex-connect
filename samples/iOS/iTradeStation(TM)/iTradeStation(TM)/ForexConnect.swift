@@ -31,16 +31,20 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
     private var connection: String
     private var sessionId: String
     private var pin: String
-    private var session: IO2GSession
+    private var _session: IO2GSession
     private var loginNotifier: NSCondition;
     private var statusNotificator: (IO2GSessionStatus_O2GSessionStatus) -> ()
     private var offersUpdateNotificator: (() -> ())?
     private var offersRow: Array<OfferRow>
-    private var firstAccountID: String
+    private var _firstAccountID: String
     private var offerRowsLock: NSLock
-    private var tableManager: IO2GTableManager?
+    private var _tableManager: IO2GTableManager?
     private var isConnected = false
     private var _commissionsCalc: CommissionsCalculator?
+    
+    public var firstAccountId: String? {
+        get { return _firstAccountID }
+    }
     
     public var commissionsCalc: CommissionsCalculator? {
         get {
@@ -50,12 +54,22 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
             return _commissionsCalc
         }
     }
-   
-    private static let sharedInstance = ForexConnect()
     
-    static func getSharedInstance() -> ForexConnect {
-        return sharedInstance
+    public var tableManager: IO2GTableManager? {
+        return _tableManager
     }
+    
+    public var session: IO2GSession {
+        get { return _session }
+    }
+   
+    private static let _sharedInstance = ForexConnect()
+    
+    static func sharedInstance() -> ForexConnect {
+        return _sharedInstance
+    }
+    
+    // MARK: - init / deinit
     
     private init() {
         loginNotifier = NSCondition()
@@ -65,106 +79,108 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
         connection = ""
         sessionId = ""
         pin = ""
-        firstAccountID = ""
+        _firstAccountID = ""
         offersRow = Array<OfferRow>()
         offerRowsLock = NSLock()
         statusNotificator = { (param: IO2GSessionStatus_O2GSessionStatus) -> () in  }
         O2GTransport.setNumberOfReconnections(0)
-        session = O2GTransport.createSession()
+        _session = O2GTransport.createSession()
         session.useTableManager(Yes, nil)
         session.subscribeSessionStatus(self)
         session.subscribeResponse(self)
     }
     
+    // MARK: - IO2GSessionStatus
+    
     @objc func onLoginFailed(_ error: String!) {
-        print("Login has been failed: \(error)")
+        print("Login failed: \(error ?? "unknown")")
     }
+    
+    @objc func onSessionStatusChanged(_ status: IO2GSessionStatus_O2GSessionStatus) {
+        
+        autoreleasepool {
+            switch status {
+                
+            case IO2GSession_Disconnected:
+                print("Session status has been changed: Disconnected")
+                statusNotificator(IO2GSession_Disconnected);
+                isConnected = false
+                offersRow.removeAll()
+                clearCredintals()
+                loginNotifier.signal()
+                
+            case IO2GSession_Disconnecting:
+                statusNotificator(IO2GSession_Disconnecting);
+                print("Session status has been changed: Disconnecting")
+                
+            case IO2GSession_Connecting:
+                statusNotificator(IO2GSession_Connecting);
+                print("Session status has been changed: Connecting")
+                
+            case IO2GSession_Connected:
+                statusNotificator(IO2GSession_Connected);
+                print("Session status has been changed: Connected")
+                
+                let loginRules = session.getLoginRules()
+                if loginRules != nil && (loginRules?.isTableLoaded(byDefault: Offers))! {
+                    let response = loginRules?.getTableRefreshResponse(Offers)
+                    onOffersTableReceived(response: response!)
+                }
+                
+                _tableManager = session.getTableManager()
+                let accountsTable = _tableManager?.getTable(Accounts) as! IO2GAccountsTable
+                let offersTable = _tableManager?.getTable(Offers) as! IO2GOffersTable
+                var accountRow: IO2GAccountTableRow? = nil
+                if accountsTable.size() > 0
+                {
+                    accountRow = accountsTable.getRow(0) as IO2GAccountTableRow
+                    _firstAccountID = accountRow!.getAccountID()
+                }
+                
+                _commissionsCalc = CommissionsCalculator(session: session, accountTableRow: accountRow, offersTable: offersTable)
+                
+                isConnected = true
+                
+                loginNotifier.signal()
+                
+            case IO2GSession_Reconnecting:
+                statusNotificator(IO2GSession_Reconnecting)
+                print("Session status has been changed: Reconnecting")
+                
+            case IO2GSession_SessionLost:
+                statusNotificator(IO2GSession_SessionLost);
+                print("Session status has been changed: SessionLost")
+                isConnected = false
+                
+            case IO2GSession_TradingSessionRequested:
+                statusNotificator(IO2GSession_TradingSessionRequested)
+                print("Session status has been changed: TradingSessionRequested")
+                
+                if sessionId.isEmpty {
+                    let descriptors = session.getTradingSessionDescriptors()
+                    if ((descriptors?.size())! > Int32(0) && sessionId.isEmpty) {
+                        sessionId = (descriptors?.get(0).getID())!
+                    }
+                }
+                session.setTrading(sessionId, pin: pin)
+                break
+                
+            default:
+                print("Session status has been changed: Unknown")
+            }
+        }
+    }
+    
+    // MARK: - IO2GResponseListener
     
     @objc func onRequestCompleted(_ requestId: String!, _ response: IO2GResponse!) {
     }
     
     @objc func onRequestFailed(_ requestId: String!, _ error: String!) {
     }
-    
-    func getSession() -> IO2GSession {
-        return session
-    }
-    
-    @objc func onSessionStatusChanged(_ status: IO2GSessionStatus_O2GSessionStatus) {
-        
-        autoreleasepool {
-        switch status {
-            
-        case IO2GSession_Disconnected:
-            print("Session status has been changed: Disconnected")
-            statusNotificator(IO2GSession_Disconnected);
-            isConnected = false
-            offersRow.removeAll()
-            clearCredintals()
-            loginNotifier.signal()
-        
-        case IO2GSession_Disconnecting:
-            statusNotificator(IO2GSession_Disconnecting);
-            print("Session status has been changed: Disconnecting")
-            
-        case IO2GSession_Connecting:
-            statusNotificator(IO2GSession_Connecting);
-            print("Session status has been changed: Connecting")
-            
-        case IO2GSession_Connected:
-            statusNotificator(IO2GSession_Connected);
-            print("Session status has been changed: Connected")
-            
-            let loginRules = session.getLoginRules()
-            if loginRules != nil && (loginRules?.isTableLoaded(byDefault: Offers))! {
-                let response = loginRules?.getTableRefreshResponse(Offers)
-                onOffersTableReceived(response: response!)
-            }
-            
-            tableManager = session.getTableManager()
-            let accountsTable = tableManager?.getTable(Accounts) as! IO2GAccountsTable
-            let offersTable = tableManager?.getTable(Offers) as! IO2GOffersTable
-            var accountRow: IO2GAccountTableRow? = nil
-            if accountsTable.size() > 0
-            {
-                accountRow = accountsTable.getRow(0) as IO2GAccountTableRow
-                firstAccountID = accountRow!.getAccountID()
-            }
-            
-            _commissionsCalc = CommissionsCalculator(session: session, accountTableRow: accountRow, offersTable: offersTable)
-            
-            isConnected = true
-            
-            loginNotifier.signal()
-        
-        case IO2GSession_Reconnecting:
-            statusNotificator(IO2GSession_Reconnecting)
-            print("Session status has been changed: Reconnecting")
-            
-        case IO2GSession_SessionLost:
-            statusNotificator(IO2GSession_SessionLost);
-            print("Session status has been changed: SessionLost")
-            isConnected = false
-            
-        case IO2GSession_TradingSessionRequested:
-            statusNotificator(IO2GSession_TradingSessionRequested)
-            print("Session status has been changed: TradingSessionRequested")
-            
-            if sessionId.isEmpty {
-                let descriptors = session.getTradingSessionDescriptors()
-                if ((descriptors?.size())! > Int32(0)) {
-                    sessionId = (descriptors?.get(0).getID())!
-                }
-            }
-            session.setTrading(sessionId, pin: pin)
-            break
-            
-        default:
-            print("Session status has been changed: Unknown")
-        }
-        }
-    }
 
+    // MARK: - Tables
+    
     func subscribeStatus(closure: @escaping (IO2GSessionStatus_O2GSessionStatus) -> ()) {
         statusNotificator = closure
     }
@@ -236,7 +252,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
             }
             let strOfferID = offer?.getOfferID()
             
-            if offer?.getSubscriptionStatus().characters.first == "T" {
+            if offer?.getSubscriptionStatus().first == "T" {
                 let ask = offer?.getAsk()
                 let bid = offer?.getBid()
                 
@@ -264,7 +280,7 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
                     foundOffer?.isChanged = true;
                 }
             }
-            else if offer?.getSubscriptionStatus().characters.first == "D" {
+            else if offer?.getSubscriptionStatus().first == "D" {
                 var indexToRemove: Int?
                 for i in 0..<offersRow.count {
                     if offersRow[i].offerID == offer?.getOfferID() {
@@ -284,77 +300,6 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
         }
     }
     
-    func createOrder(offerIndex: Int, isBuy: Bool, amount: Int, rate: Double, orderType: Int) -> String? {
-        let factory = ForexConnect.getSharedInstance().getSession().getRequestFactory()
-        let orderTypes = [O2G2_Orders_TrueMarketOpen, O2G2_Orders_StopEntry, O2G2_Orders_LimitEntry];
-        
-        let valueMap = factory?.createValueMap()
-        
-        valueMap?.setString(Command, O2G2_Commands_CreateOrder);
-        valueMap?.setString(OrderType, orderTypes[orderType]);
-        valueMap?.setString(AccountID, firstAccountID);
-        valueMap?.setString(OfferID, offersRow[offerIndex].offerID);
-        valueMap?.setString(BuySell, isBuy ? "B": "S");
-        valueMap?.setInt(Amount, Int32(amount));
-        valueMap?.setDouble(Rate, rate);
-        valueMap?.setString(TimeInForce, "GTC");
-        
-        let request = factory?.createOrderRequest(valueMap)
-        session.send(request)
-        
-        return request?.getID()
-    }
-    
-
-    func setLoginData(user: String, pwd: String, url: String, connection: String) {
-        self.user = user
-        self.pwd = pwd
-        self.url = url
-        self.connection = connection
-    }
-    
-    func setTradingStationDescriptors(sessionId: String, _ pin: String) {
-        self.sessionId = sessionId
-        self.pin = pin
-    }
-    
-    func login(sessionId: String, pin: String) {
-        loginNotifier.lock()
-
-        print("Connect to: \(user) * \(url) \(connection) \(sessionId) \(pin)")
-        session.login(user, pwd, url, connection)
-    }
-    
-    func logout() {
-        session.logout()
-    }
-    
-    func clearCredintals() {
-        firstAccountID = ""
-        tableManager = nil
-        user = ""
-        pwd = ""
-        url = ""
-        connection = ""
-        sessionId = ""
-        pin = ""
-    }
-    
-    func setCAInfo(saFilePath: String) {
-        O2GTransport.setCAInfo(saFilePath)
-    }
-    
-    func getTableManager() -> IO2GTableManager {
-        return tableManager!
-    }
-    
-    func waitForConnectionCompleted() -> Bool {
-        let now = Date()
-        loginNotifier.wait(until: now.addingTimeInterval(60))
-        loginNotifier.unlock()
-        return isConnected
-    }
-    
     func subscribeOffersUpdates(closure: @escaping () -> ()) {
         offersUpdateNotificator = closure;
     }
@@ -362,14 +307,14 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
     func unsubscribeOffersUpdates() {
         offersUpdateNotificator = nil;
     }
-
+    
     func offersCount() -> Int {
         offerRowsLock.lock()
         let result = offersRow.count
         offerRowsLock.unlock()
         return result
     }
-
+    
     func getInstrument(index: Int) -> String {
         offerRowsLock.lock()
         var result: String
@@ -509,5 +454,67 @@ class ForexConnect: IO2GSessionStatus, IO2GResponseListener
         }
         offerRowsLock.unlock()
         return result
+    }
+    
+    // MARK: - Craete an order
+    
+    func createOrder(offerIndex: Int, isBuy: Bool, amount: Int, rate: Double, orderType: Int) -> String? {
+        let factory = ForexConnect.sharedInstance().session.getRequestFactory()
+        let orderTypes = [O2G2_Orders_TrueMarketOpen, O2G2_Orders_StopEntry, O2G2_Orders_LimitEntry];
+        
+        let valueMap = factory?.createValueMap()
+        
+        valueMap?.setString(Command, O2G2_Commands_CreateOrder);
+        valueMap?.setString(OrderType, orderTypes[orderType]);
+        valueMap?.setString(AccountID, _firstAccountID);
+        valueMap?.setString(OfferID, offersRow[offerIndex].offerID);
+        valueMap?.setString(BuySell, isBuy ? "B": "S");
+        valueMap?.setInt(Amount, Int32(amount));
+        valueMap?.setDouble(Rate, rate);
+        valueMap?.setString(TimeInForce, "GTC");
+        
+        let request = factory?.createOrderRequest(valueMap)
+        session.send(request)
+        
+        return request?.getID()
+    }
+    
+    // MARK: - Login/Logout
+
+    func setLoginData(user: String, sessionId: String, pwd: String, url: String, connection: String) {
+        self.user = user
+        self.pwd = pwd
+        self.url = url
+        self.connection = connection
+        self.sessionId = sessionId
+    }
+    
+    func login() {
+        loginNotifier.lock()
+
+        print("Connect to: \(user) * \(url) \(connection) \(sessionId) \(pin)")
+        session.login(user, pwd, url, connection)
+    }
+    
+    func logout() {
+        session.logout()
+    }
+    
+    func clearCredintals() {
+        _firstAccountID = ""
+        _tableManager = nil
+        user = ""
+        pwd = ""
+        url = ""
+        connection = ""
+        sessionId = ""
+        pin = ""
+    }
+    
+    func waitForConnectionCompleted() -> Bool {
+        let now = Date()
+        loginNotifier.wait(until: now.addingTimeInterval(60))
+        loginNotifier.unlock()
+        return isConnected
     }
 }

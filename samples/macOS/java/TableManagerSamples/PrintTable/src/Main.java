@@ -17,8 +17,9 @@ public class Main {
             }
 
             LoginParams loginParams = new LoginParams(args);
-            printSampleParams(sProcName, loginParams);
-            checkObligatoryParams(loginParams);
+            SampleParams sampleParams = new SampleParams(args);
+            printSampleParams(sProcName, loginParams, sampleParams);
+            checkObligatoryParams(loginParams, sampleParams);
 
             session = O2GTransport.createSession();
             session.useTableManager(O2GTableManagerMode.YES, null);
@@ -41,7 +42,15 @@ public class Main {
                 if (account == null)
                     throw new Exception("No valid accounts");
 
-                printOrders(tableManager, account.getAccountID());
+                O2GResponseType responseType = sampleParams.getTableType().equals(SampleParams.ORDERS_TABLE) == true ?
+                                O2GResponseType.GET_ORDERS : O2GResponseType.GET_TRADES;                
+
+                if (responseType == O2GResponseType.GET_ORDERS){                            
+                    printOrders(tableManager, account.getAccountID());
+                }
+                else{
+                    printTrades(tableManager, account.getAccountID());
+                }
                 System.out.println("Done!");
 
                 statusListener.reset();
@@ -80,6 +89,16 @@ public class Main {
             ordersTable.forEachRow(new EachRowListener(sAccountID));
         }
     }
+
+    // Print trades table using IO2GEachRowListener
+    public static void printTrades(O2GTableManager tableManager, String sAccountID) {
+        O2GTradesTable tradesTable = (O2GTradesTable)tableManager.getTable(O2GTableType.TRADES);
+        if (tradesTable.size() == 0) {
+            System.out.println("Table is empty!");
+        } else {
+            tradesTable.forEachRow(new EachRowListener(sAccountID));
+        }
+    }
     
     private static void printHelp(String sProcName)
     {
@@ -105,10 +124,13 @@ public class Main {
         
         System.out.println("/account | --account ");
         System.out.println("An account which you want to use in sample. Optional parameter.\n");
+
+        System.out.println("/table | --table | /t | -t");
+        System.out.println("The print table type. Possible values are: orders - orders table, trades - trades table. Default value is trades. Optional parameter.\n");
     }
     
     // Check obligatory login parameters and sample parameters
-    private static void checkObligatoryParams(LoginParams loginParams) throws Exception {
+    private static void checkObligatoryParams(LoginParams loginParams, SampleParams sampleParams) throws Exception {
         if(loginParams.getLogin().isEmpty()) {
             throw new Exception(LoginParams.LOGIN_NOT_SPECIFIED);
         }
@@ -121,15 +143,22 @@ public class Main {
         if(loginParams.getConnection().isEmpty()) {
             throw new Exception(LoginParams.CONNECTION_NOT_SPECIFIED);
         }
+        if (sampleParams.getTableType().isEmpty() ||
+            !sampleParams.getTableType().equals(SampleParams.ORDERS_TABLE) &&
+            !sampleParams.getTableType().equals(SampleParams.TRADES_TABLE)) {            
+            sampleParams.setTableType(SampleParams.TRADES_TABLE); // default
+            System.out.println(String.format("Table='%s'",
+                    sampleParams.getTableType()));
+        } 
     }
 
     // Print process name and sample parameters
     private static void printSampleParams(String procName,
-            LoginParams loginPrm) {
+            LoginParams loginPrm, SampleParams samplePrm) {
         System.out.println(String.format("Running %s with arguments:", procName));
         if (loginPrm != null) {
-            System.out.println(String.format("%s * %s %s %s %s", loginPrm.getLogin(), loginPrm.getURL(),
-                  loginPrm.getConnection(), loginPrm.getSessionID(), loginPrm.getPin()));
+            System.out.println(String.format("%s * %s %s %s %s %s", loginPrm.getLogin(), loginPrm.getURL(),
+                  loginPrm.getConnection(), loginPrm.getSessionID(), loginPrm.getPin(), samplePrm.getTableType()));
         }
     }
 }

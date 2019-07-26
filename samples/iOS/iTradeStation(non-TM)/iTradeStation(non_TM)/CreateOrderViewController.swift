@@ -9,7 +9,7 @@ class CreateOrderViewController : UIViewController, UITextFieldDelegate {
     var digits = 0
     var refreshTimer: Timer?
     
-    let forexConnect = ForexConnect.getSharedInstance()
+    let forexConnect = ForexConnect.sharedInstance
     
     @IBOutlet weak var instrumentTitle: UILabel!
     @IBOutlet weak var sellBuyControl: UISegmentedControl!
@@ -19,20 +19,31 @@ class CreateOrderViewController : UIViewController, UITextFieldDelegate {
     @IBOutlet weak var rateSlider: UISlider!
     @IBOutlet weak var orderTypeControl: UISegmentedControl!
     
+    var baseUnitSize: Int!
+    
     override func viewDidLoad() {
+        
+        UIApplication.shared.statusBarOrientation = .portrait
         super.viewDidLoad()
         
-        amountSlider.minimumValue = 0.0;
-        amountSlider.maximumValue = 99.0;
-        amountSlider.value = 10.0;
-        amountField.delegate = self;
-        rateField.delegate = self;
-        amountField.text = "100";
-        self.title = "Create order";
+        let instrument = forexConnect.getInstrument(index: offerIndex)
+        let session = forexConnect.session
+        let loginRules = session.getLoginRules()
+        let settingsProvider = loginRules!.getTradingSettingsProvider()
+        baseUnitSize = Int(settingsProvider!.getBaseUnitSize(instrument, forexConnect.firstAccount))
+        
+        amountField.delegate = self
+        rateField.delegate = self
+        amountField.text = String(baseUnitSize)
+        self.title = "Create order"
         instrumentTitle.text = forexConnect.getInstrument(index: offerIndex)
         digits = forexConnect.getDigits(index: offerIndex)
         rateSlider.isEnabled = false
-        refreshData();
+        refreshData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,16 +94,12 @@ class CreateOrderViewController : UIViewController, UITextFieldDelegate {
         refreshData()
     }
     
-    @IBAction func orderTypeSwitched() {
-        orderType = orderTypeControl.selectedSegmentIndex
-    }
-    
     @IBAction func okPressed() {
         let amount = Int(amountField.text!)
         let rate = Double(rateField.text!)
         
         let order = Order()
-        order.createOrder(offerIndex: offerIndex, isBuy: isBuy, amount: amount! * 1000, rate: rate!, orderType: orderType)
+        order.createOrder(offerIndex: offerIndex, isBuy: isBuy, amount: amount!, rate: rate!, orderType: orderType)
         order.wait()
         
         if !order.orderCreatedSuccessfully {
@@ -103,35 +110,26 @@ class CreateOrderViewController : UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func amountSliderChenged() {
-        amountField.text = String(format:"%ld", 10 + lround(Double(amountSlider.value)) * 10)
+        let amountMultiplier = lround(Double(amountSlider.value))
+        let amount: Int = amountMultiplier * baseUnitSize
+        amountField.text = String(amount)
     }
     
     @IBAction func rateSliderChnaged() {
-        rateField.text = rateSlider.value.parseToPlaces(places: digits);
-    }
-    
-    @IBAction func amountFieldChanged() {
-        let amountFieldValue = Float(amountField.text!)! / 10;
-        amountSlider.setValue(amountFieldValue, animated: true);
-    }
-    
-    @IBAction func rateFieldChanged() {
-        let rateFieldValue = Float(rateField.text!);
-        rateSlider.minimumValue = rateFieldValue! * 0.95;
-        rateSlider.maximumValue = rateFieldValue! * 1.05;
-        rateSlider.setValue(rateFieldValue!, animated: true);
+        rateField.text = rateSlider.value.parseToPlaces(places: digits)
     }
     
     @IBAction func cancelPressed() {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func orderTyeChanged(_ sender: UISegmentedControl) {
+    @IBAction func orderTypeChanged(_ sender: UISegmentedControl) {
         if sender.selectedSegmentIndex == 0 {
             rateSlider.isEnabled = false
         } else {
             rateSlider.isEnabled = true
         }
+        orderType = sender.selectedSegmentIndex
         refreshData();
     }
     
@@ -143,3 +141,4 @@ class CreateOrderViewController : UIViewController, UITextFieldDelegate {
         alert.show()
     }
 }
+

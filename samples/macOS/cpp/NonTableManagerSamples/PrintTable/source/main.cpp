@@ -9,6 +9,10 @@ void printHelp(std::string &);
 bool checkObligatoryParams(LoginParams *, SampleParams *);
 void printSampleParams(std::string &, LoginParams *, SampleParams *);
 void printOrders(IO2GSession *, const char *, ResponseListener *);
+void printTrades(IO2GSession *, const char *, ResponseListener *);
+
+static const char OrdersTable[] = "orders";
+static const char TradesTable[] = "trades";
 
 int main(int argc, char *argv[])
 {
@@ -61,7 +65,11 @@ int main(int argc, char *argv[])
             bWasError = true;
         }
 
-        printOrders(session, sampleParams->getAccount(), responseListener);
+        if (strcmp(sampleParams->getTableType(), OrdersTable) == 0)
+            printOrders(session, sampleParams->getAccount(), responseListener);
+        else
+            printTrades(session, sampleParams->getAccount(), responseListener);
+
         std::cout << "Done!" << std::endl;
 
         session->unsubscribeResponse(responseListener);
@@ -132,6 +140,53 @@ void printOrders(IO2GSession *session, const char *sAccountID, ResponseListener 
     }
 }
 
+// Print trades table for account
+void printTrades(IO2GSession *session, const char *sAccountID, ResponseListener *responseListener)
+{
+    O2G2Ptr<IO2GRequestFactory> requestFactory = session->getRequestFactory();
+    if (!requestFactory)
+    {
+        std::cout << "Cannot create request factory" << std::endl;
+        return;
+    }
+    O2G2Ptr<IO2GRequest> request = requestFactory->createRefreshTableRequestByAccount(Trades, sAccountID);
+    if (request)
+    {
+        std::cout << "Trades table for account " << sAccountID << std::endl;
+        responseListener->setRequestID(request->getRequestID());
+        session->sendRequest(request);
+        if (!responseListener->waitEvents())
+        {
+            std::cout << "Response waiting timeout expired" << std::endl;
+            return;
+        }
+        O2G2Ptr<IO2GResponse> response = responseListener->getResponse();
+        if (response)
+        {
+            O2G2Ptr<IO2GResponseReaderFactory> responseReaderFactory = session->getResponseReaderFactory();
+            O2G2Ptr<IO2GTradesTableResponseReader> responseReader = responseReaderFactory->createTradesTableReader(response);
+            for (int i = 0; i < responseReader->size(); ++i)
+            {
+                O2G2Ptr<IO2GTradeRow> tradeTable = responseReader->getRow(i);
+                std::cout << "TradeID:'" << tradeTable->getTradeID() << "', "
+                    << "Amount:'" << tradeTable->getAmount() << "', "
+                    << "Dividends:'" << tradeTable->getDividends() << "'"
+                    << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Cannot get response" << std::endl;
+            return;
+        }
+    }
+    else
+    {
+        std::cout << "Cannot create request" << std::endl;
+        return;
+    }
+}
+
 void printSampleParams(std::string &sProcName, LoginParams *loginParams, SampleParams *sampleParams)
 {
     std::cout << "Running " << sProcName << " with arguments:" << std::endl;
@@ -178,6 +233,9 @@ void printHelp(std::string &sProcName)
                 
     std::cout << "/account | --account " << std::endl;
     std::cout << "An account which you want to use in sample. Optional parameter." << std::endl << std::endl;
+
+    std::cout << "/table | --table | /t | -t" << std::endl;
+    std::cout << "The print table. Possible values are: orders - orders table, trades - trades table. Default value is trades. Optional parameter." << std::endl << std::endl;
 }
 
 bool checkObligatoryParams(LoginParams *loginParams, SampleParams *sampleParams)
@@ -203,6 +261,19 @@ bool checkObligatoryParams(LoginParams *loginParams, SampleParams *sampleParams)
         std::cout << LoginParams::Strings::connectionNotSpecified << std::endl;
         return false;
     }
+    if (strlen(sampleParams->getTableType()) == 0 ||
+        (strcmp(sampleParams->getTableType(), OrdersTable) != 0 &&
+         strcmp(sampleParams->getTableType(), TradesTable) != 0))
+    {
+        sampleParams->setTableType(TradesTable); // default
+        std::cout << "Table='" << sampleParams->getTableType() << "'" << std::endl;
+    }
+    if (sampleParams->getLots() <= 0)
+    {
+        std::cout << "'Lots' value " << sampleParams->getLots() << " is invalid" << std::endl;
+        return false;
+    }
+
 
     return true;
 }

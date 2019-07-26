@@ -19,8 +19,9 @@ namespace PrintTable
             try
             {
                 LoginParams loginParams = new LoginParams(ConfigurationManager.AppSettings);
+                SampleParams sampleParams = new SampleParams(ConfigurationManager.AppSettings);
 
-                PrintSampleParams("PrintTable", loginParams);
+                PrintSampleParams("PrintTable", loginParams, sampleParams);
 
                 session = O2GTransport.createSession();
                 statusListener = new SessionStatusListener(session, loginParams.SessionID, loginParams.Pin);
@@ -29,12 +30,22 @@ namespace PrintTable
                 session.login(loginParams.Login, loginParams.Password, loginParams.URL, loginParams.Connection);
                 if (statusListener.WaitEvents() && statusListener.Connected)
                 {
-                    responseListener = new ResponseListener();
+                    O2GResponseType responseType = string.Equals(sampleParams.TableType, SampleParams.OrdersTable) == true ?
+                                                    O2GResponseType.GetOrders : O2GResponseType.GetTrades;
+
+                    responseListener = new ResponseListener(responseType);
                     session.subscribeResponse(responseListener);
                     O2GAccountRow account = GetAccount(session);
                     if (account != null)
                     {
-                        PrintOrders(session, account.AccountID, responseListener);
+                        if (responseType == O2GResponseType.GetOrders)
+                        {                            
+                            PrintOrders(session, account.AccountID, responseListener);
+                        }
+                        else
+                        {
+                            PrintTrades(session, account.AccountID, responseListener);
+                        }
                         Console.WriteLine("Done!");
                     }
                     else
@@ -134,13 +145,59 @@ namespace PrintTable
         }
 
         /// <summary>
+        /// Print trades table for account
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="sAccountID"></param>
+        /// <param name="responseListener"></param>
+        private static void PrintTrades(O2GSession session, string sAccountID, ResponseListener responseListener)
+        {
+            O2GRequestFactory requestFactory = session.getRequestFactory();
+            if (requestFactory == null)
+            {
+                throw new Exception("Cannot create request factory");
+            }
+            O2GRequest request = requestFactory.createRefreshTableRequestByAccount(O2GTableType.Trades, sAccountID);
+            if (request != null)
+            {
+                Console.WriteLine("Trades table for account {0}", sAccountID);
+                responseListener.SetRequestID(request.RequestID);
+                session.sendRequest(request);
+                if (!responseListener.WaitEvents())
+                {
+                    throw new Exception("Response waiting timeout expired");
+                }
+                O2GResponse response = responseListener.GetResponse();
+                if (response != null)
+                {
+                    O2GResponseReaderFactory responseReaderFactory = session.getResponseReaderFactory();
+                    O2GTradesTableResponseReader responseReader = responseReaderFactory.createTradesTableReader(response);
+                    for (int i = 0; i < responseReader.Count; i++)
+                    {
+                        O2GTradeRow tradeRow = responseReader.getRow(i);
+                        Console.WriteLine("TradeID: {0}, Amount: {1}, Dividends: {2}", tradeRow.TradeID, tradeRow.Amount, tradeRow.Dividends);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Cannot get response");
+                }
+            }
+            else
+            {
+                throw new Exception("Cannot create request");
+            }
+        }
+
+        /// <summary>
         /// Print process name and sample parameters
         /// </summary>
         /// <param name="procName"></param>
         /// <param name="loginPrm"></param>
-        private static void PrintSampleParams(string procName, LoginParams loginPrm)
+        /// <param name="prm"></param>
+        private static void PrintSampleParams(string procName, LoginParams loginPrm, SampleParams prm)
         {
-            Console.WriteLine("{0}", procName);
+            Console.WriteLine("{0} : Table='{1}'", procName, prm.TableType);
         }
 
         class LoginParams
@@ -238,6 +295,36 @@ namespace PrintTable
                     throw new Exception(string.Format("Please provide {0} in configuration file", sArgumentName));
                 }
                 return sArgument;
+            }
+        }
+
+        class SampleParams
+        {
+            public static readonly string OrdersTable = "orders";
+            public static readonly string TradesTable = "trades";
+
+            public string TableType
+            {
+                get
+                {
+                    return mTableType;
+                }
+            }
+            private string mTableType;
+
+            /// <summary>
+            /// ctor
+            /// </summary>
+            /// <param name="args"></param>
+            public SampleParams(NameValueCollection args)
+            {
+                mTableType = args["Table"];
+                if (string.IsNullOrEmpty(mTableType) ||
+                    !mTableType.Equals(OrdersTable) &&
+                    !mTableType.Equals(TradesTable))
+                {
+                    mTableType = TradesTable; // default
+                }
             }
         }
     }
