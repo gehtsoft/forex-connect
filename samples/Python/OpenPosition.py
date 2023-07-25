@@ -136,6 +136,13 @@ class OrdersMonitor:
         self.__added_order_event.clear()
         self.__deleted_order_event.clear()
 
+def get_offer(fx, s_instrument):
+    table_manager = fx.table_manager
+    offers_table = table_manager.get_table(ForexConnect.OFFERS)
+    for offer_row in offers_table:
+        if offer_row.instrument == s_instrument:
+            return offer_row
+
 
 def main():
     args = parse_args()
@@ -166,8 +173,23 @@ def main():
         offer = Common.get_offer(fx, instrument)
 
         if not offer:
-            raise Exception(
+            offer = get_offer(fx, instrument)
+            if not offer:
+                raise Exception(
                 "The instrument '{0}' is not valid".format(instrument))
+                
+            status = "T" # if instrument status is disabled, make the instrument tradable
+            request = fx.create_request({
+                    fxcorepy.O2GRequestParamsEnum.COMMAND: fxcorepy.Constants.Commands.SET_SUBSCRIPTION_STATUS,
+                    fxcorepy.O2GRequestParamsEnum.OFFER_ID: offer.offer_id,
+                    fxcorepy.O2GRequestParamsEnum.SUBSCRIPTION_STATUS: status
+                })
+            try:
+                print("trying to change status")
+                fx.send_request(request)
+                print("success")
+            except Exception as e:
+                common_samples.print_exception(e)
 
         login_rules = fx.login_rules
         trading_settings_provider = login_rules.trading_settings_provider
